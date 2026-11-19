@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>From Spark to Startup — The Founder's Journey</title>
+<!--
+  From Spark to Startup — The Founder's Journey
+  A solo, browser-only startup simulator for Foothill Startup Launchpad (Educate phase).
+  No server, no accounts, no external files: open this file in any browser and play.
+  Built from Laurel's flowchart "Startup Lifecycle Flowchart: From Idea to Exit",
+  "What is a startup" (entrepreneurship vs. startup concepts, Steve Blank, EntreComp)
+  and "Startup Ecosystem" (Silicon Valley, Startup Genome 2026, Silicon Valley Index 2026).
+  Visual style follows the two reference screenshots: chunky pixel art, a dark arcade
+  HUD with a health/runway bar and coin counter, and a side-scrolling world.
+-->
+<style>
+  :root{
+    --ink:#14141c; --paper:#f7f3e8; --sky:#7ec8e3; --grass:#58a447; --dirt:#a0662c;
+    --red:#9b1627; --gold:#f5b301; --navy:#101018; --teal:#2e8b8b; --purple:#6b4fa1;
+    --card:#fffdf4; --good:#2e7d32; --bad:#b3261e; --mut:#5c5c66;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#0e0e16;color:var(--ink);
+    font-family:"Courier New",Courier,monospace;}
+  body{background:linear-gradient(#0e0e16,#1b1b2e 60%,#0e0e16);}
+  button{font-family:inherit;cursor:pointer}
+  .wrap{max-width:1020px;margin:0 auto;padding:10px 12px 40px}
+  /* ---- arcade HUD, after screenshot 2: dark bar, PLAYER 1, bars, $ ---- */
+  .hud{background:var(--navy);color:#fff;border:4px solid #000;box-shadow:0 4px 0 #000;
+    padding:10px 12px;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+  .hud .who{font-weight:bold;letter-spacing:1px;font-size:18px}
+  .hud .who small{display:block;font-size:11px;color:#9fd8ef;letter-spacing:2px}
+  .bar{width:150px;height:16px;background:#222;border:2px solid #fff;position:relative}
+  .bar>i{display:block;height:100%;background:linear-gradient(90deg,#7ee787,#2e9e4f);transition:width .4s}
+  .bar.low>i{background:linear-gradient(90deg,#ff8a7a,#d21f14)}
+  .bar.trac>i{background:linear-gradient(90deg,#ffd76a,#f5b301)}
+  .stat{font-size:13px;line-height:1.5}
+  .stat b{color:#ffd76a}
+  .coins{font-size:18px;font-weight:bold;color:#ffd76a}
+  .coins::before{content:"● ";color:#f5b301}
+  .market{margin-left:auto;text-align:right;font-size:12px;line-height:1.5}
+  .market b{color:#9fd8ef}
+  .stage-line{background:var(--red);color:#fff;font-weight:bold;letter-spacing:1px;
+    border:4px solid #000;border-top:0;padding:7px 12px;font-size:14px;
+    display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .stage-line span:last-child{font-weight:normal}
+  /* ---- scene ---- */
+  #scene{display:block;width:100%;height:auto;border:4px solid #000;border-top:0;
+    background:var(--sky);image-rendering:pixelated}
+  /* ---- board ---- */
+  .board{background:var(--paper);border:4px solid #000;border-top:0;padding:10px}
+  .board h2{margin:2px 0 8px;font-size:14px;letter-spacing:2px}
+  .tiles{display:grid;grid-template-columns:repeat(12,1fr);gap:5px}
+  .tile{border:3px solid #000;min-height:56px;padding:4px 3px;font-size:10px;line-height:1.35;
+    background:#e8e2cc;position:relative;text-align:center}
+  .tile .n{position:absolute;top:1px;left:4px;font-weight:bold;font-size:11px}
+  .tile .t{font-weight:bold;display:block;margin-top:12px}
+  .tile.here{outline:4px solid var(--gold);background:#fff3b0;transform:scale(1.06);z-index:2}
+  .tile.done{background:#cfe8c0}
+  .tile.s1{background:#d9ead3}.tile.s2{background:#d0e4f2}.tile.s3{background:#fde9c8}
+  .tile.s4{background:#f6d7d7}.tile.s5{background:#e3d9f2}.tile.s6{background:#e8c8f0}
+  .tile.gate{border-style:double;border-width:5px}
+  .legend{font-size:11px;color:var(--mut);margin-top:8px;line-height:1.6}
+  .legend b{color:var(--ink)}
+  /* ---- controls ---- */
+  .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}
+  .btn{border:4px solid #000;box-shadow:0 4px 0 #000;background:#fff;font-weight:bold;
+    font-size:16px;padding:12px 18px;letter-spacing:1px}
+  .btn:active{transform:translateY(3px);box-shadow:0 1px 0 #000}
+  .btn.primary{background:var(--gold)}
+  .btn.red{background:var(--red);color:#fff}
+  .btn.small{font-size:13px;padding:8px 12px}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .dice{font-size:34px;font-weight:bold;background:#fff;border:4px solid #000;
+    width:64px;height:64px;display:inline-flex;align-items:center;justify-content:center;
+    box-shadow:0 4px 0 #000}
+  .dice.rolling{animation:shake .12s infinite}
+  @keyframes shake{0%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}100%{transform:rotate(-6deg)}}
+  .hint{font-size:13px;color:#d8d8e8;line-height:1.6}
+  /* ---- hand + log ---- */
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
+  @media(max-width:760px){.cols{grid-template-columns:1fr}.tiles{grid-template-columns:repeat(6,1fr)}}
+  .panel{background:var(--paper);border:4px solid #000;box-shadow:0 4px 0 #000;padding:10px 12px}
+  .panel h2{margin:0 0 8px;font-size:14px;letter-spacing:2px}
+  .hand{display:flex;flex-wrap:wrap;gap:8px;min-height:64px}
+  .member{border:3px solid #000;background:#fff;padding:6px 8px;font-size:12px;line-height:1.5;width:150px}
+  .member b{display:block;font-size:13px}
+  .member .sk{color:var(--teal);font-weight:bold}
+  .member.empty{color:var(--mut);border-style:dashed;width:100%}
+  #log{list-style:none;margin:0;padding:0;max-height:220px;overflow:auto;font-size:12.5px;line-height:1.65}
+  #log li{border-bottom:1px dashed #b9b29a;padding:4px 0}
+  #log li b{color:var(--red)}
+  .foot{color:#9a9ab0;font-size:12px;line-height:1.7;margin-top:16px}
+  .foot a{color:#9fd8ef}
+  /* ---- modals / cards ---- */
+  .overlay{position:fixed;inset:0;background:rgba(10,10,20,.78);display:none;
+    align-items:flex-start;justify-content:center;padding:24px 12px;z-index:50;overflow:auto}
+  .overlay.open{display:flex}
+  .card{background:var(--card);border:5px solid #000;box-shadow:8px 8px 0 #000;
+    max-width:620px;width:100%;padding:18px 20px;margin:auto}
+  .card .kicker{font-size:11px;letter-spacing:2px;font-weight:bold;color:#fff;
+    background:var(--teal);display:inline-block;padding:4px 8px;margin-bottom:8px}
+  .card .kicker.fate{background:var(--purple)}
+  .card .kicker.gate{background:#b26a00}
+  .card .kicker.exit{background:var(--red)}
+  .card h2{margin:0 0 8px;font-size:22px;line-height:1.25}
+  .card p{font-size:14.5px;line-height:1.65;margin:8px 0}
+  .card .why{background:#eef4ff;border-left:5px solid #2e5fa3;padding:8px 10px;font-size:13px;line-height:1.6}
+  .card .why b{color:#2e5fa3}
+  .choices{display:grid;gap:9px;margin-top:14px}
+  .choice{border:3px solid #000;background:#fff;text-align:left;padding:11px 12px;
+    font-size:14px;line-height:1.5;box-shadow:0 3px 0 #000}
+  .choice:active{transform:translateY(2px);box-shadow:0 1px 0 #000}
+  .choice b{display:block;font-size:15px}
+  .choice .fx{color:var(--mut);font-size:12.5px}
+  .choice:disabled{opacity:.45;cursor:not-allowed}
+  .choice.good{border-color:var(--good)}
+  .startgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+  @media(max-width:600px){.startgrid{grid-template-columns:1fr}}
+  .pick{border:4px solid #000;background:#fff;padding:12px;text-align:left;font-size:13.5px;line-height:1.55}
+  .pick.sel{background:#fff3b0;outline:4px solid var(--gold)}
+  .pick b{display:block;font-size:16px;margin-bottom:4px}
+  label.fl{display:block;font-size:13px;font-weight:bold;margin:10px 0 4px;letter-spacing:1px}
+  input[type=text],select{font-family:inherit;font-size:15px;padding:9px 10px;border:3px solid #000;width:100%;background:#fff}
+  .score{font-size:15px;line-height:1.8}
+  .score b{color:var(--red)}
+  .discuss{background:#fff3b0;border:3px dashed #000;padding:10px 12px;font-size:13.5px;line-height:1.7;margin-top:12px}
+  .guide h3{margin:16px 0 4px;font-size:15px}
+  .guide p,.guide li{font-size:13.5px;line-height:1.65}
+  .guide table{border-collapse:collapse;width:100%;font-size:12.5px;margin:8px 0}
+  .guide td,.guide th{border:2px solid #000;padding:6px;text-align:left;vertical-align:top}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hud" id="hud">
+    <div class="who">PLAYER 1<small id="hudName">FOUNDER</small></div>
+    <div class="stat">RUNWAY<br><span class="bar" id="runwayBar"><i id="runwayFill" style="width:60%"></i></span></div>
+    <div class="stat">CASH<br><span class="coins" id="hudCash">$20,000</span></div>
+    <div class="stat">TRACTION<br><span class="bar trac"><i id="tracFill" style="width:0%"></i></span></div>
+    <div class="stat">TEAM <b id="hudTeam">0</b> &nbsp; VALIDATION <b id="hudVal">☆☆☆☆☆</b><br>
+      MONTH <b id="hudMonth">0</b> &nbsp; EQUITY GIVEN <b id="hudEq">0%</b></div>
+    <div class="market">MARKET<br><b id="hudMarket">Steady</b><br><span id="hudMarketFx"></span></div>
+  </div>
+  <div class="stage-line"><span id="stageLabel">STAGE 1 — IDEA &amp; MARKET VALIDATION</span><span id="pathLabel">Path: not chosen yet</span></div>
+
+  <canvas id="scene" width="960" height="360" aria-label="Pixel-art scene of the founder's journey"></canvas>
+
+  <div class="board">
+    <h2>THE JOURNEY — ROLL, MOVE, DRAW A CARD</h2>
+    <div class="tiles" id="tiles"></div>
+    <div class="legend">
+      <b>How to play:</b> roll the dice (1–4), move your founder, and play the card you land on.
+      Choices are skill — the dice, the market and your rivals are fate.
+      Watch your runway (cash ÷ burn): at $0 the company closes.
+      Land on a <b>double-bordered GATE</b> and you must pass it to go on — or pivot.
+      Your roll always stops at the next gate: gates are decisions, not scenery.
+      Reach tile 24 to exit: IPO, acquisition, or keep operating.
+      <b>Start over any time</b> and you keep one Lesson from the last run.
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="btn primary" id="rollBtn">🎲 ROLL DICE</button>
+    <div class="dice" id="diceFace">–</div>
+    <button class="btn small" id="pivotBtn">↺ PIVOT / START OVER</button>
+    <button class="btn small" id="guideBtn">📖 FIELD GUIDE</button>
+    <button class="btn small" id="soundBtn">🔊 SOUND: ON</button>
+    <button class="btn small red" id="newBtn">NEW GAME</button>
+    <span class="hint" id="turnHint">Press ROLL DICE to begin your first month.</span>
+  </div>
+
+  <div class="cols">
+    <div class="panel"><h2>YOUR TEAM — YOUR HAND</h2><div class="hand" id="hand"></div>
+      <div style="font-size:12px;color:var(--mut);line-height:1.6;margin-top:8px" id="handNote">
+      Hire people to build a strong hand. Each full-time hire adds skill — and $800/month of burn.
+      Advisors cost no burn but add less skill.</div></div>
+    <div class="panel"><h2>JOURNEY LOG</h2><ul id="log"></ul></div>
+  </div>
+
+  <p class="foot">From Spark to Startup — Foothill Startup Launchpad, Educate phase.
+  Built from the Startup Lifecycle Flowchart (Idea → Team → Funding fork → MVP → Launch → Scale → Exit),
+  “What is a startup” (Steve Blank: a startup is a temporary organisation searching for a repeatable, scalable business model;
+  EntreComp) and “Startup Ecosystem” (Silicon Valley: #1 worldwide, ecosystem value over $3 trillion, ~$92B of VC in 2025 — and access is still uneven).
+  No surprise should be left for students after the course — except that markets always change.
+  This file runs entirely offline: double-click it, or serve the folder with any static server.</p>
+</div>
+
+<!-- start modal -->
+<div class="overlay open" id="startOverlay"><div class="card">
+  <span class="kicker">FOOTHILL STARTUP LAUNCHPAD</span>
+  <h2>From Spark to Startup</h2>
+  <p>You are a potential founder. Ahead of you: customers, co-founders, VCs, lawyers, employees,
+  market swings and competitors. Roll, draw cards, make the calls — and exit, or start over and try again.</p>
+  <label class="fl" for="founderName">FOUNDER NAME</label>
+  <input type="text" id="founderName" maxlength="24" value="Alex" autocomplete="off">
+  <label class="fl">1 · WHAT KIND OF VENTURE IS THIS?</label>
+  <div class="startgrid">
+    <button class="pick sel" id="pickStartup" type="button"><b>🚀 High-growth startup</b>
+      A new company hunting for a repeatable, scalable model before the money runs out.
+      Success = traction, growth, ability to raise. Failure is expected — fail fast, pivot.</button>
+    <button class="pick" id="pickSteady" type="button"><b>🏪 Steady business</b>
+      A viable small business, social enterprise or freelance practice. Success = sustainability,
+      impact, a business that pays its people. Chasing VC here can make a good business look like a failure.</button>
+  </div>
+  <label class="fl" for="sectorSel">2 · WHAT ARE YOU BUILDING? (SECTOR CHANGES THE CARDS)</label>
+  <select id="sectorSel">
+    <option value="ai">Artificial intelligence — hot, crowded, investors are watching</option>
+    <option value="consumer">Consumer app — fast to build, expensive to acquire users</option>
+    <option value="health">Health — regulated: compliance costs more, trust matters most</option>
+    <option value="fintech">Fintech — regulated: compliance costs more, money moves slowly</option>
+    <option value="climate">Climate tech — long sales cycles, grants and patient capital</option>
+    <option value="b2b">B2B software for banks &amp; hospitals — slow procurement, big contracts</option>
+  </select>
+  <div class="choices"><button class="choice good" id="beginBtn" type="button"><b>▶ BEGIN THE JOURNEY</b>
+    <span class="fx">You start with $20,000 — savings plus a small friends-and-family round — and about 16 months of runway at a $1,200/month burn. Good luck, founder.</span></button></div>
+  <p style="font-size:12px;color:var(--mut)">Tip for class: play once as a startup and once as a steady business. Same board, different definition of winning.</p>
+</div></div>
+
+<!-- card modal -->
+<div class="overlay" id="cardOverlay"><div class="card" id="cardBox"></div></div>
+
+<!-- field guide modal -->
+<div class="overlay" id="guideOverlay"><div class="card guide" style="max-width:700px">
+  <span class="kicker">FIELD GUIDE — THE CONCEPTS BEHIND THE GAME</span>
+  <h2>What you are actually learning</h2>
+  <h3>The journey (Laurel's flowchart)</h3>
+  <p>1 <b>Idea &amp; market validation</b> — interview users, map competitors, prove the problem is worth solving.
+  2 <b>Team &amp; skill assessment</b> — audit your gaps, bring in co-founders.
+  <b>Funding fork:</b> Bootstrap (LLC, full control, customer revenue) or VC (Delaware C-Corp, angels + VCs + startup attorneys, equity for capital).
+  3 <b>Build MVP &amp; compliance</b> — core features only, plus trademarks, patents, licences.
+  4 <b>Launch &amp; market testing</b> — retention, CAC, churn. No product-market fit? Pivot loop back to Stage 3.
+  5 <b>Scale &amp; growth</b> — board, C-suite, full-time team, Series A+. Founder grows into CEO or hires one.
+  <b>Exit:</b> IPO, acquisition, or keep operating.</p>
+  <h3>Entrepreneurship ≠ startup concepts</h3>
+  <table><tr><th></th><th>Entrepreneurship</th><th>Startup concepts</th></tr>
+  <tr><td><b>Core question</b></td><td>How do I create value from an opportunity?</td><td>How do I find a scalable model before the money runs out?</td></tr>
+  <tr><td><b>Who it's for</b></td><td>Anyone: SMEs, employees, social innovators</td><td>Founders of high-growth, often tech ventures</td></tr>
+  <tr><td><b>Financing</b></td><td>Bootstrapping, loans, grants, revenue</td><td>Angel and VC equity, staged rounds</td></tr>
+  <tr><td><b>Failure</b></td><td>A risk to manage</td><td>Expected and useful: fail fast, pivot</td></tr>
+  <tr><td><b>Success</b></td><td>Viability, sustainability, impact</td><td>Traction, growth rate, ability to raise</td></tr></table>
+  <p>Teach entrepreneurship skills and customer discovery to everyone. Save scaling, equity rounds and pitching for teams that actually aim for that path.</p>
+  <h3>Glossary</h3>
+  <p><b>MVP</b> — minimum viable product: the smallest thing that tests your riskiest assumption.
+  <b>Product-market fit</b> — users retain, pay and refer others. <b>CAC</b> — cost to acquire one customer.
+  <b>Churn</b> — customers leaving. <b>Runway</b> — cash ÷ monthly burn, in months.
+  <b>Pivot</b> — change the problem, customer or model and re-test; not the same as quitting.
+  <b>Burn</b> — cash spent per month. <b>Equity</b> — ownership you trade for capital or talent.
+  <b>LLC vs Delaware C-Corp</b> — LLC is simple and pass-through; a C-Corp is what institutional investors expect.</p>
+  <h3>The ecosystem you're playing in</h3>
+  <p>Silicon Valley ranks #1 worldwide (Startup Genome 2026), ecosystem value over $3 trillion, ~$92B of regional VC in 2025.
+  Talent, capital, universities and networks are dense here — and access to them is still uneven, especially for early-stage founders.
+  AI is concentrating more of the money in bigger rounds: opportunity and a crowded field at once.</p>
+  <div class="choices"><button class="choice" id="guideClose" type="button"><b>✕ CLOSE GUIDE</b></button></div>
+</div></div>
+
+<script>
+"use strict";
+
+/* ================= DATA ================= */
+const TILES = [
+  {n:1,  s:1, t:"SPARK",        d:"start",      label:"The Spark"},
+  {n:2,  s:1, t:"INTERVIEWS",   d:"interview",  label:"Customer interviews"},
+  {n:3,  s:1, t:"COMPETITORS",  d:"competitor", label:"Competitor map"},
+  {n:4,  s:1, t:"GATE: VALID?", d:"gate1",      label:"Is the problem validated?", gate:true},
+  {n:5,  s:2, t:"SKILL AUDIT",  d:"skill",      label:"Skill audit"},
+  {n:6,  s:2, t:"CO-FOUNDER",   d:"cofounder",  label:"Co-founder hunt"},
+  {n:7,  s:2, t:"MENTOR",       d:"mentor",     label:"Mentor & advisor"},
+  {n:8,  s:2, t:"FUNDING FORK", d:"fork",       label:"Bootstrap or VC?", gate:true},
+  {n:9,  s:3, t:"BUILD SPRINT", d:"build",      label:"Build sprint"},
+  {n:10, s:3, t:"LEGAL & IP",   d:"legal",      label:"Legal & IP"},
+  {n:11, s:3, t:"COMPLIANCE",   d:"compliance", label:"Compliance check"},
+  {n:12, s:3, t:"BETA TEST",    d:"beta",       label:"Beta testers"},
+  {n:13, s:3, t:"MVP READY",    d:"mvp",        label:"MVP ready"},
+  {n:14, s:4, t:"LAUNCH DAY",   d:"launch",     label:"Launch day"},
+  {n:15, s:4, t:"FIRST USERS",  d:"customers",  label:"First customers"},
+  {n:16, s:4, t:"PRICING",      d:"pricing",    label:"Pricing test"},
+  {n:17, s:4, t:"CHURN",        d:"churn",      label:"Retention & churn"},
+  {n:18, s:4, t:"GATE: PMF?",   d:"gate2",      label:"Product-market fit?", gate:true},
+  {n:19, s:5, t:"HIRING",       d:"hire",       label:"Hiring"},
+  {n:20, s:5, t:"BOARD",        d:"board",      label:"Board meeting"},
+  {n:21, s:5, t:"SERIES A",     d:"seriesa",    label:"Series A pitch"},
+  {n:22, s:5, t:"RIVAL MOVE",   d:"rival",      label:"Rival move"},
+  {n:23, s:5, t:"SCALE",        d:"scale",      label:"Scale or steady?"},
+  {n:24, s:6, t:"EXIT",         d:"exit",       label:"Exit", gate:true},
+];
+const STAGE_NAMES = {1:"STAGE 1 — IDEA & MARKET VALIDATION",2:"STAGE 2 — TEAM & SKILL ASSESSMENT",
+  3:"STAGE 3 — BUILD MVP & REGULATORY COMPLIANCE",4:"STAGE 4 — LAUNCH & MARKET TESTING",
+  5:"STAGE 5 — SCALE & GROWTH",6:"ENDGAME — EXIT OR LONG-TERM OPERATIONS"};
+const SECTORS = {
+  ai:{name:"Artificial intelligence", compliance:0, cac:0, note:"AI frenzy: fate swings bigger."},
+  consumer:{name:"Consumer app", compliance:0, cac:1, note:"Cheap to build, pricey to acquire users."},
+  health:{name:"Health", compliance:2, cac:0, note:"Regulated: compliance costs more."},
+  fintech:{name:"Fintech", compliance:2, cac:0, note:"Regulated: compliance costs more."},
+  climate:{name:"Climate tech", compliance:1, cac:0, note:"Long sales cycles; grants help."},
+  b2b:{name:"B2B software", compliance:1, cac:0, note:"Slow procurement, big contracts."},
+};
+const MARKETS = [
+  {name:"Boom", fx:"Traction gains +5 · investors generous", tmod:5},
+  {name:"Steady", fx:"No modifier", tmod:0},
+  {name:"Steady", fx:"No modifier", tmod:0},
+  {name:"Downturn", fx:"Traction gains −5 · fundraising harder", tmod:-5},
+  {name:"AI Frenzy", fx:"AI traction +10, everything else −5 · crowded", tmod:-5, aiBonus:10},
+];
+/* Effect shape: {cash, traction, team, validation, hire:{name,role,skill,ft}, equity, revenue}
+   traction is modified by the market at apply-time. */
+const DECKS = {
+interview:[
+ {id:"iv1",type:"INTERVIEW",title:"The 10th interview",text:"Nine people were polite. The tenth says: “I wouldn't pay for this — but I'd pay to make this pain go away.” That's a different problem than the one you started with.",
+  why:"Customer discovery: listen for the hair-on-fire problem, not compliments. (Class A: Find a Problem Worth Solving.)",
+  choices:[
+   {label:"Follow the pain — reframe around what they'd pay to fix",fx:"Validation +2 · Traction +5 · Cash −$500",eff:{cash:-500,traction:5,validation:2}},
+   {label:"Stick to your original idea — the tenth person is an outlier",fx:"Validation +0 · Cash −$500",eff:{cash:-500}}]},
+ {id:"iv2",type:"INTERVIEW",title:"“Talk to my team, not me”",text:"A busy manager loves the idea but won't buy it. She offers to introduce you to the people who actually feel the problem daily.",
+  why:"Interview the user, not just the buyer — the person with the pain decides if it works.",
+  choices:[
+   {label:"Take the intros — interview 5 real users this week",fx:"Validation +2 · Cash −$800",eff:{cash:-800,validation:2}},
+   {label:"Pitch the manager instead — she's the budget holder",fx:"Validation +1 · Traction +5 · Cash −$400",eff:{cash:-400,traction:5,validation:1}}]},
+ {id:"iv3",type:"INTERVIEW",title:"The survey says yes, the wallet says no",text:"40 people filled in your form. Zero will pre-order. Interest is not validation — payment, time or a real commitment is.",
+  why:"A yes on a survey costs nothing. Validation needs evidence someone will pay, switch, or commit.",
+  choices:[
+   {label:"Ask for a $20 deposit to join the pilot",fx:"Validation +2 if they pay · Cash +$400 · Traction +5",eff:{cash:400,traction:5,validation:2}},
+   {label:"Celebrate the 40 responses and keep building",fx:"Traction +5 · Validation +0",eff:{traction:5}}]},
+],
+competitor:[
+ {id:"cp1",type:"MARKET",title:"A giant just entered your space",text:"A big tech company launched something adjacent. Your niche suddenly looks like a feature of their product.",
+  why:"Competitive analysis: know what you'd do if a giant arrives — and what moat you actually have.",
+  choices:[
+   {label:"Narrow to the beachhead they ignore — one customer, deeply served",fx:"Validation +1 · Traction +10",eff:{traction:10,validation:1}},
+   {label:"Race them feature-for-feature",fx:"Cash −$3,000 · Traction +5",eff:{cash:-3000,traction:5}}]},
+ {id:"cp2",type:"MARKET",title:"65 programmes, one gap",text:"You map the competitive landscape — dozens of courses, tools and communities. One gap keeps showing up: nobody serves beginners who don't know where to start.",
+  why:"A crowded market isn't a no — it's a map. The gap is the beachhead.",
+  choices:[
+   {label:"Own the gap — design for total beginners",fx:"Validation +2 · Traction +10",eff:{traction:10,validation:2}},
+   {label:"Serve everyone, a little",fx:"Traction +5",eff:{traction:5}}]},
+],
+skill:[
+ {id:"sk1",type:"TEAM",title:"Audit your own gaps",text:"Be honest: you can sell and organise, but you can't build the product. Or you can build, but nobody knows it exists.",
+  why:"Stage 2 starts with a skill audit. Co-founders exist to cover blind spots, not to agree with you.",
+  choices:[
+   {label:"Learn the missing skill yourself (CS50-style sprint)",fx:"Team +2 · Cash −$500 · 1 month of focus",eff:{cash:-500,team:2}},
+   {label:"Admit the gap and recruit for it",fx:"Team +1 · Validation +1",eff:{team:1,validation:1}}]},
+ {id:"sk2",type:"TEAM",title:"The solo-founder question",text:"Going solo keeps all the equity and all the decisions. It also means every skill gap is yours alone, on your worst week.",
+  why:"Solo is a real path — and a real risk. Teams cover blind spots and keep the company alive when one person burns out.",
+  choices:[
+   {label:"Stay solo for now — decide again after validation",fx:"Team +1 · Cash −$0",eff:{team:1}},
+   {label:"Start the co-founder search in earnest",fx:"Team +2 · Cash −$500",eff:{cash:-500,team:2}}]},
+],
+cofounder:[
+ {id:"cf1",type:"TEAM",title:"A technical co-founder appears",text:"Maya builds fast, argues well, and wants 40% and equal say. She's the missing half of the company — and a real partner, not a hire.",
+  why:"A business founder pairs with a technical co-founder (or vice versa). Equity and decision rights are the conversation, not an afterthought.",
+  choices:[
+   {label:"Bring Maya on as co-founder — 40%, equal say",fx:"Hire Maya (CTO) · Team +6 · Equity given 40%",eff:{team:6,equity:40},hire:{name:"Maya",role:"CTO / Co-founder",skill:6,ft:true}},
+   {label:"Hire her as a contractor instead — keep control",fx:"Cash −$2,000 · Team +2",eff:{cash:-2000,team:2}}]},
+ {id:"cf2",type:"TEAM",title:"Your co-founder gets a job offer",text:"Your co-founder's old employer offers a safe salary, benefits, and a signing bonus. Startups pay in equity and uncertainty.",
+  why:"Fate, not skill: people leave. Vesting, a shared mission and honest pay conversations are your only defences — and sometimes they aren't enough.",
+  choices:[
+   {label:"Counter with a real conversation: vesting, salary plan, shared vision",fx:"Team stays · Cash −$1,000 · Validation +1",eff:{cash:-1000,validation:1}},
+   {label:"Let them go — rebuild the role",fx:"Team −4 · Cash −$1,500",eff:{cash:-1500,team:-4}}]},
+ {id:"cf3",type:"TEAM",title:"The brilliant jerk",text:"A candidate is the best engineer you've ever interviewed — and every reference quietly says the team will hate working with them.",
+  why:"Early hires set the culture. Skill without trust costs more than it saves.",
+  choices:[
+   {label:"Pass. Hire for trust as well as skill",fx:"Team +1 · Validation +1",eff:{team:1,validation:1}},
+   {label:"Hire them anyway — you need the skill",fx:"Team +4 · Traction −5 (team friction)",eff:{team:4,traction:-5}}]},
+],
+mentor:[
+ {id:"me1",type:"TEAM",title:"An industry mentor offers help",text:"A retired founder in your space offers an hour a week. She asks the question nobody else has: “Who exactly is this for, and what do they do today instead?”",
+  why:"Mentors don't give answers — they give you the question you were avoiding. Advisors are stakeholders from Stage 1 onward.",
+  choices:[
+   {label:"Take the mentorship — and do the homework she assigns",fx:"Validation +2 · Team +1",eff:{team:1,validation:2}},
+   {label:"Thank her and keep building — you're short on time",fx:"Traction +5",eff:{traction:5}}]},
+ {id:"me2",type:"TEAM",title:"An advisor wants 1% equity",text:"A well-connected advisor offers intros to investors and customers — for 1% of the company, vested over two years.",
+  why:"Advisors trade network and judgement for small equity. The price is only worth it if the intros are real.",
+  choices:[
+   {label:"Sign them — 1% for real intros",fx:"Team +2 · Equity given 1% · Traction +5",eff:{team:2,equity:1,traction:5},hire:{name:"Advisor",role:"Advisor (1%)",skill:2,ft:false}},
+   {label:"Keep the equity — ask for a favour instead",fx:"Team +0",eff:{}}]},
+],
+build:[
+ {id:"bd1",type:"BUILD",title:"Scope creep, day one",text:"The MVP list keeps growing: chat, analytics, an app, a dashboard. Every feature delays the first real user by a week.",
+  why:"MVP means core features only. Build the smallest thing that tests your riskiest assumption.",
+  choices:[
+   {label:"Cut to one core feature — ship in two weeks",fx:"Traction +10 · Cash −$1,500",eff:{cash:-1500,traction:10}},
+   {label:"Build the full vision — ship in two months",fx:"Cash −$4,000 · Traction +5",eff:{cash:-4000,traction:5}}]},
+ {id:"bd2",type:"BUILD",title:"Build it or buy it?",text:"A no-code tool can fake the core workflow in a weekend. Custom code would take a month and do it properly.",
+  why:"An MVP is a test, not a monument. Speed of learning beats elegance — until scale demands otherwise.",
+  choices:[
+   {label:"Fake it with no-code — test the idea this week",fx:"Validation +2 · Cash −$500",eff:{cash:-500,validation:2}},
+   {label:"Build it properly from scratch",fx:"Team +2 · Cash −$3,000",eff:{cash:-3000,team:2}}]},
+],
+legal:[
+ {id:"lg1",type:"LEGAL",title:"The name is taken",text:"Your name is trademarked by a company in another state. Your logo is fine; the name is not.",
+  why:"Legal isn't a Stage 5 problem. Trademarks, entity choice and IP start in Stage 3 — before you print anything.",
+  choices:[
+   {label:"Rebrand now — cheap and early",fx:"Cash −$800 · Traction +5",eff:{cash:-800,traction:5}},
+   {label:"Lawyer up and fight for the name",fx:"Cash −$4,000",eff:{cash:-4000}}]},
+ {id:"lg2",type:"LEGAL",title:"Who owns the code?",text:"Your contractor built the core product — and the contract never said who owns it. Now they're asking for equity to sign it over.",
+  why:"IP assignment in writing, before the work starts. This is the mistake that kills acquisitions in due diligence.",
+  choices:[
+   {label:"Negotiate: cash + 2% to assign the IP",fx:"Cash −$2,000 · Equity given 2%",eff:{cash:-2000,equity:2}},
+   {label:"Rebuild the core module in-house",fx:"Cash −$3,000 · Team +1",eff:{cash:-3000,team:1}}]},
+],
+compliance:[
+ {id:"cm1",type:"LEGAL",title:"The compliance review",text:"Your sector needs a security review, licences or a privacy assessment before launch. Each one takes weeks — and none of them are optional.",
+  why:"Regulated sectors (health, finance, hardware) need compliance experts before launch. “Build an MVP in two weeks” doesn't survive a bank's procurement cycle.",
+  choices:[
+   {label:"Do the compliance work properly, launch later",fx:"Cash −$2,000 · Validation +2",eff:{cash:-2000,validation:2}},
+   {label:"Launch quietly and fix compliance later",fx:"Cash −$500 · Traction +10 · Risk: fine later",eff:{cash:-500,traction:10},risk:true}],
+  sectorFx:{health:-2000,fintech:-2000,b2b:-1000,climate:-500}},
+ {id:"cm2",type:"LEGAL",title:"A patent question",text:"A mentor asks if you've protected the idea. A provisional patent costs money and time — and protects the invention, not the business.",
+  why:"IP is a tool, not a strategy. File where it protects real value; don't let paperwork replace customers.",
+  choices:[
+   {label:"File a provisional — protect the core invention",fx:"Cash −$2,500 · Validation +1",eff:{cash:-2500,validation:1}},
+   {label:"Skip it — speed and customers first",fx:"Traction +5",eff:{traction:5}}]},
+],
+beta:[
+ {id:"be1",type:"BUILD",title:"Beta testers go quiet",text:"20 people signed up for the beta. Three used it once. The rest never opened the invite.",
+  why:"Activation beats signups. If users won't try it for free, they won't pay for it.",
+  choices:[
+   {label:"Call all 20 and watch them use it — fix the first 5 minutes",fx:"Validation +2 · Traction +10",eff:{traction:10,validation:2}},
+   {label:"Add more features to win them back",fx:"Cash −$2,000 · Traction +5",eff:{cash:-2000,traction:5}}]},
+ {id:"be2",type:"BUILD",title:"One beta user loves it",text:"A single user runs their whole workflow on your MVP and begs for two specific improvements. Everyone else is lukewarm.",
+  why:"One passionate user beats a hundred polite ones. The beachhead is a person, not a market.",
+  choices:[
+   {label:"Build exactly what they asked for",fx:"Validation +2 · Traction +10",eff:{traction:10,validation:2}},
+   {label:"Build what the lukewarm majority asked for",fx:"Traction +5",eff:{traction:5}}]},
+],
+mvp:[
+ {id:"mv1",type:"BUILD",title:"Ship it or polish it?",text:"The MVP works. It's ugly, it has rough edges, and it solves the one problem. Your instinct says one more week of polish.",
+  why:"Ship when it solves the problem — polish is what you do after someone cares.",
+  choices:[
+   {label:"Ship now — real users beat perfect pixels",fx:"Traction +10 · Validation +1",eff:{traction:10,validation:1}},
+   {label:"One more week of polish",fx:"Cash −$1,500 · Traction +5",eff:{cash:-1500,traction:5}}]},
+],
+launch:[
+ {id:"ln1",type:"LAUNCH",title:"Launch day",text:"You launch. The first day brings a spike of curious visitors, a handful of signups — and silence from the press list.",
+  why:"Launch is a day, not a strategy. Retention in week two is the number that matters.",
+  choices:[
+   {label:"Work the spike: onboard every signup personally",fx:"Traction +10 · Validation +1",eff:{traction:10,validation:1}},
+   {label:"Chase press coverage",fx:"Cash −$1,000 · Traction +10",eff:{cash:-1000,traction:10}}]},
+ {id:"ln2",type:"LAUNCH",title:"The Product Hunt effect",text:"A launch post takes off. Traffic is 10× normal — and your server, support inbox and onboarding are all groaning.",
+  why:"Good problems are still problems. A launch spike tests whether the product holds up.",
+  choices:[
+   {label:"Stabilise first — pause new signups for a day",fx:"Traction +5 · Validation +1",eff:{traction:5,validation:1}},
+   {label:"Ride the wave — take everyone",fx:"Traction +15 · Cash −$1,500",eff:{cash:-1500,traction:15}}]},
+],
+customers:[
+ {id:"cu1",type:"LAUNCH",title:"The first paying customer",text:"Someone pays. Not a friend, not family — a stranger with a credit card and a real problem.",
+  why:"The first paying customer is the strongest validation there is. Everything before it was a hypothesis.",
+  choices:[
+   {label:"Study them like a scientist — what made them pay?",fx:"Validation +2 · Traction +10",eff:{traction:10,validation:2}},
+   {label:"Celebrate and chase ten more just like them",fx:"Traction +15",eff:{traction:15}}]},
+ {id:"cu2",type:"LAUNCH",title:"“We love it, but we can't pay yet”",text:"A promising customer wants the product, needs budget approval, and the decision-maker is on leave until next quarter.",
+  why:"B2B sales cycles are real — banks and hospitals take months. Enthusiasm without a buyer is a stalled deal.",
+  choices:[
+   {label:"Find the economic buyer now — who signs?",fx:"Validation +1 · Traction +5",eff:{traction:5,validation:1}},
+   {label:"Wait for next quarter",fx:"Cash −$1,000",eff:{cash:-1000}}]},
+],
+pricing:[
+ {id:"pr1",type:"LAUNCH",title:"The pricing test",text:"At $9/month, users sign up and churn. At $29, fewer sign up — but they stay, and they actually use it.",
+  why:"Price is a filter, not just a number. The right price finds customers who value the outcome.",
+  choices:[
+   {label:"Raise to $29 — fewer, better customers",fx:"Traction +5 · Revenue boost · Validation +1",eff:{traction:5,validation:1,revenue:800}},
+   {label:"Stay at $9 — grow fast, figure out money later",fx:"Traction +15",eff:{traction:15}}]},
+ {id:"pr2",type:"LAUNCH",title:"Free vs paid",text:"A free tier brings thousands of users and $0. A paid-only product brings dozens of users and real revenue.",
+  why:"Free users are not customers. Unit economics — what one customer costs vs what they pay — decides if the model works.",
+  choices:[
+   {label:"Free tier as a funnel, paid for the real work",fx:"Traction +10 · Revenue boost",eff:{traction:10,revenue:500}},
+   {label:"Paid only — every user is a customer",fx:"Traction +5 · Revenue boost",eff:{traction:5,revenue:700}}]},
+],
+churn:[
+ {id:"ch1",type:"LAUNCH",title:"Churn alarm",text:"Retention is slipping: users try it, then quietly leave after week two. The product works — the habit doesn't form.",
+  why:"Retention, CAC and churn are the Stage 4 numbers. A leaky bucket can't be fixed with more water.",
+  choices:[
+   {label:"Interview churned users — find the missing habit",fx:"Validation +2 · Traction +10",eff:{traction:10,validation:2}},
+   {label:"Spend on ads to replace them",fx:"Cash −$3,000 · Traction +10",eff:{cash:-3000,traction:10}}]},
+ {id:"ch2",type:"LAUNCH",title:"The referral surprise",text:"A few users are bringing friends — unprompted. They aren't your biggest accounts; they're the ones whose problem you solved completely.",
+  why:"Referrals are product-market fit whispering. Users retain, pay and refer others — that's the test.",
+  choices:[
+   {label:"Double down on those users — build the referral loop",fx:"Traction +15 · Validation +1",eff:{traction:15,validation:1}},
+   {label:"Ignore it — focus on the bigger accounts",fx:"Traction +5",eff:{traction:5}}]},
+],
+hire:[
+ {id:"hr1",type:"TEAM",title:"Your first full-time hire",text:"A growth marketer wants to join full-time. They'll cost $800/month in burn — and could double your pipeline.",
+  why:"Stage 5 is a team sport: C-suite, full-time employees, and a burn rate that has to be earned back.",
+  choices:[
+   {label:"Hire them full-time",fx:"Hire Growth Marketer · Team +5 · Burn +$800/mo",eff:{team:5},hire:{name:"Sam",role:"Growth Marketer",skill:5,ft:true}},
+   {label:"Keep them freelance — flexibility over commitment",fx:"Cash −$1,500 · Team +2",eff:{cash:-1500,team:2}}]},
+ {id:"hr2",type:"TEAM",title:"The COO candidate",text:"An operator offers to run the business so you can focus on product and vision. It means sharing control of the day-to-day.",
+  why:"Founders either grow into the CEO role or hire experienced operators. Both are legitimate — pretending is not.",
+  choices:[
+   {label:"Hire the COO — you stay CEO of vision",fx:"Hire COO · Team +6 · Burn +$800/mo",eff:{team:6},hire:{name:"Priya",role:"COO",skill:6,ft:true}},
+   {label:"Keep running everything yourself",fx:"Team +1 · Traction −5 (you're stretched)",eff:{team:1,traction:-5}}]},
+],
+board:[
+ {id:"bd2a",type:"TEAM",title:"The board meeting",text:"Your board (and your investors, if you took VC money) wants faster growth. Your team wants a sustainable pace. Both are in the room.",
+  why:"Investors provide capital for equity and often take board seats — to guide strategy toward a high-value exit. Their timeline may not be yours.",
+  choices:[
+   {label:"Commit to the growth plan — hire ahead of revenue",fx:"Cash −$3,000 · Traction +15",eff:{cash:-3000,traction:15}},
+   {label:"Push back — sustainable growth, protect the team",fx:"Traction +5 · Validation +1",eff:{traction:5,validation:1}}]},
+],
+seriesa:[
+ {id:"sa1",type:"INVESTOR",title:"The Series A pitch",text:"A VC firm is interested — $1M for 20%, if you can show growth, retention and a plan to 10×. They'll want a board seat and monthly reporting.",
+  why:"Staged funding: each round buys growth and sells equity and control. A raise is a tool, not a trophy.",
+  choices:[
+   {label:"Take the Series A — $1M, 20%, board seat",fx:"Cash +$1,000,000 · Equity given 20% · Burn rises",eff:{cash:1000000,equity:20,burnUp:1000},req:{path:"vc"}},
+   {label:"Turn it down — grow on revenue",fx:"Validation +1 · Traction +5",eff:{traction:5,validation:1}},
+   {label:"Ask for a smaller bridge instead",fx:"Cash +$150,000 · Equity given 5%",eff:{cash:150000,equity:5},req:{path:"vc"}}]},
+ {id:"sa2",type:"INVESTOR",title:"The investor who says no — helpfully",text:"A VC passes, but tells you why: “Great team, real problem — but the market isn't big enough for a venture return.”",
+  why:"“Not big enough for VC” is not “not a business.” It's the Doc 1 distinction: venture scale is one path, not the only one.",
+  choices:[
+   {label:"Take the feedback — narrow the venture thesis or own the steady path",fx:"Validation +2",eff:{validation:2}},
+   {label:"Keep pitching — someone will say yes",fx:"Cash −$2,000 · Traction +5",eff:{cash:-2000,traction:5}}]},
+],
+rival:[
+ {id:"rv1",type:"MARKET",title:"A rival raises $50M",text:"Your biggest competitor just announced a huge round. Headlines everywhere. Your team is rattled.",
+  why:"Competitors' funding is not your scoreboard. Customers, retention and runway are.",
+  choices:[
+   {label:"Stay the course — serve your beachhead better",fx:"Validation +1 · Traction +10",eff:{traction:10,validation:1}},
+   {label:"Match their spend — big launch, big ads",fx:"Cash −$5,000 · Traction +10",eff:{cash:-5000,traction:10}}]},
+ {id:"rv2",type:"MARKET",title:"The rival stumbles",text:"Your competitor shipped a broken update and their users are furious — and looking around.",
+  why:"Fate cuts both ways. A rival's stumble is an opening only if you're ready to catch the users.",
+  choices:[
+   {label:"Welcome their users — onboarding sprint",fx:"Traction +15",eff:{traction:15}},
+   {label:"Stay quiet — don't look opportunistic",fx:"Validation +1 · Traction +5",eff:{traction:5,validation:1}}]},
+],
+scale:[
+ {id:"sc1",type:"SCALE",title:"Grow into CEO — or hire one?",text:"The company is 25 people. You're spending your days on hiring, process and payroll — not the product you love.",
+  why:"Stage 5's real question: the founder either levels up into the CEO role or hires an experienced external CEO.",
+  choices:[
+   {label:"Grow into it — take a CEO coach, build the muscle",fx:"Team +3 · Cash −$2,000",eff:{cash:-2000,team:3}},
+   {label:"Hire an experienced CEO — you become Chief Product Officer",fx:"Hire CEO · Team +6 · Burn +$800/mo",eff:{team:6},hire:{name:"Dana",role:"CEO",skill:6,ft:true}}]},
+ {id:"sc2",type:"SCALE",title:"The enterprise deal",text:"A huge customer wants a custom version, a discount, and a 12-month contract. It would double revenue — and swallow your roadmap.",
+  why:"Big contracts can fund the company or capture it. The question is always: does this serve the beachhead or betray it?",
+  choices:[
+   {label:"Sign it — revenue funds the vision",fx:"Cash +$50,000 · Traction +10",eff:{cash:50000,traction:10}},
+   {label:"Decline — protect the roadmap",fx:"Validation +2 · Traction +5",eff:{traction:5,validation:2}}]},
+],
+};
+const FATE = [
+ {title:"Market boom",text:"Your sector is suddenly fashionable. Inbound interest doubles overnight.",fx:"Traction +15",eff:{traction:15}},
+ {title:"Market downturn",text:"Funding freezes and customers cut budgets. The same product, a harder world.",fx:"Traction −10 · Cash −$2,000",eff:{traction:-10,cash:-2000}},
+ {title:"A competitor launches",text:"A rival ships your most-requested feature. Your users notice.",fx:"Traction −10",eff:{traction:-10}},
+ {title:"Viral moment",text:"A customer posts about you. Signups spike for a week.",fx:"Traction +15 · Validation +1",eff:{traction:15,validation:1}},
+ {title:"Key employee quits",text:"A strong early hire leaves for a bigger salary. Knowledge walks out the door.",fx:"Team −3",eff:{team:-3}},
+ {title:"Grant awarded",text:"A local grant for founders lands in your account. Free money, real paperwork.",fx:"Cash +$5,000",eff:{cash:5000}},
+ {title:"Regulation changes",text:"New rules in your sector. Annoying now — a moat later, if you adapt first.",fx:"Cash −$2,000 · Validation +1",eff:{cash:-2000,validation:1}},
+ {title:"AI frenzy",text:"Investors will only fund AI this quarter. You're in AI — or you're invisible.",fx:"Traction +10",eff:{traction:10},sector:"ai"},
+ {title:"A customer churns loudly",text:"A big early customer leaves and tells everyone why. Painful — and specific.",fx:"Traction −5 · Validation +1 (you learn)",eff:{traction:-5,validation:1}},
+ {title:"Warm intro to a VC",text:"Your mentor introduces you to a partner who actually invests in your space.",fx:"Cash +$25,000 (angel cheque) · Equity given 5%",eff:{cash:25000,equity:5}},
+];
+const LESSONS = [
+ {id:"L1",name:"Talk to customers first",text:"Start every run with Validation +1."},
+ {id:"L2",name:"Keep a cash cushion",text:"Start every run with +$3,000."},
+ {id:"L3",name:"Hire for trust, not just skill",text:"Start every run with Team +2."},
+ {id:"L4",name:"Ship the smallest test",text:"Start every run with Traction +5."},
+];
+
+/* ================= LOGIC ================= */
+const $ = id => document.getElementById(id);
+const clamp = (v,a,b)=>Math.max(a,Math.min(b,v));
+const fmt$ = n => (n<0?"−$":"$") + Math.abs(Math.round(n)).toLocaleString("en-US");
+const rand = n => Math.floor(Math.random()*n);
+const pick = arr => arr[rand(arr.length)];
+
+let S = null;          // game state
+let soundOn = true;
+let lastCardId = null;
+
+function baseBurn(){ return 1200 + 800*S.members.filter(m=>m.ft).length + (S.burnUp||0); }
+/* Early customers pay a little once traction reaches 25; after product-market
+   fit, revenue scales properly and starts offsetting burn. */
+function revenue(){ const base = S.pmf ? S.traction*40 : (S.traction>=25 ? S.traction*20 : 0); return Math.round(base) + (S.revBoost||0); }
+function runwayMonths(){ const b = baseBurn()-revenue(); return b<=0 ? 99 : Math.max(0, S.cash/b); }
+function burn(){ return Math.max(0, baseBurn()-revenue()); }
+
+function newGame(opts){
+  opts = opts||{};
+  closeCard();
+  const go = $("guideOverlay"); if(go) go.classList.remove("open");
+  S = {
+    name:(opts.name||"Alex").trim()||"Alex",
+    venture:opts.venture||"startup",
+    sector:opts.sector||"ai",
+    month:0, cash:20000, traction:0, team:0, validation:0,
+    members:[], equity:0, path:null, pmf:false, pivots:0,
+    revBoost:0, burnUp:0, pos:0, over:false, ending:null,
+    market:pick(MARKETS), log:[], lessons:(opts.lessons||[]).slice(),
+    fateCount:0, riskTaken:false, seedRaised:false,
+  };
+  S.lessons.forEach(l=>{
+    if(l==="L1") S.validation+=1;
+    if(l==="L2") S.cash+=3000;
+    if(l==="L3") S.team+=2;
+    if(l==="L4") S.traction+=5;
+  });
+  log("Month 0 — <b>"+esc(S.name)+"</b> starts a "+(S.venture==="startup"?"high-growth startup":"steady business")+
+    " in "+SECTORS[S.sector].name+". $20,000 — savings plus a small friends-and-family round — about 16 months of runway at a $1,200/month burn.");
+  if(S.lessons.length) log("Lesson kept from last run: <b>"+S.lessons.map(id=>LESSONS.find(l=>l.id===id).name).join(", ")+"</b>");
+  updateUI();
+}
+
+function esc(s){ return String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+function log(html){ if(!S) return; S.log.push({m:S.month, html}); renderLog(); }
+
+function applyEff(eff, card){
+  eff = eff||{};
+  let cash = eff.cash||0;
+  if(card && card.sectorFx && card.sectorFx[S.sector]) cash += card.sectorFx[S.sector];
+  if(eff.traction){
+    let t = eff.traction;
+    if(t>0){ t += S.market.tmod; if(S.market.aiBonus && S.sector==="ai") t += S.market.aiBonus; }
+    S.traction = clamp(S.traction + t, 0, 100);
+  }
+  S.cash += cash;
+  if(eff.team) S.team = Math.max(0, S.team + eff.team);
+  if(eff.validation) S.validation = clamp(S.validation + eff.validation, 0, 5);
+  if(eff.equity) S.equity = clamp(S.equity + eff.equity, 0, 90);
+  if(eff.revenue) S.revBoost += eff.revenue;
+  if(eff.burnUp) S.burnUp += eff.burnUp;
+  if(eff.hire){ S.members.push(eff.hire); }
+  if(card && card.risk) S.riskTaken = true;
+  if(eff.cash && eff.cash>=250000) S.seedRaised = true;
+  return cash;
+}
+
+function describeEff(eff, card){
+  const parts=[];
+  let cash = eff.cash||0;
+  if(card && card.sectorFx && card.sectorFx[S.sector]) cash += card.sectorFx[S.sector];
+  if(cash) parts.push((cash>0?"+":"")+fmt$(cash));
+  if(eff.traction){ let t=eff.traction; if(t>0){t+=S.market.tmod; if(S.market.aiBonus&&S.sector==="ai")t+=S.market.aiBonus;} parts.push("Traction "+(t>=0?"+":"")+t); }
+  if(eff.team) parts.push("Team "+(eff.team>0?"+":"")+eff.team);
+  if(eff.validation) parts.push("Validation "+(eff.validation>0?"+":"")+eff.validation);
+  if(eff.equity) parts.push("Equity −"+eff.equity+"%");
+  if(eff.revenue) parts.push("Revenue +$"+eff.revenue+"/mo");
+  if(eff.hire) parts.push("Hired: "+eff.hire.name+" ("+eff.hire.role+")");
+  return parts.join(" · ") || "No change";
+}
+
+function rollDice(){
+  if(!S || S.over || modalOpen()) return null;
+  const roll = 1+rand(4);
+  /* You must stop at the next gate tile if your roll would carry you past it —
+     gates are decisions, not scenery. */
+  let target = Math.min(24, S.pos + roll);
+  const gate = TILES.find(t=>t.gate && t.n>S.pos && t.n<=target);
+  if(gate) target = gate.n;
+  S.pos = target;
+  S.lastRoll = roll;
+  beep(660, .07); setTimeout(()=>beep(880,.07), 90);
+  updateUI();
+  setTimeout(()=>land(), 450);
+  return roll;
+}
+
+function land(){
+  if(!S || S.over) return;
+  const tile = TILES[S.pos-1];
+  if(!tile) return;
+  log("Month "+S.month+" — moved to tile "+tile.n+": <b>"+esc(tile.label)+"</b>.");
+  if(tile.d==="start"){ showCard({type:"START",title:"The Spark",text:"Every founder starts here: a problem that won't leave you alone, and $20,000 of savings and friends-and-family money. The journey is the flowchart — validation, team, funding, MVP, launch, scale, exit.",why:"A startup is a temporary organisation searching for a repeatable, scalable business model. (Steve Blank)",choices:[{label:"Begin interviewing customers",fx:"Validation +1",eff:{validation:1}}]}); return; }
+  if(tile.d==="gate1") return gateCheck(1);
+  if(tile.d==="gate2") return gateCheck(2);
+  if(tile.d==="fork") return forkCard();
+  if(tile.d==="exit") return doExit();
+  const deck = DECKS[tile.d]||[];
+  let card = pick(deck);
+  if(deck.length>1){ let guard=0; while(card.id===lastCardId && guard++<8) card=pick(deck); }
+  lastCardId = card.id;
+  showCard(card);
+}
+
+function gateCheck(which){
+  if(which===1){
+    const pass = S.validation>=3;
+    showCard({type:"GATE",title:"DECISION: Is the problem validated?",
+      text: pass
+        ? "Your interviews say yes: people will pay, switch, or commit. Validation is at "+S.validation+"/5. The flowchart says proceed to Team & Skill Assessment."
+        : "Validation is at "+S.validation+"/5 — you need 3. The interviews say “nice idea”, not “take my money”. The flowchart sends you around the pivot loop: adjust the problem or the audience, and re-test Stage 1.",
+      why:"Validation is evidence, not enthusiasm. A pivot loop now is cheaper than building the wrong thing.",
+      choices: pass
+        ? [{label:"Proceed to Stage 2 — Team & Skill Assessment",fx:"Onward",eff:{}}]
+        : [{label:"↺ Pivot: reframe the problem, go back 2 tiles",fx:"Validation +1 · Cash −$1,000 · Pivots +1",eff:{validation:1,cash:-1000},pivotBack:2},
+           {label:"Push on anyway (the market will learn)",fx:"Cash −$2,000 · Traction −5",eff:{cash:-2000,traction:-5}}]});
+  } else {
+    const pass = S.traction>=50 && S.validation>=3;
+    S.pmf = pass;
+    showCard({type:"GATE",title:"DECISION: Product-market fit achieved?",
+      text: pass
+        ? "Users retain, pay and refer others — Traction "+S.traction+", Validation "+S.validation+"/5. That's product-market fit. Proceed to Scale & Growth — and from now on, revenue scales up and offsets your burn."
+        : "Traction "+S.traction+" (need 50), Validation "+S.validation+"/5 (need 3). Users try it and drift away. The flowchart sends you around the pivot loop: change features, pricing or the model, and rebuild the MVP (back to Stage 3).",
+      why:"Product-market fit is the test: retain, pay, refer. Without it, scaling just burns cash faster.",
+      choices: pass
+        ? [{label:"Proceed to Stage 5 — Scale & Growth",fx:"Revenue now offsets burn · PMF ✓",eff:{}}]
+        : [{label:"↺ Pivot: change the model, rebuild the MVP (back to tile 9)",fx:"Traction −10 · Validation +1 · Cash −$3,000 · Pivots +1",eff:{traction:-10,validation:1,cash:-3000},pivotTo:9},
+           {label:"Scale anyway — growth will fix retention",fx:"Cash −$4,000 · Traction +5",eff:{cash:-4000,traction:5}}]});
+  }
+}
+
+function forkCard(){
+  showCard({type:"DECISION",title:"Do you need external capital to build & scale?",
+    text:"Your funding model dictates your legal entity and your early stakeholders. Low startup costs and fast customer revenue point to bootstrapping. High R&D costs or a race for market capture point to venture capital.",
+    why:"Bootstrap = LLC, full control, customers fund you. VC = Delaware C-Corp, angels + VCs + startup attorneys, equity for capital — and a board that expects a big exit.",
+    choices:[
+     {label:"PATH A — Bootstrap (LLC)",fx:"Keep 100% · Revenue focus · No board pressure",eff:{},setPath:"bootstrap"},
+     {label:"PATH B — Venture capital (Delaware C-Corp)",fx:"Raise $250,000 seed · Give 20% · Board seat · Burn rises",eff:{cash:250000,equity:20,burnUp:500},setPath:"vc"},
+    ]});
+}
+
+function choose(choice, card){
+  if(!S || S.over) return;
+  const before = {cash:S.cash, traction:S.traction, team:S.team, validation:S.validation, equity:S.equity};
+  applyEff(choice.eff||{}, card);
+  if(choice.setPath){ S.path = choice.setPath; if(choice.setPath==="vc") S.seedRaised = true; log("Funding fork: <b>"+(S.path==="vc"?"Venture capital — Delaware C-Corp, $250k seed, 20% equity":"Bootstrapping — LLC, full control")+"</b>."); }
+  if(choice.pivotBack){ S.pos = Math.max(1, S.pos - choice.pivotBack); S.pivots++; log("↺ <b>Pivot loop:</b> back to tile "+S.pos+". Pivots so far: "+S.pivots+"."); }
+  if(choice.pivotTo){ S.pos = choice.pivotTo; S.pivots++; log("↺ <b>Pivot loop:</b> back to tile "+S.pos+" to rebuild the MVP. Pivots so far: "+S.pivots+"."); }
+  log("“"+esc(choice.label)+"” — "+describeEff(choice.eff||{}, card)+".");
+  if(choice.req && choice.req.path && S.path!==choice.req.path){
+    log("<i>That choice needed the VC path — it wasn't available, so nothing changed.</i>");
+    S.cash=before.cash; S.traction=before.traction; S.team=before.team; S.validation=before.validation; S.equity=before.equity;
+    closeCard(); updateUI(); return;
+  }
+  closeCard();
+  /* Fate cards are resolved inside a month that already advanced and burned cash,
+     and a "stay" choice is not a turn — neither should advance another month. */
+  if((card && card.type==="FATE") || choice.noTurn){
+    updateUI();
+    if(S.cash<=0) closeCompany("Out of cash");
+    return;
+  }
+  endTurn();
+}
+
+function endTurn(){
+  if(!S || S.over) return;
+  S.month++;
+  const b = burn();
+  S.cash -= b;
+  log("Month "+S.month+" ends — burn "+fmt$(b)+(revenue()>0?" (revenue "+fmt$(revenue())+" offsets it)":"")+". Cash "+fmt$(S.cash)+", runway "+(runwayMonths()>=99?"∞":runwayMonths().toFixed(1)+" mo")+".");
+  if(S.month%6===0){ const old=S.market.name; S.market=pick(MARKETS); log("📈 Market shifts: <b>"+esc(S.market.name)+"</b> (was "+esc(old)+"). "+esc(S.market.fx)+"."); }
+  if(S.month%4===0 && !S.over){ const f = pick(FATE.filter(x=>!x.sector||x.sector===S.sector)); showFate(f); updateUI(); return; }
+  if(S.cash<=0){ return closeCompany("Out of cash"); }
+  updateUI();
+}
+
+function showFate(f){
+  showCard({type:"FATE",title:"⚡ Fate: "+f.title,text:f.text,why:"Skill is the choices you make. Fate is the market, the timing, and other people's decisions. Both are in the game on purpose.",choices:[{label:"Deal with it",fx:f.fx,eff:f.eff}]});
+}
+
+function closeCompany(reason){
+  S.over = true;
+  const score = computeScore("close");
+  showEnd({kind:"close", title:"The company closes", sub:reason,
+    text:"Runway hit zero. This is the most common startup ending — and in this course, it's a lesson, not a failure. You keep one Lesson card for your next run, and the next founder you play starts smarter.",
+    score});
+  updateUI();
+}
+
+function computeScore(kind){
+  let s = S.traction + S.team*5 + S.validation*10 + Math.max(0,Math.round(S.cash/10000));
+  const bonus = {ipo:120, acquisition:90, operating:100, acquihire:40, close:0}[kind]||0;
+  if(S.venture==="steady" && kind==="operating") s += 40;
+  if(S.venture==="startup" && kind==="operating") s -= 20;
+  return s + bonus;
+}
+
+function doExit(){
+  let kind, title, sub, text;
+  const vc = S.path==="vc", boot = S.path==="bootstrap";
+  if(S.traction>=75 && S.validation>=4 && (vc || S.cash>=100000)){
+    kind="ipo"; title="🚀 IPO — you go public";
+    sub="High-growth market leader, massive scale, predictable revenue.";
+    text="Investment banks, the SEC and public investors take you public. The founder's share after "+S.equity+"% given away is still life-changing — and the board you built got you here. This is the venture-scale ending the flowchart describes.";
+  } else if(S.traction>=55 && S.team>=6){
+    kind="acquisition"; title="🤝 Acquisition — you sell";
+    sub="Your tech, talent or user base is strategically valuable to a larger buyer.";
+    text="An acquirer, M&A lawyers and your board close the deal. "+(S.riskTaken?"The compliance shortcut you took came up in due diligence — it cost you, but didn't kill the deal.":"Clean IP and clean books made diligence smooth.")+" You exit with your team mostly intact.";
+  } else if(S.cash>0 && revenue()>=baseBurn()){
+    kind="operating"; title="🏪 Keep operating";
+    sub="A profitable, self-sustaining business.";
+    text=(S.venture==="steady"
+      ? "This is the win you chose at the start: a viable business that pays its people and serves its community. No IPO, no headlines — and no failure either. Remember the Doc 1 warning: a steady business only looks like a failure if you judge it by venture rules."
+      : "You keep operating — profitable and independent. For a high-growth startup it's a good outcome, not the biggest one: the venture path wanted an IPO or a sale, and the board (if any) will ask what's next.")+" Revenue "+fmt$(revenue())+"/mo covers burn "+fmt$(baseBurn())+"/mo.";
+  } else if(S.team>=8){
+    kind="acquihire"; title="👥 Acqui-hire";
+    sub="The product didn't take off — the team did.";
+    text="A larger company buys the company for its people. The product shuts down, the team gets jobs, and you keep the relationships and the lessons. A real, honourable ending.";
+  } else {
+    kind="close"; title="The company winds down";
+    sub="You reached the exit tile without the traction or team to exit on.";
+    text="Traction "+S.traction+", Team "+S.team+", Cash "+fmt$(S.cash)+". "+
+      (S.cash>50000 ? "There is money left, but no product customers love and no team to build with — the board winds it down and returns the cash. Money without traction is just a slower ending."
+      : "Not every journey ends in a headline. You learned what the market actually wanted — and what it didn't.")+
+      " Keep a Lesson card and play again: most founders' second company is smarter than their first.";
+  }
+  S.over = true;
+  showEnd({kind, title, sub, text, score:computeScore(kind)});
+  updateUI();
+}
+
+function showEnd(res){
+  S.ending = res;
+  const best = loadBest();
+  const isBest = !best || res.score > best.score;
+  if(isBest) saveBest({kind:res.kind, score:res.score, name:S.name, venture:S.venture, months:S.month, pivots:S.pivots});
+  const qs = [
+    "What was the single decision that changed your run most — a choice, or a fate card?",
+    "When you pivoted, was it a failure or a smart move? How could you tell at the time?",
+    "Would your ending count as success for the other venture type (startup vs steady business)? Why?",
+    "What would you do differently in the first three tiles next time?",
+  ];
+  const timeline = S.log.slice(-14).map(e=>"Month "+e.m+" — "+e.html).join("</li><li>");
+  $("cardBox").innerHTML =
+    '<span class="kicker exit">ENDGAME — '+esc(res.kind.toUpperCase())+'</span>'+
+    "<h2>"+esc(res.title)+"</h2><p><b>"+esc(res.sub)+"</b></p><p>"+esc(res.text)+"</p>"+
+    '<div class="score">Founder score: <b>'+res.score+'</b> '+
+    '(Traction '+S.traction+' + Team '+S.team+'×5 + Validation '+S.validation+'×10 + Cash bonus + ending bonus)'+
+    '<br>Months: <b>'+S.month+'</b> · Pivots: <b>'+S.pivots+'</b> · Equity given: <b>'+S.equity+'%</b> · Path: <b>'+(S.path||"—")+'</b> · Venture: <b>'+(S.venture==="startup"?"High-growth startup":"Steady business")+'</b>'+
+    (isBest?"<br>🏆 New personal best!":"<br>Best so far: "+(best?best.kind+" — "+best.score+" pts":"—"))+"</div>"+
+    '<div class="discuss"><b>Discuss (or journal):</b><ol style="margin:6px 0 0;padding-left:18px"><li>'+qs.join("</li><li>")+"</li></ol></div>"+
+    '<p style="font-size:12.5px;color:var(--mut)">Your journey, last 14 entries:</p><ul style="font-size:12.5px;line-height:1.6;max-height:130px;overflow:auto"><li>'+timeline+"</li></ul>"+
+    '<div class="choices"><button class="choice good" id="againBtn"><b>↻ PLAY AGAIN — KEEP ONE LESSON</b><span class="fx">Choose a Lesson card to carry into your next run. Same board, new dice, new fate.</span></button>'+
+    '<button class="choice" id="lessonListBtn"><b>📖 SEE LESSON CARDS</b><span class="fx">Pick the lesson before you restart.</span></button></div>';
+  openOverlay("cardOverlay");
+  $("againBtn").onclick = ()=>{ showLessons(); };
+  $("lessonListBtn").onclick = ()=>{ showLessons(); };
+}
+
+function showLessons(){
+  $("cardBox").innerHTML = '<span class="kicker">START OVER — BUT SMARTER</span><h2>Keep one Lesson card</h2>'+
+    '<p>Every run teaches something. Pick one lesson to carry into the next company — that\'s the whole point of starting over.</p><div class="choices">'+
+    LESSONS.map(l=>'<button class="choice" data-lesson="'+l.id+'"><b>'+esc(l.name)+'</b><span class="fx">'+esc(l.text)+"</span></button>").join("")+"</div>";
+  Array.from($("cardBox").querySelectorAll("[data-lesson]")).forEach(b=>{
+    b.onclick = ()=>{ const l=b.getAttribute("data-lesson"); closeCard(); newGame({name:S.name, venture:S.venture, sector:S.sector, lessons:[l]}); $("startOverlay").classList.remove("open"); log("New run begins with lesson: <b>"+esc(LESSONS.find(x=>x.id===l).name)+"</b>"); };
+  });
+}
+
+function loadBest(){ try{ return JSON.parse(localStorage.getItem("spark-best")||"null"); }catch(e){ return null; } }
+function saveBest(b){ try{ localStorage.setItem("spark-best", JSON.stringify(b)); }catch(e){} }
+
+/* ================= UI ================= */
+function modalOpen(){ return $("cardOverlay").classList.contains("open"); }
+function openOverlay(id){ $(id).classList.add("open"); }
+function closeCard(){ if(typeof window!=="undefined" && window.__SJ) window.__SJ.currentCard = null; $("cardOverlay").classList.remove("open"); }
+
+function showCard(card){
+  if(typeof window!=="undefined" && window.__SJ) window.__SJ.currentCard = card;
+  const kickerCls = card.type==="FATE"?"fate":(card.type==="GATE"||card.type==="DECISION"?"gate":"");
+  $("cardBox").innerHTML =
+    '<span class="kicker '+kickerCls+'">'+esc(card.type)+'</span><h2>'+esc(card.title)+"</h2><p>"+esc(card.text)+"</p>"+
+    (card.why?'<p class="why"><b>Why this matters:</b> '+esc(card.why)+"</p>":"")+
+    '<div class="choices">'+card.choices.map((c,i)=>{
+      const reqFail = c.req && c.req.path && S.path!==c.req.path;
+      return '<button class="choice" data-i="'+i+'"'+(reqFail?" disabled":"")+"><b>"+esc(c.label)+'</b><span class="fx">'+esc(reqFail?"Needs the VC path — you chose "+(S.path||"no path")+" yet":describeEff(c.eff||{},card))+"</span></button>";
+    }).join("")+"</div>";
+  openOverlay("cardOverlay");
+  Array.from($("cardBox").querySelectorAll("[data-i]")).forEach(b=>{
+    b.onclick = ()=>{ beep(520,.06); choose(card.choices[+b.getAttribute("data-i")], card); };
+  });
+}
+
+function renderTiles(){
+  const el = $("tiles"); el.innerHTML = "";
+  TILES.forEach(t=>{
+    const d = document.createElement("div");
+    d.className = "tile s"+t.s + (t.gate?" gate":"") + (S && S.pos===t.n?" here":"") + (S && S.pos>t.n?" done":"");
+    d.innerHTML = '<span class="n">'+t.n+'</span><span class="t">'+esc(t.t)+"</span>"+esc(t.label);
+    el.appendChild(d);
+  });
+}
+function renderLog(){
+  $("log").innerHTML = S.log.slice(-40).map(e=>"<li><b>M"+e.m+"</b> — "+e.html+"</li>").join("");
+}
+function stars(v){ return "★".repeat(v)+"☆".repeat(5-v); }
+function updateUI(){
+  if(!S) return;
+  $("hudName").textContent = S.name.toUpperCase()+" · "+SECTORS[S.sector].name.toUpperCase();
+  $("hudCash").textContent = fmt$(S.cash);
+  const rw = runwayMonths();
+  $("runwayFill").style.width = clamp(rw/18*100,0,100)+"%";
+  $("runwayBar").classList.toggle("low", rw<4);
+  $("runwayBar").title = "Runway: "+(rw>=99?"∞":rw.toFixed(1)+" months")+" (burn "+fmt$(burn())+"/mo)";
+  $("tracFill").style.width = S.traction+"%";
+  $("hudTeam").textContent = S.team;
+  $("hudVal").textContent = stars(S.validation);
+  $("hudMonth").textContent = S.month;
+  $("hudEq").textContent = S.equity+"%";
+  $("hudMarket").textContent = S.market.name;
+  $("hudMarketFx").textContent = S.market.fx;
+  const tile = TILES[Math.max(0,S.pos-1)];
+  $("stageLabel").textContent = tile ? STAGE_NAMES[tile.s]+" — TILE "+tile.n+"/24" : STAGE_NAMES[1];
+  $("pathLabel").textContent = "Path: "+(S.path==="vc"?"VC · Delaware C-Corp":S.path==="bootstrap"?"Bootstrap · LLC":"not chosen yet")+" · "+(S.venture==="startup"?"Startup":"Steady business");
+  $("rollBtn").disabled = S.over || modalOpen();
+  $("pivotBtn").disabled = S.over;
+  $("turnHint").textContent = S.over ? "Run over — play again and keep a Lesson." :
+    ("Tile "+S.pos+"/24 · Burn "+fmt$(burn())+"/mo · Revenue "+fmt$(revenue())+"/mo · Runway "+(rw>=99?"∞":rw.toFixed(1)+" mo"));
+  const hand = $("hand");
+  hand.innerHTML = S.members.length ? S.members.map(m=>'<div class="member"><b>'+esc(m.name)+'</b>'+esc(m.role)+'<br><span class="sk">Skill +'+m.skill+"</span> · "+(m.ft?"Full-time · $800/mo burn":"Advisor")+"</div>").join("")
+    : '<div class="member empty">No team yet. Your hand is empty — that\'s normal at the Spark. Hire co-founders, advisors and your first employees as you go.</div>';
+  renderTiles(); renderLog(); drawScene();
+}
+
+/* ---- pixel scene on canvas ---- */
+const SPRITES = {
+ founder:["....KKKK....","...KFFFFK...","...KFEFEK...","...KFFFFK...","....FFFF....","..SSSSSSSS..",".S.SSSSS.S.",".K.SSSSS.K.","...SS..SS...","...PP..PP...","...PP..PP...","...BB..BB..."],
+ dragon:["RR..R......R.","RRR.RR....RR.","RRRRRRR..RRR.",".RRRRRRRRRR..","..RWRWRRRRR..","..RRRRRRRR...",".RRRRRRRRR...","..RR..RRRR...",".GG...RRRRR..",".GG....RRR...",".......RR....","......RRRR..."],
+};
+const PAL = {K:"#1a1a22",F:"#f2c184",E:"#14141c",S:"#9b1627",P:"#2b3a67",B:"#3a2a1a",R:"#d23b2e",W:"#ffffff",G:"#58a447"};
+function drawSprite(ctx, map, ox, oy, px){
+  for(let y=0;y<map.length;y++) for(let x=0;x<map[y].length;x++){
+    const c = PAL[map[y][x]]; if(!c) continue;
+    ctx.fillStyle = c; ctx.fillRect(ox+x*px, oy+y*px, px, px);
+  }
+}
+function drawScene(){
+  const cv = $("scene"); if(!cv) return;
+  const ctx = cv.getContext("2d"); if(!ctx) return;
+  const W=cv.width, H=cv.height;
+  const stage = S ? (TILES[Math.max(0,S.pos-1)]||{}).s||1 : 1;
+  const skies = {1:"#7ec8e3",2:"#8fd0e8",3:"#a8c8e8",4:"#f2c184",5:"#7fb0e8",6:"#8a7fd0"};
+  ctx.fillStyle = skies[stage]||"#7ec8e3"; ctx.fillRect(0,0,W,H);
+  ctx.fillStyle = "#ffd76a"; ctx.fillRect(830,30,54,54); ctx.fillStyle="#fff3b0"; ctx.fillRect(842,42,30,30);
+  ctx.fillStyle = "rgba(255,255,255,.9)";
+  [[80,50],[300,80],[560,40],[700,90]].forEach(([x,y])=>{ ctx.fillRect(x,y,90,22); ctx.fillRect(x+20,y-14,50,14); });
+  ctx.fillStyle = "#6a9fd8";
+  [[0,150,180,120],[140,170,220,110],[620,160,200,120],[780,180,180,100]].forEach(([x,y,w,h])=>{ ctx.beginPath(); ctx.moveTo(x,y+h); ctx.lineTo(x+w/2,y); ctx.lineTo(x+w,y+h); ctx.fill(); });
+  ctx.fillStyle = "#4c8a3f"; ctx.fillRect(0,230,W,60);
+  ctx.fillStyle = "#58a447"; ctx.fillRect(0,230,W,26);
+  for(let x=20;x<W;x+=110){ ctx.fillStyle="#3a6b2f"; ctx.fillRect(x,190,14,44); ctx.fillStyle="#2e7d32"; ctx.fillRect(x-24,150,62,48); ctx.fillStyle="#43a047"; ctx.fillRect(x-14,138,42,30); }
+  ctx.fillStyle = "#a0662c"; ctx.fillRect(0,290,W,70);
+  ctx.fillStyle = "#c98a4b";
+  for(let i=0;i<24;i++){ const x=14+i*40; ctx.fillRect(x,300,28,10); ctx.fillRect(x+6,322,28,10); ctx.fillRect(x,344,28,8); }
+  ctx.fillStyle="#f7f3e8"; ctx.fillRect(700,190,180,100);
+  ctx.fillStyle="#9b1627"; ctx.beginPath(); ctx.moveTo(690,195); ctx.lineTo(790,140); ctx.lineTo(890,195); ctx.fill();
+  ctx.fillStyle="#3a2a1a"; ctx.fillRect(770,240,40,50);
+  ctx.fillStyle="#ffd76a"; ctx.fillRect(720,215,34,26); ctx.fillRect(830,215,34,26);
+  const px = 5;
+  const fx = 30 + (S?S.pos:0)/24*(W-160);
+  const fy = 252;
+  drawSprite(ctx, SPRITES.founder, fx, fy, px);
+  ctx.fillStyle="#14141c"; ctx.font="bold 13px Courier New"; ctx.fillText(S?S.name:"FOUNDER", fx-6, fy-8);
+  if(S && S.traction<40 && S.month>2) drawSprite(ctx, SPRITES.dragon, W-260, 120, 4);
+  if(S && S.lastRoll){ ctx.fillStyle="#14141c"; ctx.font="bold 15px Courier New"; ctx.fillText("Tile "+S.pos+" / 24", 16, 24); }
+  ctx.fillStyle="#14141c"; ctx.font="bold 15px Courier New";
+  ctx.fillText("FROM SPARK TO STARTUP", 16, 24);
+}
+
+/* ---- sound (tiny, optional) ---- */
+let AC=null;
+function beep(f,d){ if(!soundOn) return; try{ AC=AC||new (window.AudioContext||window.webkitAudioContext)(); const o=AC.createOscillator(),g=AC.createGain(); o.frequency.value=f; o.type="square"; g.gain.value=.05; o.connect(g); g.connect(AC.destination); o.start(); g.gain.exponentialRampToValueAtTime(.0001, AC.currentTime+d); o.stop(AC.currentTime+d); }catch(e){} }
+
+/* ---- wiring ---- */
+let venturePick = "startup";
+function bindUI(){
+  $("rollBtn").onclick = ()=>{
+    if(!S || S.over || modalOpen()) return;
+    const btn=$("rollBtn"); btn.disabled=true; const face=$("diceFace"); face.classList.add("rolling");
+    let n=0; const iv=setInterval(()=>{ face.textContent=1+rand(4); if(++n>7){ clearInterval(iv); face.classList.remove("rolling"); const r=rollDice(); face.textContent=r==null?"–":r; btn.disabled=false; updateUI(); } },90);
+  };
+  $("pivotBtn").onclick = ()=>{
+    if(!S||S.over) return;
+    showCard({type:"DECISION",title:"Pivot — or start over?",
+      text:"A pivot changes the problem, the customer or the model — and keeps the team and the lessons. Starting over keeps one Lesson card and begins a brand-new company.",
+      why:"Pivoting is not quitting. Most successful startups pivoted; the trick is pivoting on evidence, not panic.",
+      choices:[
+       {label:"↺ Pivot now — back to tile 1, keep team",fx:"Traction −20 · Validation −1 · Cash −$2,000 · Pivots +1",eff:{traction:-20,validation:-1,cash:-2000},pivotTo:1},
+       {label:"↺ Start a brand-new company (keep one Lesson)",fx:"New run — choose a Lesson card",eff:{},restart:true},
+       {label:"Keep going — no pivot",fx:"No change",eff:{},noTurn:true}]});
+    const orig = $("cardBox").querySelectorAll("[data-i]");
+    orig.forEach(b=>{ b.onclick = ()=>{ const c=[{label:"pivot",eff:{traction:-20,validation:-1,cash:-2000},pivotTo:1},{label:"restart",eff:{},restart:true},{label:"stay",eff:{},noTurn:true}][+b.getAttribute("data-i")];
+      if(c.restart){ closeCard(); showLessons(); return; }
+      choose(c,{type:"DECISION"}); }; });
+  };
+  $("guideBtn").onclick = ()=>openOverlay("guideOverlay");
+  $("guideClose").onclick = ()=>$("guideOverlay").classList.remove("open");
+  $("soundBtn").onclick = ()=>{ soundOn=!soundOn; $("soundBtn").textContent = soundOn?"🔊 SOUND: ON":"🔇 SOUND: OFF"; };
+  $("newBtn").onclick = ()=>{ if(S) showLessons(); };
+  $("pickStartup").onclick = ()=>{ venturePick="startup"; $("pickStartup").classList.add("sel"); $("pickSteady").classList.remove("sel"); };
+  $("pickSteady").onclick = ()=>{ venturePick="steady"; $("pickSteady").classList.add("sel"); $("pickStartup").classList.remove("sel"); };
+  $("beginBtn").onclick = ()=>{
+    newGame({name:$("founderName").value, venture:venturePick, sector:$("sectorSel").value});
+    $("startOverlay").classList.remove("open");
+    showCard({type:"START",title:"The Spark",text:"Every founder starts here: a problem that won't leave you alone, and $20,000. Roll the dice — your first month starts now.",why:"A startup is a temporary organisation searching for a repeatable, scalable business model. (Steve Blank)",choices:[{label:"▶ Roll the dice",fx:"Begin Month 1",eff:{}}]});
+  };
+  document.addEventListener("keydown", e=>{ if(e.key===" "||e.key==="Enter"){ if($("startOverlay").classList.contains("open")) return; if(!modalOpen() && S && !S.over) $("rollBtn").click(); } });
+}
+bindUI();
+newGame({name:"Alex", venture:"startup", sector:"ai"});
+/* Test hook: node harness can drive the pure logic without a browser. */
+if(typeof window!=="undefined"){ window.__SJ = {newGame, rollDice, land, choose, endTurn, doExit, get state(){return S;}, TILES, DECKS, FATE, computeScore, applyEff, baseBurn, revenue, runwayMonths}; }
+</script>
+</body>
+</html>
