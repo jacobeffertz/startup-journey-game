@@ -5,7 +5,7 @@ A solo, browser-only startup simulator for the Foothill Startup Launchpad
 
 **Play it live:** https://jacobeffertz.github.io/startup-journey-game/
 
-## What it is now (v2)
+## The game
 
 A week-by-week **founder dashboard sim** — not a board game. Each week you:
 
@@ -103,7 +103,7 @@ table.
 - `index.html` — the whole game (HTML + CSS + JS, ~127 KB, zero dependencies)
 - `test-game.js` — headless playtest: `node test-game.js`
 - `README.md` — this file
-- `v1-board/` — the original v1 board-game version, preserved
+- `v1-board/` — the original board-game version, preserved
 
 Laurel's flowchart (`startup_lifecycle_flowchart.pdf`) lives in the
 Launchpad Drive folder, not in this repo.

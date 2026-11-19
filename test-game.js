@@ -1,4 +1,4 @@
-// Headless playtest for From Spark to Startup v2 (index.html).
+// Headless playtest for From Spark to Startup (index.html).
 // Stubs the DOM, loads the game's inline script, then plays full games
 // with different strategies / founders / ventures and asserts endings are reached.
 const fs = require("fs");
@@ -51,7 +51,7 @@ const sandbox = {
 sandbox.window = sandbox;
 sandbox.globalThis = sandbox;
 vm.createContext(sandbox);
-vm.runInContext(js, sandbox, { filename:"game-v2.js" });
+vm.runInContext(js, sandbox, { filename:"game.js" });
 
 const G = sandbox; // top-level game functions live on the sandbox global
 let failures = 0;
