@@ -232,13 +232,59 @@ table.data td.r, table.data th.r{text-align:right}
 .end-badge{display:inline-block; border-radius:999px; padding:4px 12px; font-size:12.5px; font-weight:600; background:var(--accent-soft); color:var(--accent-ink)}
 .toast{position:fixed; top:14px; right:14px; z-index:80; background:var(--text); color:#fff; border-radius:var(--radius-s); padding:10px 14px; font-size:13px; box-shadow:0 6px 20px rgba(0,0,0,.25); max-width:340px}
 .foot{margin-top:36px; text-align:center; color:var(--text-3); font-size:12px}
+/* ---- monitor select screen + game feel ---- */
+#boot{position:fixed;inset:0;background:#141414;z-index:90;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;pointer-events:none;animation:bootOut .5s ease 1.15s forwards}
+.boot-logo{color:#fafafa;font-weight:800;font-size:22px;letter-spacing:.14em}
+.boot-logo span{color:#818cf8}
+.boot-bar{width:200px;height:3px;background:#2a2a2a;border-radius:99px;overflow:hidden}
+.boot-bar i{display:block;height:100%;width:0;background:var(--accent);animation:bootBar 1s ease forwards}
+.boot-sub{color:#8a8a8a;font-size:11px;letter-spacing:.22em}
+@keyframes bootBar{to{width:100%}}
+@keyframes bootOut{to{opacity:0;visibility:hidden}}
+.monitor{max-width:1020px;margin:0 auto;background:#151515;border-radius:22px;padding:12px;box-shadow:0 30px 60px rgba(0,0,0,.28);transition:transform .5s ease,opacity .5s ease}
+.monitor.zooming{transform:scale(1.04);opacity:0}
+.monitor-screen{background:#FAFAF9;border-radius:12px;overflow:hidden}
+.monitor-topbar{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;background:#1b1b1b;color:#fafafa;font-size:12px}
+.mon-dots{display:flex;gap:7px}
+.mon-dots i{width:11px;height:11px;border-radius:50%;background:#ff5f57}
+.mon-dots i:nth-child(2){background:#febc2e}
+.mon-dots i:nth-child(3){background:#28c840}
+.mon-title{font-weight:700;letter-spacing:.12em;font-size:11px}
+.mon-led{display:flex;align-items:center;gap:7px;font-size:11px;letter-spacing:.1em;color:#a3a3a3}
+.mon-led i{width:8px;height:8px;border-radius:50%;background:#34d399;box-shadow:0 0 8px #34d399}
+.monitor-neck{width:64px;height:14px;margin:0 auto;background:#1b1b1b}
+.monitor-stand{width:220px;height:10px;margin:0 auto;background:#1b1b1b;border-radius:0 0 12px 12px}
+.monitor .setup-hero{padding-top:26px}
+.fstats{margin-top:10px;display:grid;gap:5px}
+.fstat{display:flex;align-items:center;gap:8px;font-size:10px;color:var(--text-2)}
+.fstat b{width:52px;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.fbar{flex:1;height:5px;background:#eceae6;border-radius:99px;overflow:hidden}
+.fbar i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.fstat span{width:22px;text-align:right;font-variant-numeric:tabular-nums;color:var(--text);font-weight:600}
+.founder.sel{box-shadow:0 0 0 3px rgba(79,70,229,.16),0 12px 28px rgba(79,70,229,.14)}
+.fly-av{position:fixed;z-index:95;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;pointer-events:none;transition:all .55s cubic-bezier(.2,.7,.3,1);box-shadow:0 8px 20px rgba(0,0,0,.25)}
+.stage-track{height:3px;background:#e7e5e0}
+.stage-track i{display:block;height:100%;background:var(--accent);transition:width .6s ease}
+.founder-chip{display:none;align-items:center;gap:7px;font-size:12.5px;font-weight:600}
+.mini-av{width:22px;height:22px;border-radius:50%;color:#fff;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
+#week-sweep{position:fixed;inset:0;z-index:60;pointer-events:none;display:flex;align-items:center;justify-content:center;opacity:0;background:rgba(20,20,20,.45)}
+#week-sweep.show{animation:sweep .7s ease both}
+#week-sweep span{font-size:46px;font-weight:800;letter-spacing:.1em;color:#fff;text-shadow:0 4px 30px rgba(0,0,0,.5)}
+@keyframes sweep{0%{opacity:0}18%{opacity:1}78%{opacity:1}100%{opacity:0}}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+#screen-game.dash-in .topbar{animation:rise .4s ease both}
+#screen-game.dash-in .kpis{animation:rise .5s ease .06s both}
+@media(max-width:900px){.mon-title{display:none}}
 </style>
 </head>
 <body>
 <div class="wrap" id="app">
 
   <!-- ============ SETUP ============ -->
+  <div id="boot"><div class="boot-logo">FROM SPARK <span>TO STARTUP</span></div><div class="boot-bar"><i></i></div><div class="boot-sub">LOADING YOUR RUN</div></div>
   <div id="screen-setup">
+    <div class="monitor"><div class="monitor-screen">
+    <div class="monitor-topbar"><span class="mon-dots"><i></i><i></i><i></i></span><span class="mon-title">FROM SPARK TO STARTUP</span><span class="mon-led"><i></i>PLAYER 1</span></div>
     <div class="setup-hero">
       <h1>From Spark to Startup</h1>
       <p><b>The Founder's Journey</b> — a week-by-week startup simulator. Run a company in Silicon Valley
@@ -262,8 +308,8 @@ table.data td.r, table.data th.r{text-align:right}
     </div>
 
     <div class="setup-card">
-      <h2>2 · Who are you?</h2>
-      <p class="sub">Six founders, six different starting positions. Every trade-off is a number in your dashboard, not flavour text.</p>
+      <h2>2 · Select your founder — Player 1</h2>
+      <p class="sub">Six founders, six different starting positions. The bars are their starting stats — every trade-off is a number in your dashboard, not flavour text.</p>
       <div class="founder-grid" id="founder-grid"></div>
     </div>
 
@@ -282,6 +328,7 @@ table.data td.r, table.data th.r{text-align:right}
       </div>
     </div>
     <p class="foot">Foothill Startup Launchpad · Educate phase · Built from the Startup Lifecycle Flowchart, “What is a startup” and “Startup Ecosystem”</p>
+    </div><div class="monitor-neck"></div><div class="monitor-stand"></div></div>
   </div>
 
   <!-- ============ GAME ============ -->
@@ -289,6 +336,7 @@ table.data td.r, table.data th.r{text-align:right}
     <div class="topbar"><div class="topbar-inner">
       <div class="brand">From Spark <span>to Startup</span></div>
       <span class="stage-badge"><span class="dot"></span><span id="tb-stage">VALIDATE</span> · <span id="tb-week">WEEK 1</span></span>
+      <span class="founder-chip" id="tb-founder"></span>
       <div class="top-stats">
         <div class="top-stat"><div class="lbl">Cash</div><div class="val num" id="tb-cash">$25,000</div></div>
         <div class="top-stat hero"><div class="lbl">Runway</div><div class="val num" id="tb-runway">—</div></div>
@@ -297,7 +345,7 @@ table.data td.r, table.data th.r{text-align:right}
         <div class="top-stat"><div class="lbl">Energy</div><div class="energy-wrap"><div class="energy-bar"><div class="energy-fill" id="tb-energy-fill" style="width:100%"></div></div><span class="val num" id="tb-energy">100</span></div></div>
         <button class="btn btn-primary" id="btn-endweek" onclick="endWeek()">End Week →</button>
       </div>
-    </div></div>
+    </div><div class="stage-track"><i id="stage-fill" style="width:0%"></i></div></div>
 
     <div class="kpis">
       <div class="kpi"><div class="lbl">Cash</div><div class="val num" id="k-cash">$25,000</div><div class="delta num" id="k-cash-d">—</div><canvas id="sp-cash" width="180" height="28"></canvas></div>
@@ -384,6 +432,7 @@ table.data td.r, table.data th.r{text-align:right}
   <div class="teach" id="ev-teach"></div>
 </div></div>
 
+<div id="week-sweep"><span id="week-sweep-text">WEEK 2</span></div>
 <!-- report modal -->
 <div class="modal-back hidden" id="modal-report"><div class="modal wide">
   <div class="tiny muted" id="rep-kicker">WEEK 1 — REPORT</div>
@@ -427,37 +476,37 @@ var FOUNDERS = [
    bio:"Built a campus laundry app with 4,000 users. A $25k dorm fund backed her. Her parents in Cupertino still pay her phone bill.",
    traits:[["Network","Warm intros take 1 week less"],["Pipeline","Engineers cost 15% less to hire"]],
    trade:"Cash: starts with $18k. Morale falls faster after a bad week — “prove it by 22”. Enterprise buyers want a reference she doesn’t have.",
-   cash:18000, personalBurn:900, energy:100, hireCost:0.85, introWeeks:1, moraleFragile:true },
+   cash:18000, personalBurn:900, energy:100, hireCost:0.85, introWeeks:1, moraleFragile:true, stats:{net:90,build:60,hustle:70} },
  { id:"daniel", name:"Daniel Okafor", age:34, role:"Ex-Google PM · L6, shipped payments to 40M people",
    color:"#0E7490", initials:"DO",
    bio:"Left with $210k saved and a $185k salary anchor. A non-compete keeps him out of payments for 12 months.",
    traits:[["Product","Specs are better: +15% build quality"],["Enterprise","First meetings with big buyers are easier"]],
    trade:"Burn: $6,800/mo lifestyle (Mountain View mortgage). Ships carefully: features take 1 extra week.",
-   cash:60000, personalBurn:1700, energy:90, qualityBonus:15, slowBuild:1, enterpriseBonus:true },
+   cash:60000, personalBurn:1700, energy:90, qualityBonus:15, slowBuild:1, enterpriseBonus:true, stats:{net:75,build:70,hustle:55} },
  { id:"priya", name:"Priya Nair", age:27, role:"Immigrant founder · IIT Bombay → MS at SJSU, OPT expiring in 11 months",
    color:"#B45309", initials:"PN",
    bio:"On OPT with a 25% H-1B lottery draw. She can’t legally be unemployed. Family in Chennai wired $12k.",
    traits:[["Hustle","Weekends don’t drain energy (for a while)"],["Frugality","Burn is 20% lower"],["Global","Contractors in India at 40% cost"]],
    trade:"Visa clock: a hard deadline at Month 11 — no O-1 / H-1B / funding by then means a forced leave-or-acqui-hire event. Investors ask about her immigration lawyer ($4k).",
-   cash:12000, personalBurn:720, energy:110, burnMult:0.8, visaMonths:11, weekendFree:true },
+   cash:12000, personalBurn:720, energy:110, burnMult:0.8, visaMonths:11, weekendFree:true, stats:{net:45,build:75,hustle:95} },
  { id:"alex", name:"Alex Rivera", age:41, role:"Repeat founder · sold a SaaS for $8M in 2019",
    color:"#334155", initials:"AR",
    bio:"Knows every term-sheet trap. Thirty angels on speed dial. The last company took six years and a divorce.",
    traits:[["Fundraising","Red-flag clauses are highlighted for you"],["Hiring","Can recruit 2 ex-colleagues instantly"]],
    trade:"Angels expect a $100M outcome — the “keep operating” exit is socially penalised. Cynical when growth stalls: morale hit. Overconfident in new markets.",
-   cash:45000, personalBurn:1500, energy:85, seesRedFlags:true, freeHires:2 },
+   cash:45000, personalBurn:1500, energy:85, seesRedFlags:true, freeHires:2, stats:{net:95,build:65,hustle:60} },
  { id:"jonas", name:"Jonas Weber", age:26, role:"Solo hacker · ex-Stripe infra, builds in public",
    color:"#15803D", initials:"JW",
    bio:"12k followers. Ships a side project every month. Lives in a hacker house in the Mission, $1,400/mo bunk.",
    traits:[["Build speed","Features take 30% less time"],["Distribution","Launch posts convert to a waitlist"]],
    trade:"No business co-founder: enterprise deals close at half rate, and VCs discount solo founders. Coding 3+ weeks straight drains energy twice as fast.",
-   cash:22000, personalBurn:700, energy:95, buildMult:0.7, soloPenalty:true, burnoutFast:true },
+   cash:22000, personalBurn:700, energy:95, buildMult:0.7, soloPenalty:true, burnoutFast:true, stats:{net:70,build:95,hustle:80} },
  { id:"rosa", name:"Rosa Delgado", age:29, role:"Non-technical hustler · sold solar door-to-door, ran a food truck",
    color:"#BE185D", initials:"RD",
    bio:"Knows customers cold. $35k saved. No CS degree — community-college business classes, the player’s mirror.",
    traits:[["Validation","Interviews yield 2× the signal"],["Pricing","An instinct for willingness-to-pay"]],
    trade:"Must hire or contract every feature — cash or equity. Can’t judge code quality: tech debt grows unseen until a “rewrite” event. Investors discount her on technical risk unless a CTO joins.",
-   cash:35000, personalBurn:1100, energy:100, interviewMult:2, blindDebt:true },
+   cash:35000, personalBurn:1100, energy:100, interviewMult:2, blindDebt:true, stats:{net:55,build:35,hustle:100} },
 ];
 
 var SECTORS = [
@@ -871,6 +920,7 @@ function renderSetup(){
     html+='<button class="founder'+(sel.founder===f.id?" sel":"")+'" data-id="'+f.id+'" onclick="pickFounder(\''+f.id+'\')">';
     html+='<div class="who"><div class="avatar" style="background:'+f.color+'">'+f.initials+'</div><div><b>'+esc(f.name)+', '+f.age+'</b><span>'+esc(f.role)+'</span></div></div>';
     html+='<div class="small muted">'+esc(f.bio)+'</div>';
+    html+='<div class="fstats">'+[["Network",f.stats.net],["Build",f.stats.build],["Hustle",f.stats.hustle]].map(function(s){ return '<div class="fstat"><b>'+s[0]+'</b><div class="fbar"><i style="width:'+s[1]+'%"></i></div><span>'+s[1]+'</span></div>'; }).join("")+'</div>';
     for(var j=0;j<f.traits.length;j++) html+='<div class="trait"><b>'+esc(f.traits[j][0])+':</b> '+esc(f.traits[j][1])+'</div>';
     html+='<div class="trade">Trade-off: '+esc(f.trade)+'</div></button>';
   }
@@ -898,13 +948,32 @@ function startGame(){
   S.history.push({ cash:S.cash, mrr:0, users:0 });
   addTimeline("Founded "+name+" in a garage in Silicon Valley as "+founderById(S.founder).name+".");
   addLog("You have $"+S.cash.toLocaleString()+" and no customers yet. Week 1: validate before you build.");
-  $("screen-setup").classList.add("hidden");
-  $("screen-end").classList.add("hidden");
-  $("screen-game").classList.remove("hidden");
-  refillQueue(true);
-  renderAll();
-  showTab("plan");
-  window.scrollTo(0,0);
+  // founder chip in the top bar + fly the selected avatar from the monitor into it
+  var f = founderById(S.founder);
+  var chip = $("tb-founder");
+  if(chip){ chip.innerHTML='<span class="mini-av" style="background:'+f.color+'">'+f.initials+'</span> '+esc(f.name); chip.style.display="flex"; }
+  var av = document.querySelector(".founder.sel .avatar");
+  var mon = document.querySelector("#screen-setup .monitor");
+  if(av && av.getBoundingClientRect && chip && chip.getBoundingClientRect){
+    var r = av.getBoundingClientRect(), t = chip.getBoundingClientRect();
+    var fly = av.cloneNode(true); fly.classList.add("fly-av");
+    fly.style.left=r.left+"px"; fly.style.top=r.top+"px"; fly.style.width=r.width+"px"; fly.style.height=r.height+"px";
+    document.body.appendChild(fly);
+    var go = function(){ fly.style.left=(t.left+2)+"px"; fly.style.top=(t.top+2)+"px"; fly.style.width="22px"; fly.style.height="22px"; fly.style.fontSize="10px"; fly.style.opacity="0"; };
+    if(typeof requestAnimationFrame==="function"){ requestAnimationFrame(go); } else { go(); }
+    setTimeout(function(){ fly.remove(); }, 650);
+  }
+  if(mon) mon.classList.add("zooming");
+  setTimeout(function(){
+    $("screen-setup").classList.add("hidden");
+    $("screen-end").classList.add("hidden");
+    $("screen-game").classList.remove("hidden");
+    $("screen-game").classList.add("dash-in");
+    refillQueue(true);
+    renderAll();
+    showTab("plan");
+    window.scrollTo(0,0);
+  }, 420);
 }
 function loadSave(){
   var saved = readStore("spark-save-v2");
@@ -1218,6 +1287,8 @@ function endWeek(){
   store("spark-save-v2", { state:S });
   renderAll();
   if(!end){
+    var sw=$("week-sweep");
+    if(sw){ $("week-sweep-text").textContent="WEEK "+S.week; sw.classList.remove("show"); void sw.offsetWidth; sw.classList.add("show"); setTimeout(function(){ sw.classList.remove("show"); }, 750); }
     refillQueue(false);
     showReport(rep);
     renderAll();
@@ -1647,25 +1718,34 @@ function renderRivals(){
     return '<div class="rival-row"><span><b>'+esc(r.name)+'</b> — '+esc(r.strategy)+'</span><span class="num muted">'+Math.round(r.progress)+'%</span></div>';
   }).join("") + '<div class="rival-row"><span><b>'+esc(S.name)+'</b> — you</span><span class="num"><b>'+S.users.toLocaleString()+' users</b></span></div>';
 }
+function animateNum(el, to, fmtFn){
+  if(!el) return;
+  var from=(typeof el._v==="number")?el._v:to; el._v=to;
+  if(from===to || typeof requestAnimationFrame!=="function"){ el.textContent=fmtFn(to); return; }
+  var t0=performance.now(), dur=450;
+  function step(t){ var p=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-p,3); el.textContent=fmtFn(Math.round(from+(to-from)*e)); if(p<1) requestAnimationFrame(step); }
+  requestAnimationFrame(step);
+}
 function renderAll(){
   if(!S) return;
   $("tb-stage").textContent=STAGE_NAMES[STAGES[S.stage]];
   $("tb-week").textContent="WEEK "+S.week;
-  $("tb-cash").textContent=money(S.cash);
+  var sf=$("stage-fill"); if(sf) sf.style.width=(S.stage/5*100)+"%";
+  animateNum($("tb-cash"), S.cash, function(v){ return money(v); });
   var rw=runway();
   $("tb-runway").textContent = rw>=99?"∞":rw.toFixed(1)+" mo";
   $("tb-runway").style.color = rw<3?"#DC2626":rw<6?"#D97706":"";
-  $("tb-mrr").textContent=money(mrr());
-  $("tb-users").textContent=S.users.toLocaleString();
+  animateNum($("tb-mrr"), mrr(), function(v){ return money(v); });
+  animateNum($("tb-users"), S.users, function(v){ return Math.round(v).toLocaleString(); });
   $("tb-energy").textContent=Math.round(S.energy);
   var ef=$("tb-energy-fill");
   ef.style.width=clamp(S.energy,0,100)+"%";
   ef.className="energy-fill"+(S.energy<25?" crit":S.energy<50?" low":"");
-  $("k-cash").textContent=money(S.cash);
+  animateNum($("k-cash"), S.cash, function(v){ return money(v); });
   $("k-cash-d").innerHTML=deltaHtml(S.cash, S.prev.cash, function(v){ return money(v); });
-  $("k-mrr").textContent=money(mrr());
+  animateNum($("k-mrr"), mrr(), function(v){ return money(v); });
   $("k-mrr-d").innerHTML=deltaHtml(mrr(), S.prev.mrr, function(v){ return money(v); });
-  $("k-users").textContent=S.users.toLocaleString();
+  animateNum($("k-users"), S.users, function(v){ return Math.round(v).toLocaleString(); });
   $("k-users-d").innerHTML=deltaHtml(S.users, S.prev.users, function(v){ return Math.round(v).toLocaleString(); });
   $("k-churn").textContent=S.users>0?S.churn.toFixed(1)+"%":"—";
   $("k-churn-d").innerHTML=deltaHtml(S.churn, 5, function(v){ return v.toFixed(1)+"%"; }, true);
