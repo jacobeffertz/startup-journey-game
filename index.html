@@ -18,11 +18,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --canvas:#7A1020; --surface:rgba(74,8,18,.6); --surface-2:rgba(94,12,24,.6); --hairline:rgba(255,255,255,.18); --hairline-2:rgba(255,255,255,.35);
-  --text:#FFFFFF; --text-2:#F0DCC8; --text-3:#D9BFA6;
-  --accent:#FB7185; --accent-soft:rgba(255,255,255,.12); --accent-ink:#FECDD3;
-  --maroon:#9B1627; --maroon-deep:#4A0812; --maroon-soft:rgba(255,255,255,.08);
-  --good:#86EFAC; --good-soft:rgba(134,239,172,.14); --bad:#FCA5A5; --bad-soft:rgba(252,165,165,.14);
+  --canvas:#A83242; --surface:rgba(140,40,55,.55); --surface-2:rgba(140,40,55,.55); --hairline:rgba(255,255,255,.18); --hairline-2:rgba(255,255,255,.35);
+  --text:#FFFFFF; --text-2:#FDE68A; --text-3:#FEF3C7;
+  --accent:#FDE68A; --accent-soft:rgba(253,230,138,.14); --accent-ink:#FEF3C7;
+  --maroon:#9B1627; --maroon-deep:#7A2230; --maroon-soft:rgba(255,255,255,.08);
+  --good:#FDE68A; --good-soft:rgba(253,230,138,.14); --bad:#FFFFFF; --bad-soft:rgba(255,255,255,.14);
   --warn:#FDE68A; --warn-soft:rgba(253,230,138,.14);
   --cyan:#E9C46A; --violet:#F0D9A8;
   --radius:14px; --radius-s:9px;
@@ -302,7 +302,7 @@ table.data td.r, table.data th.r{text-align:right}
 @keyframes pulse{0%,100%{box-shadow:0 10px 28px rgba(0,0,0,.3),0 0 0 0 rgba(155,22,39,.45)}50%{box-shadow:0 10px 28px rgba(0,0,0,.3),0 0 0 12px rgba(155,22,39,0)}}
 .globe.spinning{animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.globe-badge{position:absolute;top:-6px;right:-6px;min-width:22px;height:22px;border-radius:99px;background:var(--accent);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 5px;border:2px solid #fff}
+.globe-badge{position:absolute;top:-6px;right:-6px;min-width:22px;height:22px;border-radius:99px;background:#FDE68A;color:#9B1627;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 5px;border:2px solid #fff}
 .flow-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
 .flow-steps{display:flex;gap:5px;margin:12px 0 16px}
 .flow-steps i{flex:1;height:5px;border-radius:99px;background:#E7E5E4}
@@ -323,7 +323,7 @@ b.term:hover{background:var(--accent-soft)}
 .ach-head{background:var(--maroon-deep);color:#fff;padding:24px;text-align:center}
 .ach-head img{width:92px;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.35)}
 .ach-head h1{color:#fff;margin-top:12px}
-.ach-head p{color:#FECDD3;margin:6px 0 0}
+.ach-head p{color:#FEF3C7;margin:6px 0 0}
 .ach-body{padding:20px 24px}
 .ach-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
 @media(max-width:640px){.ach-stats{grid-template-columns:repeat(2,1fr)}}
@@ -333,18 +333,18 @@ b.term:hover{background:var(--accent-soft)}
 .ach-top5{margin:6px 0 0}
 .ach-top5 li{margin:4px 0 4px 18px}
 .share-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:18px;padding-top:16px;border-top:1px solid var(--hairline)}
-.share-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--hairline-2);background:#fff;font-weight:700;font-size:13px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;color:var(--text);padding:0}
+.share-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--hairline-2);background:#fff;font-weight:700;font-size:13px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;color:#9B1627;padding:0}
 .share-btn:hover{border-color:var(--accent);transform:translateY(-1px)}
-.share-btn.liked{background:var(--accent);color:#fff;border-color:var(--accent)}
+.share-btn.liked{background:var(--accent);color:#9B1627;border-color:var(--accent)}
 .share-btn.ig{background:linear-gradient(45deg,#F58529,#DD2A7B,#8134AF);color:#fff;border:none}
 .share-btn.in{background:#0A66C2;color:#fff;border:none}
 .share-btn.gh{background:#1C1917;color:#fff;border:none}
 /* ---------- crimson fill theme: crimson background, white text, beige accents, black outlines ---------- */
 body{
   background:
-    radial-gradient(1100px 620px at 78% -10%, rgba(255,120,140,.30), transparent 62%),
-    radial-gradient(900px 600px at 6% 108%, rgba(40,4,10,.45), transparent 62%),
-    linear-gradient(165deg, #9E1626 0%, #7A1020 55%, #5E0C18 100%);
+    radial-gradient(1100px 620px at 78% -10%, rgba(255,170,175,.35), transparent 62%),
+    radial-gradient(900px 600px at 6% 108%, rgba(120,30,45,.35), transparent 62%),
+    linear-gradient(165deg, #BC4A5A 0%, #A83242 55%, #8A2230 100%);
   background-attachment:fixed;
 }
 .card,.kpi,.setup-card,.modal,.opt,.choice,.founder,.action,.pedia-term{
@@ -360,12 +360,12 @@ body{
 .btn-primary{background:#FFFDF8; border:1px solid rgba(0,0,0,.35); color:#9B1627; box-shadow:0 6px 22px rgba(0,0,0,.35)}
 .btn-primary:hover{box-shadow:0 8px 28px rgba(0,0,0,.45)}
 select.input, input.input{background:rgba(255,255,255,.08); color:#fff; border-color:rgba(255,255,255,.3)}
-select.input option{background:#4A0812; color:#fff}
+select.input option{background:#7A2230; color:#fff}
 .stepper button{background:rgba(255,255,255,.07); color:#fff; border-color:rgba(255,255,255,.3)}
 .pill{background:rgba(255,255,255,.07); color:#fff}
 .pill.sel{background:#FFFDF8; color:#9B1627; border-color:#FFFDF8}
 .founder.sel,.choice.sel{border-color:#fff; background:rgba(255,255,255,.13); box-shadow:0 0 0 1px #fff, 0 0 24px rgba(255,255,255,.22)}
-.topbar{background:rgba(74,8,18,.78); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,.18); box-shadow:0 8px 28px rgba(0,0,0,.4)}
+.topbar{background:rgba(140,40,55,.78); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,.18); box-shadow:0 8px 28px rgba(0,0,0,.4)}
 .brand-logo{border:2px solid rgba(255,255,255,.75)}
 .stage-badge{background:#FFFDF8; color:#9B1627; box-shadow:0 4px 16px rgba(0,0,0,.35)}
 .top-stats b{color:#fff}
@@ -376,18 +376,18 @@ select.input option{background:#4A0812; color:#fff}
 .kpi .lbl{color:var(--text-2)}
 .meter{height:7px; background:rgba(255,255,255,.14)}
 .meter-row{font-size:12px}
-.tab-btn{background:rgba(255,255,255,.06); color:#F0DCC8}
+.tab-btn{background:rgba(255,255,255,.06); color:#FDE68A}
 .tab-btn:hover{color:#fff}
 .tab-btn.active{background:#FFFDF8; color:#9B1627; box-shadow:0 4px 18px rgba(0,0,0,.35)}
 .focus-dots i{background:rgba(255,255,255,.18)}
 .focus-dots i.on{background:#fff; box-shadow:0 0 10px rgba(255,255,255,.7)}
-.monitor-screen{background:linear-gradient(165deg, #9E1626 0%, #7A1020 60%, #5E0C18 100%)}
+.monitor-screen{background:linear-gradient(165deg, #BC4A5A 0%, #A83242 60%, #8A2230 100%)}
 .monitor{background:#0F0B10; border-color:#000}
-.modal-back{background:rgba(74,8,18,.66); backdrop-filter:blur(10px)}
+.modal-back{background:rgba(140,40,55,.55); backdrop-filter:blur(10px)}
 .teach{background:rgba(233,196,106,.14); border:1px solid rgba(233,196,106,.4); color:#fff}
 .note{background:rgba(255,255,255,.06)}
 .report-num{color:#fff}
-.toast{background:#FFFDF8; color:#1C1917; box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.toast{background:#FFFDF8; color:#9B1627; box-shadow:0 10px 30px rgba(0,0,0,.5)}
 .log-entry:hover{border-color:rgba(255,255,255,.6); background:rgba(255,255,255,.08)}
 .log-entry .rewind{color:var(--accent-ink)}
 .globe{border:3px solid rgba(255,255,255,.9); box-shadow:0 10px 30px rgba(0,0,0,.5), 0 0 24px rgba(0,0,0,.25)}
@@ -396,10 +396,12 @@ select.input option{background:#4A0812; color:#fff}
 .globe-end{background:#FFFDF8; color:#9B1627; border:3px solid #1C1917; box-shadow:0 12px 34px rgba(0,0,0,.5), 0 0 0 5px rgba(255,255,255,.22)}
 .pedia-btn{background:#FFFDF8; color:#9B1627; border:1px solid rgba(0,0,0,.3); box-shadow:0 4px 16px rgba(0,0,0,.4)}
 .pedia-search{background:rgba(255,255,255,.08); color:#fff; border-color:rgba(255,255,255,.3)}
-.pedia-az button{background:rgba(255,255,255,.07); color:#F0DCC8}
+.pedia-az button{background:rgba(255,255,255,.07); color:#FDE68A}
 .pedia-az button:hover{color:#fff; border-color:#fff}
 .pedia-term:hover{border-color:rgba(255,255,255,.6)}
-.ach-card{background:#FFFDF8; border:1px solid rgba(0,0,0,.2); border-radius:14px; box-shadow:0 12px 40px rgba(0,0,0,.35); overflow:hidden; text-align:left; color:#1C1917}
+.ach-card{background:#FFFDF8; border:1px solid rgba(0,0,0,.2); border-radius:14px; box-shadow:0 12px 40px rgba(0,0,0,.35); overflow:hidden; text-align:left; color:#9B1627}
+.ach-stat b{color:#9B1627}
+.ach-stat span{color:#8A4A52}
 .ach-head{background:var(--maroon-deep); color:#fff; padding:24px; text-align:center}
 .ach-head h1{color:#fff; margin-top:12px}
 .ach-stat{background:#F5EFE6}
@@ -431,6 +433,7 @@ a,.linklike{color:#FECDD3}
 #week-widgets{margin-top:10px}
 .widgets-empty{color:var(--text-2); font-size:13px; border:1px dashed rgba(255,255,255,.35); border-radius:var(--radius-s); padding:14px; text-align:center}
 .week-widget{display:flex; gap:11px; align-items:flex-start; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.16); border-radius:var(--radius-s); padding:11px 12px}
+.week-widget .ww-cat{display:block; font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--text-3); margin-bottom:2px}
 .ww-ico{width:32px; height:32px; flex:none; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:16px; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.25)}
 .ww-body{flex:1; min-width:0}
 .week-widget b{display:block; font-size:13.5px; margin-bottom:2px; color:#fff}
@@ -439,45 +442,36 @@ a,.linklike{color:#FECDD3}
 
 /* ---------- flashcard stack (This week's story) ---------- */
 .stack{position:relative; height:208px; cursor:pointer; margin-top:4px}
-.stack-card{position:absolute; top:0; left:0; right:0; height:176px; background:#FFFDF8; color:#1C1917; border:1px solid rgba(0,0,0,.25); border-radius:14px; box-shadow:0 14px 34px rgba(0,0,0,.4); padding:14px 16px; display:flex; gap:11px; align-items:flex-start; overflow:hidden; transition:transform .25s ease, box-shadow .25s ease}
+.stack-card{position:absolute; top:0; left:0; right:0; height:176px; background:#FFFDF8; color:#9B1627; border:1px solid rgba(0,0,0,.25); border-radius:14px; box-shadow:0 14px 34px rgba(0,0,0,.4); padding:14px 16px; display:flex; gap:11px; align-items:flex-start; overflow:hidden; transition:transform .25s ease, box-shadow .25s ease}
 .stack:hover .stack-card:first-child{transform:translateY(-3px) !important; box-shadow:0 18px 40px rgba(0,0,0,.5)}
 .stack-card .ww-ico{background:#FBEBEC; border-color:rgba(155,22,39,.3)}
-.stack-card b{display:block; font-size:15px; margin-bottom:4px; color:#1C1917}
-.stack-card span{display:block; font-size:13px; color:#57534E; line-height:1.5; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden}
-.stack-card .ww-tag{color:#A8A29E}
+.stack-card b{display:block; font-size:15px; margin-bottom:4px; color:#9B1627}
+.stack-card span{display:block; font-size:13px; color:#6B1F2A; line-height:1.5; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden}
+.stack-card .ww-cat{display:block; font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:#B4536A; margin-bottom:3px}
+.stack-card .ww-tag{color:#8A4A52}
 .stack-meta{display:flex; align-items:center; justify-content:space-between; margin-top:12px; font-size:12.5px; color:var(--text-2)}
 .stack-meta .stack-count{font-weight:700; color:#fff}
-.stack-meta .stack-browse{color:#FECDD3; font-weight:600}
+.stack-meta .stack-browse{color:#FDE68A; font-weight:600}
 
-/* ---------- stack viewer (expanded deck) ---------- */
-.stack-view{position:relative; max-width:640px; margin:0 auto; animation:stackExpand .35s cubic-bezier(.2,.9,.3,1.1) both}
-@keyframes stackExpand{from{opacity:0; transform:scale(.9) translateY(14px)} to{opacity:1; transform:none}}
-.stack-view.closing{animation:stackShrink .25s ease both}
-@keyframes stackShrink{to{opacity:0; transform:scale(.92) translateY(10px)}}
+/* ---------- stack viewer: all cards at once ---------- */
+.stack-view{position:relative; width:100%; max-width:960px; margin:0 auto; animation:stackExpand .35s cubic-bezier(.2,.9,.3,1.1) both}
+@keyframes stackExpand{from{opacity:0; transform:scale(.96) translateY(14px)} to{opacity:1; transform:none}}
+.stack-view.closing{animation:stackShrink .3s ease both}
+.stack-view.closing .stack-grid-card{transform:scale(.9); opacity:0}
+@keyframes stackShrink{to{opacity:0; transform:scale(.94) translateY(10px)}}
 .stack-close{position:absolute; top:-14px; right:-14px; z-index:5; width:38px; height:38px; border-radius:50%; background:#FFFDF8; color:#9B1627; border:2px solid #1C1917; font-size:19px; font-weight:800; line-height:1; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 18px rgba(0,0,0,.4)}
-.stack-stage{position:relative; overflow:hidden; padding:8px 0 4px; min-height:250px; display:flex; align-items:center; justify-content:center}
-.stack-view-card{width:min(480px, 86%); background:#FFFDF8; color:#1C1917; border:1px solid rgba(0,0,0,.25); border-radius:16px; box-shadow:0 20px 50px rgba(0,0,0,.5); padding:22px 24px; animation:stackCardIn .3s ease both}
-.stack-view-card.from-right{animation-name:stackCardInR}
-.stack-view-card.from-left{animation-name:stackCardInL}
-@keyframes stackCardIn{from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none}}
-@keyframes stackCardInR{from{opacity:0; transform:translateX(46px)} to{opacity:1; transform:none}}
-@keyframes stackCardInL{from{opacity:0; transform:translateX(-46px)} to{opacity:1; transform:none}}
-.stack-view-card .ww-ico{width:40px; height:40px; font-size:19px; background:#FBEBEC; border-color:rgba(155,22,39,.3)}
-.stack-view-card b{display:block; font-size:18px; margin-bottom:6px; color:#1C1917}
-.stack-view-card span{display:block; font-size:14.5px; color:#44403C; line-height:1.55}
-.stack-view-card b.term{color:#9B1627; border-bottom:1px dotted rgba(155,22,39,.5)}
+.stack-head{display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:4px}
+.stack-head h2{color:#fff; margin:2px 0 0}
+.stack-head .btn{flex:none; margin-top:4px}
+.stack-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:12px; margin-top:12px}
+.stack-grid-card{background:#FFFDF8; color:#9B1627; border:1px solid rgba(0,0,0,.25); border-radius:14px; box-shadow:0 12px 30px rgba(0,0,0,.4); padding:14px 16px; display:flex; gap:11px; align-items:flex-start; transition:transform .25s ease, opacity .25s ease}
+.stack-grid-card .ww-ico{width:36px; height:36px; font-size:18px; background:#FBEBEC; border-color:rgba(155,22,39,.3)}
+.stack-grid-card .ww-cat{display:block; font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:#B4536A; margin-bottom:3px}
+.stack-grid-card b{display:block; font-size:15px; margin-bottom:4px; color:#9B1627}
+.stack-grid-card span{display:block; font-size:13px; color:#6B1F2A; line-height:1.5}
+.stack-grid-card b.term{color:#9B1627; border-bottom:1px dotted rgba(155,22,39,.5)}
+.stack-grid-card .ww-tag{flex:none; font-size:10px; font-weight:700; letter-spacing:.06em; color:#8A4A52; text-transform:uppercase; padding-top:3px}
 .stack-card b.term{color:#9B1627; border-bottom:1px dotted rgba(155,22,39,.5)}
-.stack-peek{position:absolute; top:50%; right:0; transform:translate(52%,-50%); width:200px; background:#F5EFE6; color:#1C1917; border:1px solid rgba(0,0,0,.25); border-radius:14px; box-shadow:0 12px 30px rgba(0,0,0,.4); padding:14px; cursor:pointer; opacity:.92}
-.stack-peek:hover{opacity:1}
-.stack-peek b{display:block; font-size:13.5px; margin-bottom:3px}
-.stack-peek span{display:block; font-size:12px; color:#78716C; line-height:1.4; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden}
-.stack-arrow{position:absolute; top:50%; transform:translateY(-50%); z-index:4; width:42px; height:42px; border-radius:50%; background:#FFFDF8; color:#9B1627; border:2px solid #1C1917; font-size:20px; font-weight:800; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 18px rgba(0,0,0,.4)}
-.stack-arrow.left{left:2px}
-.stack-arrow.right{right:2px}
-.stack-foot{display:flex; align-items:center; justify-content:space-between; margin-top:14px; color:#fff; font-size:13px}
-.stack-dots{display:flex; gap:6px}
-.stack-dots i{width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,.3)}
-.stack-dots i.on{background:#fff}
 
 /* ---------- week folders ---------- */
 .folders-card{margin-top:12px}
@@ -502,9 +496,15 @@ a,.linklike{color:#FECDD3}
 .week-modal-stats .wms b{font-size:17px; color:#fff}
 #week-modal-widgets{display:flex; flex-direction:column; gap:9px; margin-top:6px}
 /* ---------- modal fix: opaque + wider (the translucent modal let the blurred dashboard ghost through) ---------- */
-.modal{background:linear-gradient(165deg,#8E1220,#6B0F1A); border:1px solid rgba(255,255,255,.3); box-shadow:0 24px 70px rgba(0,0,0,.55)}
+.modal{background:linear-gradient(165deg,#B43A4B,#9E2A3A); border:1px solid rgba(255,255,255,.3); box-shadow:0 24px 70px rgba(0,0,0,.55)}
 .modal.wide{max-width:860px}
 @media(max-width:920px){.modal.wide{max-width:calc(100vw - 32px)}}
+/* ---------- start page: exits preview ---------- */
+.exits-preview{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:6px}
+@media(max-width:820px){.exits-preview{grid-template-columns:1fr}}
+.exits-preview div{background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.18); border-radius:var(--radius-s); padding:11px 12px}
+.exits-preview b{display:block; font-size:13.5px; color:#fff; margin-bottom:3px}
+.exits-preview span{display:block; font-size:12.5px; color:var(--text-2); line-height:1.45}
 </style>
 </head>
 <body>
@@ -557,6 +557,16 @@ a,.linklike{color:#FECDD3}
         <p class="small muted" style="margin-top:10px">A full run takes about 30–45 minutes. Nothing is saved to a server — your run lives in this browser.</p>
         <p class="small"><button class="linklike" onclick="openGuide()">Read the Field Guide first</button> · <button class="linklike" onclick="loadSave()">Continue a saved run</button></p>
       </div>
+    </div>
+    <div class="setup-card">
+      <h2>4 · How a run ends — three ways out</h2>
+      <p class="sub">You can finish the run any week, once you qualify. There is no single right ending.</p>
+      <div class="exits-preview">
+        <div><b>💰 Sell the company</b><span>An acquirer buys you out. You need 800 users first. The price grows with your users and revenue.</span></div>
+        <div><b>📈 Go public (IPO)</b><span>List on the stock market. You need a Delaware C-Corp, $40,000 a month in revenue and 1,500 users.</span></div>
+        <div><b>🏠 Stay independent</b><span>Finish as a profitable company you own outright. You need your monthly revenue above your monthly burn.</span></div>
+      </div>
+      <p class="small muted" style="margin-top:10px">Build first, exit when you are ready. Every exit shows your final scorecard — the achievement card you can share.</p>
     </div>
     <p class="foot">Foothill Startup Launchpad · Educate phase · Built from the Startup Lifecycle Flowchart, “What is a startup” and “Startup Ecosystem”</p>
     </div><div class="monitor-neck"></div><div class="monitor-stand"></div></div>
@@ -640,7 +650,7 @@ a,.linklike{color:#FECDD3}
     </div>
   </div>
   <div id="start-hint" class="hidden"><span class="sh-arrow">↓</span><span><b>Start here</b> — your week, step by step</span></div>
-  <button class="globe globe-tasks" id="globe-tasks" onclick="openFlow()" title="Your week — next task">🌍<span class="globe-badge" id="globe-badge">8</span></button>
+  <button class="globe globe-tasks" id="globe-tasks" onclick="openFlow()" title="Your week — tasks waiting for you">‼️<span class="globe-badge" id="globe-badge">8</span></button>
   <button class="globe globe-end" id="globe-end" onclick="endWeekGlobe()" title="End the week">⏭<br>END<br>WEEK</button>
   </div>
 
@@ -730,19 +740,19 @@ a,.linklike{color:#FECDD3}
     <div class="wms"><label>Runway</label><b class="num" id="wm-runway">—</b></div>
   </div>
   <div id="week-modal-widgets"></div>
-  <div class="actions"><button class="btn btn-primary" onclick="closeWeekFolder()">Back to this week</button> <button class="btn" id="week-modal-rewind" onclick="rewindFromFolder()">↩ Rewind to this week</button></div>
+  <div class="actions"><button class="btn btn-primary" onclick="closeWeekFolder()">Back to this week</button> <button class="btn" id="week-modal-rewind" onclick="rewindFromFolder()">↩ Reload this week</button></div>
+  <p class="small muted" id="week-modal-reload-note" style="margin-top:8px">Reloading goes back to that week and starts a new branch. Every week after it is discarded.</p>
 </div></div>
 
-<!-- flashcard stack viewer -->
+<!-- flashcard stack viewer: all cards at once -->
 <div class="modal-back hidden" id="modal-stack"><div class="stack-view" id="stack-view">
-  <button class="stack-close" onclick="closeStack()" title="Stack the cards back">✕</button>
-  <div class="stack-stage" id="stack-stage">
-    <div id="stack-card-slot"></div>
-    <div class="stack-peek hidden" id="stack-peek" onclick="stackNav(1)"></div>
-    <button class="stack-arrow left hidden" id="stack-prev" onclick="stackNav(-1)" title="Previous card">←</button>
-    <button class="stack-arrow right hidden" id="stack-next" onclick="stackNav(1)" title="Next card">→</button>
+  <button class="stack-close" onclick="closeStack()" title="Back to dashboard">✕</button>
+  <div class="stack-head">
+    <div><div class="tiny muted">THIS WEEK'S STORY</div><h2 id="stack-title">Week 1 — your decisions</h2></div>
+    <button class="btn btn-primary btn-sm" onclick="closeStack()">← Back to dashboard</button>
   </div>
-  <div class="stack-foot"><span id="stack-counter"></span><span class="stack-dots" id="stack-dots"></span><span id="stack-week-label"></span></div>
+  <p class="small muted" id="stack-sub"></p>
+  <div class="stack-grid" id="stack-grid"></div>
 </div></div>
 
 <!-- event modal -->
@@ -1399,7 +1409,7 @@ function chooseEvent(evId, optIdx){
   if(qi>=0) S.queue.splice(qi,1);
   addLog(ev.title+" — "+o.label+".");
   var chips=(o.chips||[]).map(function(c){ return c[0]; }).filter(Boolean).join(" · ");
-  addWidget("event-"+ev.id, "👤", ev.title, "You chose: "+o.label+". "+(o.sub||"")+(chips?" ("+chips+")":""));
+  addWidget("event-"+ev.id, "👤", "Event", ev.title, "You chose: "+o.label+". "+(o.sub||"")+(chips?" ("+chips+")":""));
   $("ev-options").innerHTML='<div class="note" style="margin-top:12px"><b>Done.</b> '+esc(o.sub)+'</div><div class="actions"><button class="btn btn-primary" onclick="closeEvent()">Continue</button></div>';
   renderAll();
 }
@@ -1778,14 +1788,14 @@ function setOffice(id){
   S.office=id;
   var off=OFFICES.filter(function(o){ return o.id===id; })[0];
   addLog("Moved to: "+off.name+".");
-  addWidget("office", "🏢", "Moved to "+off.name, "Rent is "+money(off.cost)+"/mo — that's part of your burn now, and it changes how the team works.");
+  addWidget("office", "🏢", "Company", "Moved to "+off.name, "Rent is "+money(off.cost)+" a month. It adds to your burn and changes how the team works.");
   renderAll();
 }
 function choosePath(p){
   S.path=p;
   if(p==="vc" && S.entity==="llc"){ addLog("VC path chosen. You’ll need a Delaware C-Corp before a term sheet — Elena can convert you for $8k."); }
   else if(p==="bootstrap"){ addLog("Bootstrap path chosen. Profit and control are the goal — no board, no dilution."); }
-  addWidget("path", "🧭", "Picked a path", p==="vc"?"VC: grow fast, give up equity, answer to a board.":"Bootstrap: profit and control — no board, no dilution.");
+  addWidget("path", "🧭", "Strategy", "Picked a path", p==="vc"?"You chose venture capital. Grow fast, give up equity and answer to a board.":"You chose bootstrapping. Keep your profit and control. No board and no dilution.");
   renderAll();
 }
 function openRaiseBtn(){
@@ -1795,14 +1805,14 @@ function openRaiseBtn(){
   if(S.path==="bootstrap"){ toast("Bootstrap path: you fund growth from revenue. No raise needed."); return; }
   if(S.raise){ toast("Raise already open."); return; }
   openRaise();
-  addWidget("raise", "💰", "Seed raise opened", "Target $1.5M. Each Fundraise token moves the pipeline — partners, then a term sheet.");
+  addWidget("raise", "💰", "Fundraise", "Seed raise opened", "Your target is $1.5M. Each Fundraise token moves the pipeline from partners to a term sheet.");
   renderAll();
 }
 function convertEntity(){
   if(S.entity==="ccorp"){ toast("Already a Delaware C-Corp."); return; }
   if(S.cash<8000){ toast("Conversion costs $8,000 — you don’t have it yet."); return; }
   S.cash-=8000; S.buildDelay+=3; convertCorp();
-  addWidget("entity", "⚖️", "Delaware C-Corp", "Converted for $8,000. VCs can invest now; the QSBS clock is running.");
+  addWidget("entity", "⚖️", "Company", "Delaware C-Corp", "You converted for $8,000. VCs can invest now and the QSBS clock is running.");
   renderAll();
 }
 function doInterviews(){
@@ -1812,7 +1822,7 @@ function doInterviews(){
   var f=founderById(S.founder);
   S.interviews+=5; S.validation=clamp(S.validation+0.4*(f.interviewMult||1),0,5);
   addLog("Ran 5 customer interviews. Validation "+S.validation.toFixed(1)+"/5.");
-  addWidget("interviews", "🔍", "Customer interviews", "Ran 5 interviews. Validation "+S.validation.toFixed(1)+"/5 — "+(S.validation>=3?"the problem is real; building is no longer guessing.":"keep going: 10 interviews is the gate."));
+  addWidget("interviews", "🔍", "Validation", "Customer interviews", "You ran 5 interviews. Validation is "+S.validation.toFixed(1)+" out of 5. "+(S.validation>=3?"The problem is real. Building is no longer guessing.":"Keep going. 10 interviews is the gate."));
   renderAll();
 }
 function doLandingPage(){
@@ -1821,13 +1831,13 @@ function doLandingPage(){
   S.actionsUsed.landing=true; S.cash-=500;
   S.validation=clamp(S.validation+0.5,0,5); S.users+=10;
   addLog("Landing page test live: 10 signups, validation "+S.validation.toFixed(1)+"/5.");
-  addWidget("landing", "🌐", "Landing page test", "Live: 10 signups. Validation "+S.validation.toFixed(1)+"/5 — real interest beats a polite compliment.");
+  addWidget("landing", "🌐", "Validation", "Landing page test", "Your landing page is live with 10 signups. Validation is "+S.validation.toFixed(1)+" out of 5. Real interest beats a polite compliment.");
   renderAll();
 }
 function pursuePilot(){
   if(S.validation<3){ toast("A pilot needs validation ≥ 3 — buyers check references."); return; }
   var ev=EVENTS.filter(function(e){ return e.id==="e-dana-pilot"; })[0];
-  if(ev && !S.flags["e-dana-pilot"] && !S.queue.some(function(q){ return q.id==="e-dana-pilot"; })){ S.queue.push(ev); addWidget("pilot", "🤝", "Pursued a pilot", "Dana's team replied — the pilot conversation is open. It'll come up in the globe's next step."); renderAll(); toast("Dana’s team replied — the globe will bring it up."); }
+  if(ev && !S.flags["e-dana-pilot"] && !S.queue.some(function(q){ return q.id==="e-dana-pilot"; })){ S.queue.push(ev); addWidget("pilot", "🤝", "Customers", "Pursued a pilot", "Dana's team replied. The pilot conversation is open and the ‼️ button will bring it up next."); renderAll(); toast("Dana’s team replied. The ‼️ button will bring it up."); }
   else toast("Pilot conversation already open or done.");
 }
 function shipNow(){
@@ -1837,7 +1847,7 @@ function shipNow(){
   S.product.techDebt=clamp(S.product.techDebt+12,0,100);
   addTimeline("Shipped feature #"+S.product.features+" early — cut corners to beat the market.");
   addLog("Shipped early. Quality "+Math.round(S.product.quality)+", tech debt "+Math.round(S.product.techDebt)+".");
-  addWidget("ship", "🚢", "Shipped early", "Feature #"+S.product.features+" is live. Quality "+Math.round(S.product.quality)+", tech debt "+Math.round(S.product.techDebt)+" — shipping early cuts corners.");
+  addWidget("ship", "🚢", "Product", "Shipped early", "Feature #"+S.product.features+" is live. Quality is "+Math.round(S.product.quality)+" and tech debt is "+Math.round(S.product.techDebt)+". Shipping early cuts corners.");
   renderAll();
 }
 function hireCandidate(i){
@@ -1850,14 +1860,14 @@ function hireCandidate(i){
   S.morale=clamp(S.morale+3,0,100);
   addTimeline(p.name+" joined as "+p.role+".");
   S.candidates.splice(i,1);
-  addWidget("hire-"+p.name, "👋", "Hired "+p.name, p.role+" joined for "+money(p.salary)+"/mo. "+S.team.length+" people now — salaries are a line on your runway.");
+  addWidget("hire-"+p.name, "👋", "Team", "Hired "+p.name, p.role+" joined for "+money(p.salary)+" a month. You have "+S.team.length+" people now and salaries are a line on your runway.");
   renderAll();
 }
 function fireMember(i){
   var m=S.team.splice(i,1)[0];
   S.morale=clamp(S.morale-5,0,100);
   addLog("Let go of "+m.name+". The team noticed.");
-  addWidget("fire-"+m.name, "👋", "Let go of "+m.name, "The team noticed — morale dipped. A smaller team burns less, but trust takes time to rebuild.");
+  addWidget("fire-"+m.name, "👋", "Team", "Let go of "+m.name, "The team noticed and morale dipped. A smaller team burns less, but trust takes time to rebuild.");
   renderAll();
 }
 function exitEligible(type){
@@ -2016,10 +2026,10 @@ function renderCompany(){
     '<div class="action"><h3>Save &amp; restart</h3><p class="small">Your run auto-saves each week in this browser.</p><div class="row"><button class="btn btn-sm" onclick="saveGame()">Save now</button><button class="btn btn-sm" onclick="resetGame()">Restart run</button></div></div></div>'+
     '<div><h3>Cap table</h3>'+capRows+
     '<h3 style="margin-top:14px">Exits — how this run ends</h3>'+
-    '<p class="small muted" style="margin-bottom:10px">Picking an exit wraps up your run and shows your final scorecard — the week you are in ends there, and there is no going back to it. Build first, exit when you are ready.</p>'+
-    '<div class="action"><h3>Acquisition '+(canAcq?"":"· needs 800 users")+'</h3><p>Sell the company. The price depends on your users and revenue — and the liquidation preference decides who gets paid first.</p><div class="row"><button class="btn btn-sm" onclick="requestExit(\'acquisition\')" '+(canAcq?"":"disabled")+'>Sell the company</button></div></div>'+
-    '<div class="action"><h3>IPO '+(canIpo?"":"· needs C-Corp, $40k MRR, 1,500 users")+'</h3><p>Go public. The biggest outcome — and the longest road.</p><div class="row"><button class="btn btn-sm" onclick="requestExit(\'ipo\')" '+(canIpo?"":"disabled")+'>Go public</button></div></div>'+
-    '<div class="action"><h3>Stay independent '+(canOp?"":"· needs profit")+'</h3><p>Finish as a profitable company you own outright — no acquirer, no IPO, just the business paying you. An equal win, and the run wraps up here.</p><div class="row"><button class="btn btn-sm" onclick="requestExit(\'operate\')" '+(canOp?"":"disabled")+'>Stay independent</button></div></div>'+
+    '<p class="small muted" style="margin-bottom:10px">Picking an exit wraps up your run and shows your final scorecard. The week you are in ends there, and there is no going back to it. Build first, exit when you are ready. You can exit any time you qualify.</p>'+
+    '<div class="action"><h3>Acquisition '+(canAcq?"· ready":"· needs 800 users")+'</h3><p>Sell the company to an acquirer. You have '+S.users.toLocaleString()+' of the 800 users you need.'+(canAcq?" An acquirer is ready to talk, and the price right now is about "+money(finalValuation("acquisition"))+".":" The price grows with your users and revenue.")+' The liquidation preference decides who gets paid first.</p><div class="row"><button class="btn btn-sm" onclick="requestExit(\'acquisition\')" '+(canAcq?"":"disabled")+'>Sell the company</button></div></div>'+
+    '<div class="action"><h3>IPO '+(canIpo?"· ready":"· not yet")+'</h3><p>Go public and list on the stock market. You need three things: a Delaware C-Corp ('+(S.entity==="ccorp"?"you are one":"you are an LLC, convert in the Entity box above")+'), $40,000 a month in revenue (you are at '+money(mrr())+'), and 1,500 users (you have '+S.users.toLocaleString()+').'+(canIpo?" You qualify.":"")+'</p><div class="row"><button class="btn btn-sm" onclick="requestExit(\'ipo\')" '+(canIpo?"":"disabled")+'>Go public</button></div></div>'+
+    '<div class="action"><h3>Stay independent '+(canOp?"· ready":"· needs profit")+'</h3><p>Finish as a profitable company you own outright. No acquirer, no IPO, just the business paying you. You need your monthly revenue above your monthly burn. Right now it is '+money(mrr())+' revenue vs '+money(monthlyBurn())+' burn.'+(canOp?" You qualify.":"")+' An equal win, and the run wraps up here.</p><div class="row"><button class="btn btn-sm" onclick="requestExit(\'operate\')" '+(canOp?"":"disabled")+'>Stay independent</button></div></div>'+
     (S.pendingExit?'<div class="note" style="margin-top:10px"><b>You are about to '+(S.pendingExit==="acquisition"?"sell the company":S.pendingExit==="ipo"?"go public":"stay independent")+'.</b> '+esc(exitConfirmText(S.pendingExit))+' This wraps up the run — your final scorecard shows next.<div class="row" style="margin-top:8px"><button class="btn btn-primary btn-sm" onclick="confirmExit()">Yes, do it</button><button class="btn btn-sm" onclick="cancelExit()">Not yet</button></div></div>':"")+'</div></div>';
 }
 function renderPanels(){
@@ -2398,15 +2408,15 @@ function openFlow(){
 }
 function flowNext(){
   var doneStep=FLOW_STEPS[flowIdx];
-  if(doneStep==="plan") addWidget("plan", "📋", "This week's plan", planWidgetText());
-  else if(doneStep && doneStep!=="people" && TAB_WIDGET_META[doneStep]) addWidget(doneStep, TAB_WIDGET_META[doneStep][0], TAB_WIDGET_META[doneStep][1], tabWidgetText(doneStep));
+  if(doneStep==="plan") addWidget("plan", "📋", "Plan", "This week's plan", planWidgetText());
+  else if(doneStep && doneStep!=="people" && TAB_WIDGET_META[doneStep]) addWidget(doneStep, TAB_WIDGET_META[doneStep][0], TAB_WIDGET_META[doneStep][1], TAB_WIDGET_META[doneStep][2], tabWidgetText(doneStep));
   restorePanels();
   flowIdx++;
   if(flowIdx>=FLOW_STEPS.length){
     $("modal-flow").classList.add("hidden");
     flowOn=false;
     renderAll();
-    toast("Week planned — hit the End Week globe when you're ready.");
+    toast("Week planned. Hit End Week when you're ready.");
     return;
   }
   renderAll();
@@ -2447,21 +2457,31 @@ function loadArchive(){
   try{ var a=readStore("spark-weeks-v2"); if(a && typeof a==="object") WEEK_ARCHIVE=a; }catch(e){}
 }
 function saveArchive(){ try{ store("spark-weeks-v2", WEEK_ARCHIVE); }catch(e){} }
-function widgetHtml(x, week){
-  return '<div class="week-widget"><div class="ww-ico">'+x.icon+'</div><div class="ww-body"><b>'+linkifyText(x.title)+'</b><span>'+linkifyText(x.text)+'</span></div><span class="ww-tag">W'+(week||(S?S.week:1))+'</span></div>';
+function cleanWidgetText(t){
+  return String(t||"")
+    .replace(/ — ([a-z])/g, function(m,c){ return ". "+c.toUpperCase(); })
+    .replace(/\s—\s/g, ". ")
+    .replace(/—/g, ", ")
+    .replace(/\.(\s*\.)+/g, ".")
+    .replace(/\s{2,}/g, " ")
+    .trim();
 }
-function addWidget(key, icon, title, text){
+function widgetHtml(x, week){
+  return '<div class="week-widget"><div class="ww-ico">'+x.icon+'</div><div class="ww-body">'+(x.cat?'<span class="ww-cat">'+esc(x.cat)+'</span>':"")+'<b>'+linkifyText(x.title)+'</b><span>'+linkifyText(x.text)+'</span></div><span class="ww-tag">W'+(week||(S?S.week:1))+'</span></div>';
+}
+function addWidget(key, icon, cat, title, text){
   if(!S) return;
   if(!S.weekWidgets) S.weekWidgets=[];
+  var w={key:key,icon:icon,cat:cat||"",title:title,text:cleanWidgetText(text)};
   var found=false;
-  for(var i=0;i<S.weekWidgets.length;i++) if(S.weekWidgets[i].key===key){ S.weekWidgets[i]={key:key,icon:icon,title:title,text:text}; found=true; break; }
-  if(!found) S.weekWidgets.push({key:key,icon:icon,title:title,text:text});
+  for(var i=0;i<S.weekWidgets.length;i++) if(S.weekWidgets[i].key===key){ S.weekWidgets[i]=w; found=true; break; }
+  if(!found) S.weekWidgets.push(w);
   if(S.weekWidgets.length>12) S.weekWidgets.shift();
   renderWidgets();
 }
 function stackCardHtml(x, week, depth){
   var off=depth*8, sc=1-depth*0.045, rot=depth===0?0:(depth%2?0.8:-0.8);
-  return '<div class="stack-card" style="z-index:'+(10-depth)+'; transform:translateY('+off+'px) scale('+sc+') rotate('+rot+'deg); opacity:'+(1-depth*0.12)+'"><div class="ww-ico">'+x.icon+'</div><div class="ww-body"><b>'+linkifyText(x.title)+'</b><span>'+linkifyText(x.text)+'</span></div><span class="ww-tag">W'+week+'</span></div>';
+  return '<div class="stack-card" style="z-index:'+(10-depth)+'; transform:translateY('+off+'px) scale('+sc+') rotate('+rot+'deg); opacity:'+(1-depth*0.12)+'"><div class="ww-ico">'+x.icon+'</div><div class="ww-body">'+(x.cat?'<span class="ww-cat">'+esc(x.cat)+'</span>':"")+'<b>'+linkifyText(x.title)+'</b><span>'+linkifyText(x.text)+'</span></div><span class="ww-tag">W'+week+'</span></div>';
 }
 function renderWidgets(){
   var w=$("week-widgets"); if(!w || !S) return;
@@ -2479,63 +2499,44 @@ function renderWidgets(){
   w.innerHTML='<div class="stack">'+shown.map(function(x,i){ return stackCardHtml(x, S.week, i); }).join("")+'</div>';
   if(meta) meta.innerHTML='<span class="stack-count">'+list.length+' card'+(list.length===1?"":"s")+' this week</span><span class="stack-browse">Tap the deck to browse →</span>';
 }
-var stackIdx=0, stackDir=1;
+function stackGridCardHtml(x, week){
+  return '<div class="stack-grid-card"><div class="ww-ico">'+x.icon+'</div><div class="ww-body">'+(x.cat?'<span class="ww-cat">'+esc(x.cat)+'</span>':"")+'<b>'+linkifyText(x.title)+'</b><span>'+linkifyText(x.text)+'</span></div><span class="ww-tag">W'+week+'</span></div>';
+}
 function openStack(){
   if(!S || !(S.weekWidgets||[]).length){ toast("Nothing in the deck yet — make a decision first."); return; }
-  stackIdx=0; stackDir=1;
-  renderStackView();
+  var list=S.weekWidgets;
+  $("stack-title").textContent="Week "+S.week+" · Your decisions";
+  $("stack-sub").textContent=list.length+" decision"+(list.length===1?"":"s")+" this week, in the order you made them.";
+  $("stack-grid").innerHTML=list.map(function(x){ return stackGridCardHtml(x, S.week); }).join("");
   var v=$("stack-view"); if(v) v.classList.remove("closing");
   $("modal-stack").classList.remove("hidden");
 }
 function closeStack(){
   var v=$("stack-view");
-  if(v){ v.classList.add("closing"); setTimeout(function(){ $("modal-stack").classList.add("hidden"); v.classList.remove("closing"); }, 240); }
+  if(v){ v.classList.add("closing"); setTimeout(function(){ $("modal-stack").classList.add("hidden"); v.classList.remove("closing"); }, 280); }
   else $("modal-stack").classList.add("hidden");
 }
-function stackNav(dir){
-  var list=(S&&S.weekWidgets)||[];
-  var n=stackIdx+dir;
-  if(n<0 || n>=list.length) return;
-  stackIdx=n; stackDir=dir;
-  renderStackView();
-}
-function renderStackView(){
-  var list=(S&&S.weekWidgets)||[];
-  var x=list[stackIdx]; if(!x) return;
-  var slot=$("stack-card-slot");
-  slot.innerHTML='<div class="stack-view-card'+(stackDir>0?" from-right":" from-left")+'"><div style="display:flex; gap:11px; align-items:flex-start"><div class="ww-ico">'+x.icon+'</div><div class="ww-body"><b>'+linkifyText(x.title)+'</b><span>'+linkifyText(x.text)+'</span></div><span class="ww-tag">W'+S.week+'</span></div></div>';
-  var peek=$("stack-peek");
-  var next=list[stackIdx+1];
-  if(next){ peek.classList.remove("hidden"); peek.innerHTML='<b>'+linkifyText(next.title)+'</b><span>'+linkifyText(next.text)+'</span>'; }
-  else peek.classList.add("hidden");
-  $("stack-prev").classList.toggle("hidden", stackIdx===0);
-  $("stack-next").classList.toggle("hidden", stackIdx>=list.length-1);
-  $("stack-counter").textContent="Card "+(stackIdx+1)+" of "+list.length;
-  $("stack-week-label").textContent="Week "+S.week+" · "+list.length+" decisions";
-  var dots="";
-  for(var i=0;i<list.length;i++) dots+='<i class="'+(i===stackIdx?"on":"")+'"></i>';
-  $("stack-dots").innerHTML=dots;
-}
 function tabWidgetText(step){
-  if(step==="validate") return "Validation "+S.validation.toFixed(1)+"/5 · "+S.interviews+" interviews — "+(S.validation>=3?"the problem is real; building is no longer guessing.":"keep talking to customers before you build.");
-  if(step==="product") return "Feature #"+(S.product.features+1)+" is "+Math.round(S.product.progress)+"% built · Quality "+Math.round(S.product.quality)+" · Tech debt "+Math.round(S.product.techDebt)+" — "+(S.product.techDebt>50?"debt is slowing you down; a fix week would help.":"the product is holding up.");
-  if(step==="team") return S.team.length+" teammate"+(S.team.length===1?"":"s")+" · Morale "+Math.round(S.morale)+" — "+(S.morale<40?"the team is hurting; rest or a win would help.":"the team is steady.");
-  if(step==="fundraise") return "Path: "+(S.path==="vc"?"VC":S.path==="bootstrap"?"Bootstrap":"not picked yet")+(S.raise?" · Seed raise open — stage "+S.raise.stage+"/5":" · No raise open")+" · You own "+Math.round(S.cap.founder)+"% — "+(S.raise?"the pipeline moves with Fundraise tokens.":"pick a path first, then raise.");
-  if(step==="customers") return S.users.toLocaleString()+" users · "+money(S.price)+"/mo · Churn "+S.churn.toFixed(1)+"% — "+(S.stage>=4?"product-market fit: users stay and pay.":"not yet product-market fit — retention is the job.");
-  if(step==="company") return "Entity: "+(S.entity==="ccorp"?"Delaware C-Corp":"LLC")+" · Office: "+OFFICES.filter(function(o){ return o.id===S.office; })[0].name+" · Runway "+(runway()>=99?"∞":runway().toFixed(1)+" mo")+" — "+(runway()<3?"cash is the emergency now.":"cash is comfortable.");
+  if(step==="validate") return "Validation is "+S.validation.toFixed(1)+" out of 5 after "+S.interviews+" interviews. "+(S.validation>=3?"The problem is real, so building is no longer guessing.":"Keep talking to customers before you build.");
+  if(step==="product") return "Feature #"+(S.product.features+1)+" is "+Math.round(S.product.progress)+"% built with quality "+Math.round(S.product.quality)+" and tech debt "+Math.round(S.product.techDebt)+". "+(S.product.techDebt>50?"Debt is slowing you down, so a fix week would help.":"The product is holding up.");
+  if(step==="team") return "You have "+S.team.length+" teammate"+(S.team.length===1?"":"s")+" and morale is "+Math.round(S.morale)+". "+(S.morale<40?"The team is hurting, so rest or a win would help.":"The team is steady.");
+  if(step==="fundraise") return "Your path is "+(S.path==="vc"?"VC":S.path==="bootstrap"?"Bootstrap":"not picked yet")+". "+(S.raise?"Your seed raise is open at stage "+S.raise.stage+" of 5 and you own "+Math.round(S.cap.founder)+"%.":"No raise is open. Pick a path first, then raise.");
+  if(step==="customers") return "You have "+S.users.toLocaleString()+" users at "+money(S.price)+" a month with "+S.churn.toFixed(1)+"% churn. "+(S.stage>=4?"You have product-market fit, so users stay and pay.":"No product-market fit yet, so retention is the job.");
+  if(step==="company"){ var rw=runway()>=99?"unlimited runway":runway().toFixed(1)+" months of runway"; return "You are a "+(S.entity==="ccorp"?"Delaware C-Corp":"LLC")+" working from the "+OFFICES.filter(function(o){ return o.id===S.office; })[0].name+" with "+rw+". "+(runway()<3?"Cash is the emergency now.":"Cash is comfortable."); }
   return "";
 }
-var TAB_WIDGET_META={ validate:["🔍","Validation"], product:["🛠️","Product"], team:["👥","Team"], fundraise:["💰","Fundraise"], customers:["🎯","Customers"], company:["🏢","Company"] };
+var TAB_WIDGET_META={ validate:["🔍","Validation","What customers told you"], product:["🛠️","Product","What you built"], team:["👥","Team","How the team is doing"], fundraise:["💰","Fundraise","Where the money stands"], customers:["🎯","Customers","How customers are doing"], company:["🏢","Company","How the company stands"] };
 function planWidgetText(){
   var f=S.focus;
   var parts=[];
-  ["validate","build","sell","hire","raise","rest"].forEach(function(k){ if(f[k]>0) parts.push(FOCUS.filter(function(x){ return x.id===k; })[0].name+" ×"+f[k]); });
+  ["validate","build","sell","hire","raise","rest"].forEach(function(k){ if(f[k]>0) parts.push(f[k]+" token"+(f[k]>1?"s":"")+" on "+FOCUS.filter(function(x){ return x.id===k; })[0].name); });
   var tf=TEAM_FOCUS.filter(function(t){ return t.id===S.teamFocus; })[0];
-  return parts.join(" · ")+" — team: "+(tf?tf.name.toLowerCase():"")+". Price "+money(S.price)+"/mo · Marketing "+money(S.marketing)+"/mo. Your time is set for the week.";
+  var alloc=parts.length?parts.join(" and "):"your 6 tokens";
+  return "You placed "+alloc+". Your team is set to "+(tf?tf.name.toLowerCase():"work")+". Price is "+money(S.price)+" a month and marketing is "+money(S.marketing)+" a month.";
 }
 function archiveWeek(w){
   if(!S) return;
-  var entry={ week:w, widgets:(S.weekWidgets||[]).map(function(x){ return {icon:x.icon,title:x.title,text:x.text}; }),
+  var entry={ week:w, widgets:(S.weekWidgets||[]).map(function(x){ return {icon:x.icon,cat:x.cat,title:x.title,text:x.text}; }),
     cash:Math.round(S.cash), mrr:mrr(), users:S.users, runway:runway(), stage:S.stage, energy:Math.round(S.energy) };
   WEEK_ARCHIVE[w]=entry;
   var keys=Object.keys(WEEK_ARCHIVE).map(Number).sort(function(a,b){ return a-b; });
@@ -2566,7 +2567,10 @@ function openWeekFolder(w){
     $("wm-runway").textContent=a.runway>=99?"∞":a.runway.toFixed(1)+" mo";
     var box=$("week-modal-widgets");
     box.innerHTML=a.widgets.length?a.widgets.map(function(x){ return widgetHtml(x, w); }).join(""):'<p class="widgets-empty">No decisions were recorded this week — just the numbers.</p>';
-    var rw=$("week-modal-rewind"); if(rw) rw.style.display=SNAPS[w]?"":"none";
+    var rw=$("week-modal-rewind");
+    var rn=$("week-modal-reload-note");
+    if(rw){ rw.style.display=SNAPS[w]?"":"none"; if(SNAPS[w]) rw.textContent="↩ Reload Week "+w+" — play it again"; }
+    if(rn) rn.style.display=SNAPS[w]?"":"none";
     $("modal-week").classList.remove("hidden");
   });
 }
@@ -2585,6 +2589,18 @@ function updateStartHint(){
 
 /* ---- snapshots / time travel ---- */
 var SNAPS={}, SNAP_WEEKS=[];
+function loadSnaps(){
+  try{ var d=readStore("spark-snaps-v2"); if(d && d.snaps && typeof d.snaps==="object"){ SNAPS=d.snaps; SNAP_WEEKS=(d.weeks||Object.keys(SNAPS).map(Number)).filter(function(w){ return SNAPS[w]; }); } }catch(e){}
+}
+function saveSnaps(){
+  try{ store("spark-snaps-v2", {snaps:SNAPS, weeks:SNAP_WEEKS}); }
+  catch(e){
+    try{ var keep=SNAP_WEEKS.slice(-8), s2={};
+      keep.forEach(function(w){ s2[w]=SNAPS[w]; });
+      store("spark-snaps-v2", {snaps:s2, weeks:keep});
+    }catch(e2){}
+  }
+}
 function takeSnapshot(){
   if(!S) return;
   try{
@@ -2592,6 +2608,7 @@ function takeSnapshot(){
     SNAPS[w]=JSON.stringify(S);
     SNAP_WEEKS.push(w);
     while(SNAP_WEEKS.length>40){ var old=SNAP_WEEKS.shift(); delete SNAPS[old]; }
+    saveSnaps();
   }catch(e){}
 }
 function restoreWeek(w){
@@ -2599,6 +2616,10 @@ function restoreWeek(w){
   showLoader("LAUNCHING WEEK "+w+'…', 900, function(){
     try{ S=JSON.parse(SNAPS[w]); }catch(e){ toast("Couldn't rewind to that week."); return; }
     for(var i=SNAP_WEEKS.length-1;i>=0;i--){ if(SNAP_WEEKS[i]>w){ delete SNAPS[SNAP_WEEKS[i]]; SNAP_WEEKS.splice(i,1); } }
+    saveSnaps();
+    var aw=Object.keys(WEEK_ARCHIVE).map(Number);
+    for(var j=0;j<aw.length;j++){ if(aw[j]>=w) delete WEEK_ARCHIVE[aw[j]]; }
+    saveArchive(); renderFolders();
     S.ended=false;
     flowIdx=0; flowOn=false;
     store("spark-save-v2", { state:S });
@@ -2794,6 +2815,7 @@ function closeGuide(){ $("modal-guide").classList.add("hidden"); }
   var a=$("ach-logo"); if(a) a.src=LOGO512;
   logoImg.src=LOGO512;
   loadArchive();
+  loadSnaps();
 })();
 renderSetup();
 </script>
