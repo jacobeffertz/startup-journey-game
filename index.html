@@ -19,15 +19,19 @@
 <style>
 :root{
   --canvas:#A83242; --surface:rgba(140,40,55,.55); --surface-2:rgba(140,40,55,.55); --hairline:rgba(255,255,255,.18); --hairline-2:rgba(255,255,255,.35);
-  --text:#FFFFFF; --text-2:#FDE68A; --text-3:#FEF3C7;
-  --accent:#FDE68A; --accent-soft:rgba(253,230,138,.14); --accent-ink:#FEF3C7;
+  --text:#FFFFFF; --text-2:#FDA4AF; --text-3:#FECDD3;
+  --accent:#FB7185; --accent-soft:rgba(251,113,133,.14); --accent-ink:#FECDD3;
   --maroon:#9B1627; --maroon-deep:#7A2230; --maroon-soft:rgba(255,255,255,.08);
-  --good:#FDE68A; --good-soft:rgba(253,230,138,.14); --bad:#FFFFFF; --bad-soft:rgba(255,255,255,.14);
-  --warn:#FDE68A; --warn-soft:rgba(253,230,138,.14);
-  --cyan:#E9C46A; --violet:#F0D9A8;
+  --good:#86EFAC; --good-soft:rgba(134,239,172,.14); --bad:#FCA5A5; --bad-soft:rgba(252,165,165,.14);
+  --warn:#FDE68A; --warn-soft:rgba(253,230,138,.14); /* traffic-light scale ONLY: meter fills, energy low, price slider */
+  --cyan:#16A34A; --violet:#FECDD3;
   --radius:14px; --radius-s:9px;
   --shadow:0 10px 30px rgba(0,0,0,.35);
 }
+/* ---- welcome page: every word white on crimson (no yellow) ---- */
+#screen-setup{--text-2:#FFFFFF; --text-3:#FFFFFF; --accent:#FFFFFF; --accent-ink:#FFFFFF; --warn:#FFFFFF}
+#screen-setup a, #screen-setup .linklike{color:#FFFFFF}
+#screen-setup .pill.sel .muted{color:#9B1627}
 *{box-sizing:border-box; margin:0; padding:0}
 html{-webkit-text-size-adjust:100%}
 body{
@@ -45,7 +49,7 @@ input,select{font-family:inherit}
 .num{font-variant-numeric:tabular-nums}
 .mono{font-family:"JetBrains Mono",ui-monospace,monospace}
 .muted{color:var(--text-2)} .small{font-size:12px} .tiny{font-size:11px}
-.up{color:var(--good)} .down{color:var(--bad)} .flat{color:var(--text-3)}
+.up{color:#FFFFFF} .down{color:var(--bad)} .flat{color:var(--text-3)}
 a{color:var(--accent)}
 .wrap{max-width:1280px; margin:0 auto; padding:0 16px 64px}
 .hidden{display:none !important}
@@ -76,7 +80,7 @@ a{color:var(--accent)}
 .founder .who span{font-size:12px; color:var(--text-2)}
 .founder .trait{font-size:12.5px; color:var(--text-2); margin:2px 0}
 .founder .trait b{color:var(--text); font-weight:600}
-.founder .trade{font-size:12px; color:var(--warn); margin-top:6px}
+.founder .trade{font-size:12px; color:var(--text-2); margin-top:6px}
 .sector-row{display:flex; flex-wrap:wrap; gap:8px}
 .pill{border:1px solid var(--hairline-2); background:#fff; border-radius:999px; padding:6px 14px; font-size:13px; font-weight:500}
 .pill.sel{border-color:var(--accent); background:var(--accent-soft); color:var(--accent-ink)}
@@ -137,7 +141,7 @@ a{color:var(--accent)}
 .q-sub{font-size:12px; color:var(--text-2)}
 .q-tag{margin-left:auto; flex:none; font-size:11px; font-weight:600; border-radius:999px; padding:2px 8px}
 .tag-red{background:var(--bad-soft); color:var(--bad)}
-.tag-amber{background:var(--warn-soft); color:var(--warn)}
+.tag-amber{background:rgba(251,113,133,.14); color:#FB7185}
 .tag-blue{background:var(--accent-soft); color:var(--accent-ink)}
 .tag-grey{background:var(--surface-2); color:var(--text-2)}
 .tag-green{background:var(--good-soft); color:var(--good)}
@@ -171,6 +175,7 @@ select.input, input.input{padding:8px 10px; border:1px solid var(--hairline-2); 
 .slider-row{display:flex; align-items:center; gap:12px; margin:10px 0}
 .slider-row label{width:150px; font-size:13px; font-weight:500; flex:none}
 .slider-row input[type=range]{flex:1; accent-color:var(--accent)}
+.slider-row input[type=range].price-range{accent-color:var(--price-accent,#86EFAC)}
 .slider-row .sval{width:64px; text-align:right; font-weight:600; font-size:13px}
 
 /* ---------- tabs ---------- */
@@ -302,7 +307,7 @@ table.data td.r, table.data th.r{text-align:right}
 @keyframes pulse{0%,100%{box-shadow:0 10px 28px rgba(0,0,0,.3),0 0 0 0 rgba(155,22,39,.45)}50%{box-shadow:0 10px 28px rgba(0,0,0,.3),0 0 0 12px rgba(155,22,39,0)}}
 .globe.spinning{animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.globe-badge{position:absolute;top:-6px;right:-6px;min-width:22px;height:22px;border-radius:99px;background:#FDE68A;color:#9B1627;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 5px;border:2px solid #fff}
+.globe-badge{position:absolute;top:-6px;right:-6px;min-width:22px;height:22px;border-radius:99px;background:var(--accent);color:#FFFFFF;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 5px;border:2px solid #fff}
 .flow-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
 .flow-steps{display:flex;gap:5px;margin:12px 0 16px}
 .flow-steps i{flex:1;height:5px;border-radius:99px;background:#E7E5E4}
@@ -323,7 +328,7 @@ b.term:hover{background:var(--accent-soft)}
 .ach-head{background:var(--maroon-deep);color:#fff;padding:24px;text-align:center}
 .ach-head img{width:92px;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.35)}
 .ach-head h1{color:#fff;margin-top:12px}
-.ach-head p{color:#FEF3C7;margin:6px 0 0}
+.ach-head p{color:#FECDD3;margin:6px 0 0}
 .ach-body{padding:20px 24px}
 .ach-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
 @media(max-width:640px){.ach-stats{grid-template-columns:repeat(2,1fr)}}
@@ -354,7 +359,7 @@ body{
   border-radius:var(--radius);
 }
 .card{position:relative; overflow:hidden}
-.card::before{content:""; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg, transparent, rgba(255,255,255,.55), rgba(233,196,106,.55), transparent); opacity:.8; pointer-events:none}
+.card::before{content:""; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg, transparent, rgba(255,255,255,.55), rgba(251,113,133,.55), transparent); opacity:.8; pointer-events:none}
 .btn{background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.35); color:#fff}
 .btn:hover{border-color:#fff}
 .btn-primary{background:#FFFDF8; border:1px solid rgba(0,0,0,.35); color:#9B1627; box-shadow:0 6px 22px rgba(0,0,0,.35)}
@@ -371,12 +376,24 @@ select.input option{background:#7A2230; color:#fff}
 .top-stats b{color:#fff}
 .top-stats .val{text-shadow:0 2px 10px rgba(0,0,0,.35)}
 .energy-bar{background:rgba(255,255,255,.18)}
-.energy-fill{background:linear-gradient(90deg,#F0D9A8,#E9C46A)}
+.energy-fill{background:linear-gradient(90deg,#FFFFFF,#FDA4AF)}
 .kpi b{color:#fff; text-shadow:0 2px 12px rgba(0,0,0,.35)}
 .kpi .lbl{color:var(--text-2)}
 .meter{height:7px; background:rgba(255,255,255,.14)}
 .meter-row{font-size:12px}
-.tab-btn{background:rgba(255,255,255,.06); color:#FDE68A}
+/* ---- chart card: beige-white surface, crimson text, dark chart lines ---- */
+.chart-card{background:#FFFDF8; color:#9B1627; border:1px solid rgba(0,0,0,.2)}
+.chart-card h2{color:#9B1627}
+.chart-card h2 b.term{color:#9B1627; border-bottom:1px dotted rgba(155,22,39,.5)}
+.chart-card .sub{color:#6B1F2A}
+.chart-card .chart-legend{color:#6B1F2A}
+.chart-card .meter-row .mlbl{color:#6B1F2A}
+.chart-card .meter-val{color:#9B1627}
+.chart-card .meter{background:rgba(0,0,0,.08)}
+.chart-card .meter .fill.good{background:#16A34A}
+.chart-card .meter .fill.warn{background:#EAB308}
+.chart-card .meter .fill.bad{background:#DC2626}
+.tab-btn{background:rgba(255,255,255,.06); color:var(--text-2)}
 .tab-btn:hover{color:#fff}
 .tab-btn.active{background:#FFFDF8; color:#9B1627; box-shadow:0 4px 18px rgba(0,0,0,.35)}
 .focus-dots i{background:rgba(255,255,255,.18)}
@@ -384,7 +401,7 @@ select.input option{background:#7A2230; color:#fff}
 .monitor-screen{background:linear-gradient(165deg, #BC4A5A 0%, #A83242 60%, #8A2230 100%)}
 .monitor{background:#0F0B10; border-color:#000}
 .modal-back{background:rgba(140,40,55,.55); backdrop-filter:blur(10px)}
-.teach{background:rgba(233,196,106,.14); border:1px solid rgba(233,196,106,.4); color:#fff}
+.teach{background:rgba(251,113,133,.14); border:1px solid rgba(251,113,133,.4); color:#fff}
 .note{background:rgba(255,255,255,.06)}
 .report-num{color:#fff}
 .toast{background:#FFFDF8; color:#9B1627; box-shadow:0 10px 30px rgba(0,0,0,.5)}
@@ -396,7 +413,7 @@ select.input option{background:#7A2230; color:#fff}
 .globe-end{background:#FFFDF8; color:#9B1627; border:3px solid #1C1917; box-shadow:0 12px 34px rgba(0,0,0,.5), 0 0 0 5px rgba(255,255,255,.22)}
 .pedia-btn{background:#FFFDF8; color:#9B1627; border:1px solid rgba(0,0,0,.3); box-shadow:0 4px 16px rgba(0,0,0,.4)}
 .pedia-search{background:rgba(255,255,255,.08); color:#fff; border-color:rgba(255,255,255,.3)}
-.pedia-az button{background:rgba(255,255,255,.07); color:#FDE68A}
+.pedia-az button{background:rgba(255,255,255,.07); color:var(--text-2)}
 .pedia-az button:hover{color:#fff; border-color:#fff}
 .pedia-term:hover{border-color:rgba(255,255,255,.6)}
 .ach-card{background:#FFFDF8; border:1px solid rgba(0,0,0,.2); border-radius:14px; box-shadow:0 12px 40px rgba(0,0,0,.35); overflow:hidden; text-align:left; color:#9B1627}
@@ -409,12 +426,12 @@ select.input option{background:#7A2230; color:#fff}
 .share-btn{background:#fff; color:#1C1917; border:1px solid #D6D3D1}
 .share-btn.liked{background:#9B1627; color:#fff; border-color:#9B1627}
 .stage-track{background:rgba(255,255,255,.18)}
-.stage-track i{background:linear-gradient(90deg,#fff,#E9C46A)}
+.stage-track i{background:linear-gradient(90deg,#fff,#FB7185)}
 .fstat{background:rgba(255,255,255,.06)}
 .capbar{background:rgba(255,255,255,.14)}
 .flow-steps i{background:rgba(255,255,255,.18)}
 .flow-steps i.done{background:#fff}
-.flow-steps i.now{background:#E9C46A}
+.flow-steps i.now{background:var(--accent)}
 .data th{background:rgba(255,255,255,.06)}
 .queue-item{border-color:rgba(255,255,255,.18)}
 .queue-item:hover{border-color:rgba(255,255,255,.6); background:rgba(255,255,255,.08)}
@@ -436,8 +453,9 @@ a,.linklike{color:#FECDD3}
 .week-widget .ww-cat{display:block; font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--text-3); margin-bottom:2px}
 .ww-ico{width:32px; height:32px; flex:none; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:16px; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.25)}
 .ww-body{flex:1; min-width:0}
-.week-widget b{display:block; font-size:13.5px; margin-bottom:2px; color:#fff}
-.week-widget span{display:block; font-size:12.5px; color:var(--text-2); line-height:1.45}
+.week-widget .ww-title{display:block; font-size:13.5px; margin-bottom:2px; color:#fff}
+.week-widget .ww-text{display:block; font-size:12.5px; color:var(--text-2); line-height:1.45}
+.week-widget .ww-text b{font-weight:700; color:inherit}
 .ww-tag{flex:none; font-size:10px; font-weight:700; letter-spacing:.06em; color:var(--text-3); text-transform:uppercase; padding-top:3px}
 
 /* ---------- flashcard stack (This week's story) ---------- */
@@ -445,13 +463,14 @@ a,.linklike{color:#FECDD3}
 .stack-card{position:absolute; top:0; left:0; right:0; height:176px; background:#FFFDF8; color:#9B1627; border:1px solid rgba(0,0,0,.25); border-radius:14px; box-shadow:0 14px 34px rgba(0,0,0,.4); padding:14px 16px; display:flex; gap:11px; align-items:flex-start; overflow:hidden; transition:transform .25s ease, box-shadow .25s ease}
 .stack:hover .stack-card:first-child{transform:translateY(-3px) !important; box-shadow:0 18px 40px rgba(0,0,0,.5)}
 .stack-card .ww-ico{background:#FBEBEC; border-color:rgba(155,22,39,.3)}
-.stack-card b{display:block; font-size:15px; margin-bottom:4px; color:#9B1627}
-.stack-card span{display:block; font-size:13px; color:#6B1F2A; line-height:1.5; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden}
+.stack-card .ww-title{display:block; font-size:15px; margin-bottom:4px; color:#9B1627}
+.stack-card .ww-text{display:block; font-size:13px; color:#6B1F2A; line-height:1.5; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden}
+.stack-card .ww-text b{font-weight:700; color:inherit}
 .stack-card .ww-cat{display:block; font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:#B4536A; margin-bottom:3px}
 .stack-card .ww-tag{color:#8A4A52}
 .stack-meta{display:flex; align-items:center; justify-content:space-between; margin-top:12px; font-size:12.5px; color:var(--text-2)}
 .stack-meta .stack-count{font-weight:700; color:#fff}
-.stack-meta .stack-browse{color:#FDE68A; font-weight:600}
+.stack-meta .stack-browse{color:var(--text-2); font-weight:600}
 
 /* ---------- stack viewer: all cards at once ---------- */
 .stack-view{position:relative; width:100%; max-width:960px; margin:0 auto; animation:stackExpand .35s cubic-bezier(.2,.9,.3,1.1) both}
@@ -467,11 +486,11 @@ a,.linklike{color:#FECDD3}
 .stack-grid-card{background:#FFFDF8; color:#9B1627; border:1px solid rgba(0,0,0,.25); border-radius:14px; box-shadow:0 12px 30px rgba(0,0,0,.4); padding:14px 16px; display:flex; gap:11px; align-items:flex-start; transition:transform .25s ease, opacity .25s ease}
 .stack-grid-card .ww-ico{width:36px; height:36px; font-size:18px; background:#FBEBEC; border-color:rgba(155,22,39,.3)}
 .stack-grid-card .ww-cat{display:block; font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:#B4536A; margin-bottom:3px}
-.stack-grid-card b{display:block; font-size:15px; margin-bottom:4px; color:#9B1627}
-.stack-grid-card span{display:block; font-size:13px; color:#6B1F2A; line-height:1.5}
-.stack-grid-card b.term{color:#9B1627; border-bottom:1px dotted rgba(155,22,39,.5)}
+.stack-grid-card .ww-title{display:block; font-size:15px; margin-bottom:4px; color:#9B1627}
+.stack-grid-card .ww-text{display:block; font-size:13px; color:#6B1F2A; line-height:1.5}
+.stack-grid-card .ww-text b{font-weight:700; color:inherit}
 .stack-grid-card .ww-tag{flex:none; font-size:10px; font-weight:700; letter-spacing:.06em; color:#8A4A52; text-transform:uppercase; padding-top:3px}
-.stack-card b.term{color:#9B1627; border-bottom:1px dotted rgba(155,22,39,.5)}
+
 
 /* ---------- week folders ---------- */
 .folders-card{margin-top:12px}
@@ -614,7 +633,7 @@ a,.linklike{color:#FECDD3}
       <div class="card chart-card">
         <h2><b class="term" onclick="openTerm('cash');return false;">Cash</b> &amp; <b class="term" onclick="openTerm('revenue');return false;">revenue</b></h2>
         <p class="sub">Your runway is the story of the company. Watch what happens after a raise, a hire, or a rival's launch.</p>
-        <div class="chart-legend"><span><i style="background:#FFFFFF"></i>Cash</span><span><i style="background:#E9C46A"></i>Monthly revenue</span></div>
+        <div class="chart-legend"><span><i style="background:#9B1627"></i>Cash</span><span><i style="background:#16A34A"></i>Monthly revenue</span></div>
         <canvas id="chart" width="640" height="140" style="width:100%; height:140px"></canvas>
         <div id="meters"></div>
       </div>
@@ -1781,7 +1800,13 @@ function alloc(id, d){
   S.focus[id]+=d; renderPanels();
 }
 function setTeamFocus(id){ S.teamFocus=id; renderPanels(); }
-function setPrice(v){ S.price=parseInt(v,10)||29; var e=$("price-val"); if(e) e.textContent=money(S.price)+"/mo"; }
+function setPrice(v){ S.price=parseInt(v,10)||29; var e=$("price-val"); if(e) e.textContent=money(S.price)+"/mo"; updatePriceAccent(); }
+/* price slider: traffic-light accent — green $29-$69, yellow under $29, red over $69 */
+function updatePriceAccent(){
+  if(!S) return;
+  var c = S.price < 29 ? "#FDE68A" : S.price > 69 ? "#FCA5A5" : "#86EFAC";
+  if(document.documentElement && document.documentElement.style) document.documentElement.style.setProperty("--price-accent", c);
+}
 function setMarketing(v){ S.marketing=parseInt(v,10)||0; var e=$("mkt-val"); if(e) e.textContent=money(S.marketing)+"/mo"; }
 function setChannel(id){ S.channel=id; renderPanels(); }
 function setOffice(id){
@@ -1928,7 +1953,7 @@ function renderPlan(){
     '<select class="input" onchange="setTeamFocus(this.value)">';
   for(var j=0;j<TEAM_FOCUS.length;j++) html+='<option value="'+TEAM_FOCUS[j].id+'"'+(S.teamFocus===TEAM_FOCUS[j].id?" selected":"")+'>'+esc(TEAM_FOCUS[j].name)+' — '+esc(TEAM_FOCUS[j].desc)+'</option>';
   html+='</select>';
-  html+='<div class="slider-row"><label>Price</label><input type="range" min="9" max="99" step="1" value="'+S.price+'" oninput="setPrice(this.value)"><span class="sval" id="price-val">'+money(S.price)+'/mo</span></div>';
+  html+='<div class="slider-row"><label>Price</label><input type="range" class="price-range" min="9" max="99" step="1" value="'+S.price+'" oninput="setPrice(this.value)"><span class="sval" id="price-val">'+money(S.price)+'/mo</span></div>';
   html+='<div class="slider-row"><label>Marketing spend</label><input type="range" min="0" max="5000" step="250" value="'+S.marketing+'" oninput="setMarketing(this.value)"><span class="sval" id="mkt-val">'+money(S.marketing)+'/mo</span></div>';
   html+='<div class="note"><b>Runway right now: '+(runway()>=99?"∞":runway().toFixed(1)+" months")+'.</b> Burn is '+money(monthlyBurn())+'/mo against '+money(mrr())+' revenue. If runway falls under 3 months, the Fundraise tab becomes the job.</div>';
   html+='<div class="note"><b>Stage gate:</b> '+stageGateText()+'</div></div></div>';
@@ -2006,7 +2031,7 @@ function renderCustomers(){
   $("panel-customers").innerHTML='<div class="panel-grid"><div>'+
     '<div class="action"><h3>Acquisition channel</h3><p>'+CHANNELS.filter(function(c){ return c.id===S.channel; })[0].desc+'</p><div class="row">'+chs+'</div></div>'+
     '<div class="action"><h3>Price — '+money(S.price)+'/mo per user</h3><p>CAC vs gross profit per customer is the equation. If acquisition costs more than a customer ever pays, growth is a leak.</p>'+
-    '<div class="slider-row"><label>Price</label><input type="range" min="9" max="99" step="1" value="'+S.price+'" oninput="setPrice(this.value)"><span class="sval">'+money(S.price)+'/mo</span></div></div></div>'+
+    '<div class="slider-row"><label>Price</label><input type="range" class="price-range" min="9" max="99" step="1" value="'+S.price+'" oninput="setPrice(this.value)"><span class="sval">'+money(S.price)+'/mo</span></div></div></div>'+
     '<div><div class="note"><b>Product-market fit: '+(pmf?"YES ✓":"not yet")+'</b><br>'+S.users+' users (need 150) · churn '+S.churn.toFixed(1)+'% (need ≤ 7%). PMF is retention, not signups.</div>'+
     '<div class="note"><b>Monthly revenue '+money(mrr())+'</b> = '+S.users.toLocaleString()+' users × '+money(S.price)+' + '+money(S.contractMRR)+' contracts.</div>'+
     '<div class="note"><b>Churn ' + S.churn.toFixed(1) + '%/mo</b> — driven by product quality ('+Math.round(S.product.quality)+') and tech debt ('+Math.round(S.product.techDebt)+'). Support focus and bug-fix weeks bring it down.</div></div></div>';
@@ -2080,8 +2105,8 @@ function drawChart(){
       ctx.fillStyle=fill; ctx.fill();
     }
   }
-  line("cash","#FFFFFF","rgba(255,255,255,0.10)");
-  line("mrr","#E9C46A",null);
+  line("cash","#9B1627","rgba(155,22,39,0.08)");
+  line("mrr","#16A34A",null);
 }
 function renderMeters(){
   var m="";
@@ -2123,6 +2148,7 @@ function animateNum(el, to, fmtFn){
 }
 function renderAll(){
   if(!S) return;
+  updatePriceAccent();
   $("tb-stage").textContent=STAGE_NAMES[STAGES[S.stage]];
   $("tb-week").textContent="WEEK "+S.week;
   var sf=$("stage-fill"); if(sf) sf.style.width=(S.stage/5*100)+"%";
@@ -2149,7 +2175,7 @@ function renderAll(){
   $("k-runway-d").className="delta num "+(rw<3?"down":rw<6?"":"up");
   var hist=S.history;
   drawSpark("sp-cash", hist.map(function(h){ return h.cash; }), "#FFFFFF");
-  drawSpark("sp-mrr", hist.map(function(h){ return h.mrr; }), "#E9C46A");
+  drawSpark("sp-mrr", hist.map(function(h){ return h.mrr; }), "#86EFAC");
   drawSpark("sp-users", hist.map(function(h){ return h.users; }), "#FDA4AF");
   drawChart();
   renderMeters();
@@ -2284,6 +2310,11 @@ function linkifyHtml(html){
   return out;
 }
 function linkifyText(s){ return linkifyHtml(esc(s)); }
+/* flashcards: terms stay bold but are NOT links — bold terms must stay inline so the sentence flows */
+function boldTerms(s){
+  if(!s || !TERM_RE) return esc(s);
+  return esc(s).replace(TERM_RE, function(m){ return '<b>'+m+'</b>'; });
+}
 
 /* ---- loader ---- */
 var loaderTimer=null;
@@ -2467,7 +2498,7 @@ function cleanWidgetText(t){
     .trim();
 }
 function widgetHtml(x, week){
-  return '<div class="week-widget"><div class="ww-ico">'+x.icon+'</div><div class="ww-body">'+(x.cat?'<span class="ww-cat">'+esc(x.cat)+'</span>':"")+'<b>'+linkifyText(x.title)+'</b><span>'+linkifyText(x.text)+'</span></div><span class="ww-tag">W'+(week||(S?S.week:1))+'</span></div>';
+  return '<div class="week-widget"><div class="ww-ico">'+x.icon+'</div><div class="ww-body">'+(x.cat?'<span class="ww-cat">'+esc(x.cat)+'</span>':"")+'<b class="ww-title">'+boldTerms(x.title)+'</b><span class="ww-text">'+boldTerms(x.text)+'</span></div><span class="ww-tag">W'+(week||(S?S.week:1))+'</span></div>';
 }
 function addWidget(key, icon, cat, title, text){
   if(!S) return;
@@ -2481,7 +2512,7 @@ function addWidget(key, icon, cat, title, text){
 }
 function stackCardHtml(x, week, depth){
   var off=depth*8, sc=1-depth*0.045, rot=depth===0?0:(depth%2?0.8:-0.8);
-  return '<div class="stack-card" style="z-index:'+(10-depth)+'; transform:translateY('+off+'px) scale('+sc+') rotate('+rot+'deg); opacity:'+(1-depth*0.12)+'"><div class="ww-ico">'+x.icon+'</div><div class="ww-body">'+(x.cat?'<span class="ww-cat">'+esc(x.cat)+'</span>':"")+'<b>'+linkifyText(x.title)+'</b><span>'+linkifyText(x.text)+'</span></div><span class="ww-tag">W'+week+'</span></div>';
+  return '<div class="stack-card" style="z-index:'+(10-depth)+'; transform:translateY('+off+'px) scale('+sc+') rotate('+rot+'deg); opacity:'+(1-depth*0.12)+'"><div class="ww-ico">'+x.icon+'</div><div class="ww-body">'+(x.cat?'<span class="ww-cat">'+esc(x.cat)+'</span>':"")+'<b class="ww-title">'+boldTerms(x.title)+'</b><span class="ww-text">'+boldTerms(x.text)+'</span></div><span class="ww-tag">W'+week+'</span></div>';
 }
 function renderWidgets(){
   var w=$("week-widgets"); if(!w || !S) return;
@@ -2500,7 +2531,7 @@ function renderWidgets(){
   if(meta) meta.innerHTML='<span class="stack-count">'+list.length+' card'+(list.length===1?"":"s")+' this week</span><span class="stack-browse">Tap the deck to browse →</span>';
 }
 function stackGridCardHtml(x, week){
-  return '<div class="stack-grid-card"><div class="ww-ico">'+x.icon+'</div><div class="ww-body">'+(x.cat?'<span class="ww-cat">'+esc(x.cat)+'</span>':"")+'<b>'+linkifyText(x.title)+'</b><span>'+linkifyText(x.text)+'</span></div><span class="ww-tag">W'+week+'</span></div>';
+  return '<div class="stack-grid-card"><div class="ww-ico">'+x.icon+'</div><div class="ww-body">'+(x.cat?'<span class="ww-cat">'+esc(x.cat)+'</span>':"")+'<b class="ww-title">'+boldTerms(x.title)+'</b><span class="ww-text">'+boldTerms(x.text)+'</span></div><span class="ww-tag">W'+week+'</span></div>';
 }
 function openStack(){
   if(!S || !(S.weekWidgets||[]).length){ toast("Nothing in the deck yet — make a decision first."); return; }
