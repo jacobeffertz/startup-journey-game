@@ -32,6 +32,22 @@
 #screen-setup{--text-2:#FFFFFF; --text-3:#FFFFFF; --accent:#FFFFFF; --accent-ink:#FFFFFF; --warn:#FFFFFF}
 #screen-setup a, #screen-setup .linklike{color:#FFFFFF}
 #screen-setup .pill.sel .muted{color:#9B1627}
+#screen-setup .muted{color:#FFFFFF}
+#screen-setup .founder .who b{color:#FFFFFF}
+#screen-setup .founder .who span{color:#FFFFFF}
+#screen-setup .founder .trade{color:#FFFFFF}
+#screen-setup .fstat b, #screen-setup .fstat span{color:#FFFFFF}
+/* ---- startupopedia: every word white ---- */
+#screen-pedia{color:#FFFFFF}
+#screen-pedia .setup-hero p{color:#FFFFFF}
+#screen-pedia h3{color:#FFFFFF}
+#screen-pedia .muted{color:#FFFFFF}
+#screen-pedia .pedia-search{color:#FFFFFF}
+#screen-pedia .pedia-search::placeholder{color:#FFFFFF; opacity:.8}
+#screen-pedia .pedia-az button{color:#FFFFFF}
+#screen-pedia .pedia-term{color:#FFFFFF}
+#screen-pedia .pedia-term b{color:#FFFFFF}
+#screen-pedia .pedia-term span{color:#FFFFFF}
 *{box-sizing:border-box; margin:0; padding:0}
 html{-webkit-text-size-adjust:100%}
 body{
@@ -44,7 +60,7 @@ h1{font-size:24px; font-weight:600}
 h2{font-size:16px; font-weight:600}
 h3{font-size:13px; font-weight:600}
 p{margin:0 0 8px}
-button{font-family:inherit; cursor:pointer}
+button{font-family:inherit; cursor:pointer; color:inherit}
 input,select{font-family:inherit}
 .num{font-variant-numeric:tabular-nums}
 .mono{font-family:"JetBrains Mono",ui-monospace,monospace}
@@ -86,7 +102,8 @@ a{color:var(--accent)}
 .pill.sel{border-color:var(--accent); background:var(--accent-soft); color:var(--accent-ink)}
 .field{margin-top:14px}
 .field label{display:block; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.04em; color:var(--text-2); margin-bottom:5px}
-.field input[type=text]{width:100%; max-width:360px; padding:9px 12px; border:1px solid var(--hairline-2); border-radius:var(--radius-s); font-size:14px}
+.field input[type=text]{width:100%; max-width:360px; padding:9px 12px; border:1px solid var(--hairline-2); border-radius:var(--radius-s); font-size:14px; color:#9B1627}
+.field input[type=text]::placeholder{color:rgba(155,22,39,.5)}
 .cta-row{margin-top:22px; text-align:center}
 .btn{display:inline-block; border:1px solid var(--hairline-2); background:#fff; color:var(--text); border-radius:var(--radius-s); padding:9px 16px; font-size:14px; font-weight:600}
 .btn:hover{border-color:var(--text-3)}
@@ -261,7 +278,7 @@ table.data td.r, table.data th.r{text-align:right}
 .mon-dots i:nth-child(2){background:#febc2e}
 .mon-dots i:nth-child(3){background:#28c840}
 .mon-title{font-weight:700;letter-spacing:.12em;font-size:11px}
-.mon-led{display:flex;align-items:center;gap:7px;font-size:11px;letter-spacing:.1em;color:#a3a3a3}
+.mon-led{display:flex;align-items:center;gap:7px;font-size:11px;letter-spacing:.1em;color:#FFFFFF}
 .mon-led i{width:8px;height:8px;border-radius:50%;background:#34d399;box-shadow:0 0 8px #34d399}
 .monitor-neck{width:64px;height:14px;margin:0 auto;background:#1b1b1b}
 .monitor-stand{width:220px;height:10px;margin:0 auto;background:#1b1b1b;border-radius:0 0 12px 12px}
@@ -300,7 +317,7 @@ table.data td.r, table.data th.r{text-align:right}
 .log-entry:hover .rewind{opacity:1}
 @media(max-width:900px){.civ-grid{grid-template-columns:1fr}.log-rail{position:static}.log-rail .log{max-height:260px}}
 .globe{position:fixed;z-index:40;border-radius:50%;border:3px solid #fff;box-shadow:0 10px 28px rgba(0,0,0,.3);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-weight:700}
-.globe-tasks{left:18px;bottom:18px;width:58px;height:58px;background:#1C1917;font-size:26px}
+.globe-tasks{left:18px;bottom:18px;width:58px;height:58px;background:#FFFDF8;font-size:26px}
 .globe-tasks.done{background:var(--good)}
 .globe-end{right:18px;bottom:18px;width:70px;height:70px;background:var(--accent);font-size:11px;letter-spacing:.05em;text-align:center;line-height:1.3}
 .globe-end.ready{animation:pulse 1.6s ease-in-out infinite}
@@ -343,7 +360,7 @@ b.term:hover{background:var(--accent-soft)}
 .share-btn.liked{background:var(--accent);color:#9B1627;border-color:var(--accent)}
 .share-btn.ig{background:linear-gradient(45deg,#F58529,#DD2A7B,#8134AF);color:#fff;border:none}
 .share-btn.in{background:#0A66C2;color:#fff;border:none}
-.share-btn.gh{background:#1C1917;color:#fff;border:none}
+.share-btn.gh{background:#9B1627;color:#fff;border:none}
 /* ---------- crimson fill theme: crimson background, white text, beige accents, black outlines ---------- */
 body{
   background:
@@ -408,9 +425,9 @@ select.input option{background:#7A2230; color:#fff}
 .log-entry:hover{border-color:rgba(255,255,255,.6); background:rgba(255,255,255,.08)}
 .log-entry .rewind{color:var(--accent-ink)}
 .globe{border:3px solid rgba(255,255,255,.9); box-shadow:0 10px 30px rgba(0,0,0,.5), 0 0 24px rgba(0,0,0,.25)}
-.globe-tasks{background:#1C1917}
+.globe-tasks{background:#FFFDF8}
 .globe-badge{background:#9B1627; color:#fff; border-color:#fff}
-.globe-end{background:#FFFDF8; color:#9B1627; border:3px solid #1C1917; box-shadow:0 12px 34px rgba(0,0,0,.5), 0 0 0 5px rgba(255,255,255,.22)}
+.globe-end{background:#FFFDF8; color:#9B1627; border:3px solid #9B1627; box-shadow:0 12px 34px rgba(0,0,0,.5), 0 0 0 5px rgba(255,255,255,.22)}
 .pedia-btn{background:#FFFDF8; color:#9B1627; border:1px solid rgba(0,0,0,.3); box-shadow:0 4px 16px rgba(0,0,0,.4)}
 .pedia-search{background:rgba(255,255,255,.08); color:#fff; border-color:rgba(255,255,255,.3)}
 .pedia-az button{background:rgba(255,255,255,.07); color:var(--text-2)}
@@ -423,7 +440,7 @@ select.input option{background:#7A2230; color:#fff}
 .ach-head h1{color:#fff; margin-top:12px}
 .ach-stat{background:#F5EFE6}
 .ach-top5 li{border-color:#E7E5E4}
-.share-btn{background:#fff; color:#1C1917; border:1px solid #D6D3D1}
+.share-btn{background:#fff; color:#9B1627; border:1px solid #D6D3D1}
 .share-btn.liked{background:#9B1627; color:#fff; border-color:#9B1627}
 .stage-track{background:rgba(255,255,255,.18)}
 .stage-track i{background:linear-gradient(90deg,#fff,#FB7185)}
@@ -478,7 +495,7 @@ a,.linklike{color:#FECDD3}
 .stack-view.closing{animation:stackShrink .3s ease both}
 .stack-view.closing .stack-grid-card{transform:scale(.9); opacity:0}
 @keyframes stackShrink{to{opacity:0; transform:scale(.94) translateY(10px)}}
-.stack-close{position:absolute; top:-14px; right:-14px; z-index:5; width:38px; height:38px; border-radius:50%; background:#FFFDF8; color:#9B1627; border:2px solid #1C1917; font-size:19px; font-weight:800; line-height:1; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 18px rgba(0,0,0,.4)}
+.stack-close{position:absolute; top:-14px; right:-14px; z-index:5; width:38px; height:38px; border-radius:50%; background:#FFFDF8; color:#9B1627; border:2px solid #9B1627; font-size:19px; font-weight:800; line-height:1; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 18px rgba(0,0,0,.4)}
 .stack-head{display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:4px}
 .stack-head h2{color:#fff; margin:2px 0 0}
 .stack-head .btn{flex:none; margin-top:4px}
@@ -503,7 +520,7 @@ a,.linklike{color:#FECDD3}
 .week-pill .wp-sub{margin-left:auto; font-size:11px; color:var(--text-2); font-weight:500}
 
 /* ---------- start-here hint (weeks 1-2) ---------- */
-#start-hint{position:fixed; left:18px; bottom:96px; z-index:39; display:flex; align-items:center; gap:10px; background:#FFFDF8; border:2px solid #1C1917; border-radius:999px; padding:9px 16px 9px 12px; font-size:13px; color:#1C1917; box-shadow:0 10px 30px rgba(0,0,0,.45); backdrop-filter:blur(8px)}
+#start-hint{position:fixed; left:18px; bottom:96px; z-index:39; display:flex; align-items:center; gap:10px; background:#FFFDF8; border:2px solid #9B1627; border-radius:999px; padding:9px 16px 9px 12px; font-size:13px; color:#9B1627; box-shadow:0 10px 30px rgba(0,0,0,.45); backdrop-filter:blur(8px)}
 #start-hint .sh-arrow{font-size:19px; color:#9B1627; animation:shBounce 1.1s ease-in-out infinite}
 @keyframes shBounce{0%,100%{transform:translateY(0)} 50%{transform:translateY(4px)}}
 #start-hint b{color:#9B1627}
@@ -1265,6 +1282,8 @@ function pickSector(id){
   var pills=document.querySelectorAll("#sector-row .pill");
   for(var i=0;i<pills.length;i++) pills[i].classList.toggle("sel", pills[i].dataset.id===id);
 }
+/* founder stat bars: traffic-light by rating — green 80+, yellow 60-79, red under 60 */
+function statColor(v){ return v>=80 ? "#86EFAC" : v>=60 ? "#FDE68A" : "#FCA5A5"; }
 function renderSetup(){
   var g=$("founder-grid"); var html="";
   for(var i=0;i<FOUNDERS.length;i++){
@@ -1272,7 +1291,7 @@ function renderSetup(){
     html+='<button class="founder'+(sel.founder===f.id?" sel":"")+'" data-id="'+f.id+'" onclick="pickFounder(\''+f.id+'\')">';
     html+='<div class="who"><div class="avatar" style="background:'+f.color+'">'+f.initials+'</div><div><b>'+esc(f.name)+', '+f.age+'</b><span>'+esc(f.role)+'</span></div></div>';
     html+='<div class="small muted">'+esc(f.bio)+'</div>';
-    html+='<div class="fstats">'+[["Network",f.stats.net],["Build",f.stats.build],["Hustle",f.stats.hustle]].map(function(s){ return '<div class="fstat"><b>'+s[0]+'</b><div class="fbar"><i style="width:'+s[1]+'%"></i></div><span>'+s[1]+'</span></div>'; }).join("")+'</div>';
+    html+='<div class="fstats">'+[["Network",f.stats.net],["Build",f.stats.build],["Hustle",f.stats.hustle]].map(function(s){ return '<div class="fstat"><b>'+s[0]+'</b><div class="fbar"><i style="width:'+s[1]+'%; background:'+statColor(s[1])+'"></i></div><span>'+s[1]+'</span></div>'; }).join("")+'</div>';
     for(var j=0;j<f.traits.length;j++) html+='<div class="trait"><b>'+esc(f.traits[j][0])+':</b> '+esc(f.traits[j][1])+'</div>';
     html+='<div class="trade">Trade-off: '+esc(f.trade)+'</div></button>';
   }
@@ -2727,7 +2746,7 @@ function drawAchCard(cb){
   var cv=document.createElement("canvas"); cv.width=1080; cv.height=1350;
   var ctx=cv.getContext("2d");
   if(!ctx){ toast("Couldn't make the image in this browser."); return; }
-  ctx.fillStyle="#7A1020"; ctx.fillRect(0,0,1080,1350);
+  ctx.fillStyle="#9B1627"; ctx.fillRect(0,0,1080,1350);
   ctx.fillStyle="#FFFFFF";
   roundRect(ctx, 60, 60, 960, 1230, 28); ctx.fill();
   var fired=false;
@@ -2741,33 +2760,33 @@ function drawAchCard(cb){
         ctx.restore();
       }
     }catch(e){}
-    ctx.fillStyle="#1C1917"; ctx.textAlign="center";
+    ctx.fillStyle="#9B1627"; ctx.textAlign="center";
     ctx.font="800 54px Inter, system-ui, sans-serif";
     ctx.fillText("FROM SPARK TO STARTUP", 540, 480);
     ctx.font="700 44px Inter, system-ui, sans-serif";
-    ctx.fillStyle="#7A1020";
+    ctx.fillStyle="#9B1627";
     ctx.fillText(($("end-title").textContent||"You exited"), 540, 550);
     ctx.font="400 30px Inter, system-ui, sans-serif";
-    ctx.fillStyle="#57534E";
+    ctx.fillStyle="#6B1F2A";
     ctx.fillText("Week "+S.week+"  ·  Valuation "+moneyK(S.exitValue||0)+"  ·  "+S.users.toLocaleString()+" users", 540, 610);
     ctx.fillStyle="#E7E5E4"; ctx.fillRect(140, 660, 800, 2);
     ctx.textAlign="left";
     ctx.font="700 30px Inter, system-ui, sans-serif";
-    ctx.fillStyle="#1C1917";
+    ctx.fillStyle="#9B1627";
     ctx.fillText("5 STRONGEST METRICS", 140, 720);
     var top=topMetrics();
     for(var i=0;i<top.length;i++){
       var y=780+i*64;
       ctx.font="400 30px Inter, system-ui, sans-serif";
-      ctx.fillStyle="#57534E"; ctx.fillText(top[i].label, 140, y);
-      ctx.fillStyle="#1C1917"; ctx.textAlign="right"; ctx.font="700 30px Inter, system-ui, sans-serif";
+      ctx.fillStyle="#6B1F2A"; ctx.fillText(top[i].label, 140, y);
+      ctx.fillStyle="#9B1627"; ctx.textAlign="right"; ctx.font="700 30px Inter, system-ui, sans-serif";
       ctx.fillText(top[i].value, 940, y);
       ctx.textAlign="left";
     }
     ctx.fillStyle="#E7E5E4"; ctx.fillRect(140, 1130, 800, 2);
-    ctx.fillStyle="#7A1020"; ctx.textAlign="center"; ctx.font="700 28px Inter, system-ui, sans-serif";
+    ctx.fillStyle="#9B1627"; ctx.textAlign="center"; ctx.font="700 28px Inter, system-ui, sans-serif";
     ctx.fillText("Play it: jacobeffertz.github.io/startup-journey-game", 540, 1190);
-    ctx.fillStyle="#A8A29E"; ctx.font="400 24px Inter, system-ui, sans-serif";
+    ctx.fillStyle="#B4536A"; ctx.font="400 24px Inter, system-ui, sans-serif";
     ctx.fillText("Foothill Startup Launchpad", 540, 1230);
     cb(cv);
   };
