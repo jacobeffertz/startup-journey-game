@@ -501,6 +501,10 @@ a,.linklike{color:#FECDD3}
 .week-modal-stats .wms label{display:block; font-size:10px; font-weight:700; letter-spacing:.07em; color:var(--text-3); text-transform:uppercase}
 .week-modal-stats .wms b{font-size:17px; color:#fff}
 #week-modal-widgets{display:flex; flex-direction:column; gap:9px; margin-top:6px}
+/* ---------- modal fix: opaque + wider (the translucent modal let the blurred dashboard ghost through) ---------- */
+.modal{background:linear-gradient(165deg,#8E1220,#6B0F1A); border:1px solid rgba(255,255,255,.3); box-shadow:0 24px 70px rgba(0,0,0,.55)}
+.modal.wide{max-width:860px}
+@media(max-width:920px){.modal.wide{max-width:calc(100vw - 32px)}}
 </style>
 </head>
 <body>
