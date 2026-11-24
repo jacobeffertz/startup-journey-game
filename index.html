@@ -18,15 +18,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --canvas:#0B060A; --surface:#17101A; --surface-2:#201420; --hairline:rgba(255,255,255,.09); --hairline-2:rgba(255,255,255,.17);
-  --text:#F7F1F4; --text-2:#C9B6C1; --text-3:#8E7A88;
-  --accent:#F43F5E; --accent-soft:rgba(244,63,94,.14); --accent-ink:#FDA4AF;
-  --maroon:#9B1627; --maroon-deep:#7A1020; --maroon-soft:rgba(155,22,39,.4);
-  --good:#34D399; --good-soft:rgba(52,211,153,.12); --bad:#F87171; --bad-soft:rgba(248,113,113,.12);
-  --warn:#FBBF24; --warn-soft:rgba(251,191,36,.12);
-  --cyan:#22D3EE; --violet:#A855F7;
+  --canvas:#7A1020; --surface:rgba(74,8,18,.6); --surface-2:rgba(94,12,24,.6); --hairline:rgba(255,255,255,.18); --hairline-2:rgba(255,255,255,.35);
+  --text:#FFFFFF; --text-2:#F0DCC8; --text-3:#D9BFA6;
+  --accent:#FB7185; --accent-soft:rgba(255,255,255,.12); --accent-ink:#FECDD3;
+  --maroon:#9B1627; --maroon-deep:#4A0812; --maroon-soft:rgba(255,255,255,.08);
+  --good:#86EFAC; --good-soft:rgba(134,239,172,.14); --bad:#FCA5A5; --bad-soft:rgba(252,165,165,.14);
+  --warn:#FDE68A; --warn-soft:rgba(253,230,138,.14);
+  --cyan:#E9C46A; --violet:#F0D9A8;
   --radius:14px; --radius-s:9px;
-  --shadow:0 10px 30px rgba(0,0,0,.45);
+  --shadow:0 10px 30px rgba(0,0,0,.35);
 }
 *{box-sizing:border-box; margin:0; padding:0}
 html{-webkit-text-size-adjust:100%}
@@ -339,119 +339,167 @@ b.term:hover{background:var(--accent-soft)}
 .share-btn.ig{background:linear-gradient(45deg,#F58529,#DD2A7B,#8134AF);color:#fff;border:none}
 .share-btn.in{background:#0A66C2;color:#fff;border:none}
 .share-btn.gh{background:#1C1917;color:#fff;border:none}
-/* ---------- crimson neon theme (dark glass) ---------- */
+/* ---------- crimson fill theme: crimson background, white text, beige accents, black outlines ---------- */
 body{
   background:
-    radial-gradient(1100px 620px at 78% -10%, rgba(155,22,39,.55), transparent 62%),
-    radial-gradient(900px 600px at 6% 108%, rgba(124,58,237,.30), transparent 62%),
-    radial-gradient(760px 480px at 50% 42%, rgba(244,63,94,.10), transparent 70%),
-    var(--canvas);
+    radial-gradient(1100px 620px at 78% -10%, rgba(255,120,140,.30), transparent 62%),
+    radial-gradient(900px 600px at 6% 108%, rgba(40,4,10,.45), transparent 62%),
+    linear-gradient(165deg, #9E1626 0%, #7A1020 55%, #5E0C18 100%);
   background-attachment:fixed;
 }
-.card,.kpi,.setup-card,.modal,.opt,.choice,.founder,.action,.pedia-term,.ach-card{
-  background:linear-gradient(165deg, rgba(255,255,255,.055), rgba(255,255,255,.018));
-  border:1px solid var(--hairline);
-  box-shadow:0 10px 30px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.05);
+.card,.kpi,.setup-card,.modal,.opt,.choice,.founder,.action,.pedia-term{
+  background:linear-gradient(165deg, rgba(255,255,255,.10), rgba(255,255,255,.035));
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.08);
   border-radius:var(--radius);
 }
 .card{position:relative; overflow:hidden}
-.card::before{content:""; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg, transparent, rgba(244,63,94,.75), rgba(168,85,247,.55), transparent); opacity:.75; pointer-events:none}
-.btn{background:rgba(255,255,255,.05); border:1px solid var(--hairline-2); color:var(--text)}
-.btn:hover{border-color:var(--accent)}
-.btn-primary{background:linear-gradient(135deg,#E11D48,#9B1627); border-color:transparent; color:#fff; box-shadow:0 6px 22px rgba(225,29,72,.45)}
-.btn-primary:hover{box-shadow:0 8px 28px rgba(225,29,72,.6)}
-select.input, input.input{background:rgba(255,255,255,.05); color:var(--text); border-color:var(--hairline-2)}
-select.input option{background:#17101A; color:var(--text)}
-.stepper button{background:rgba(255,255,255,.05); color:var(--text-2)}
-.pill{background:rgba(255,255,255,.05)}
-.founder.sel,.choice.sel{border-color:var(--accent); background:var(--accent-soft); box-shadow:0 0 0 1px var(--accent), 0 0 24px rgba(244,63,94,.25)}
-.topbar{background:rgba(23,16,26,.78); backdrop-filter:blur(12px); border:1px solid var(--hairline); box-shadow:0 8px 28px rgba(0,0,0,.4)}
-.stage-badge{background:linear-gradient(135deg,#E11D48,#9B1627); color:#fff; box-shadow:0 4px 16px rgba(225,29,72,.4)}
-.top-stats b{color:var(--text)}
-.top-stats .val{text-shadow:0 0 18px rgba(244,63,94,.3)}
-.energy-bar{background:rgba(255,255,255,.12)}
-.energy-fill{background:linear-gradient(90deg,#34D399,#22D3EE)}
-.kpi b{color:#fff; text-shadow:0 0 24px rgba(244,63,94,.25)}
+.card::before{content:""; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg, transparent, rgba(255,255,255,.55), rgba(233,196,106,.55), transparent); opacity:.8; pointer-events:none}
+.btn{background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.35); color:#fff}
+.btn:hover{border-color:#fff}
+.btn-primary{background:#FFFDF8; border:1px solid rgba(0,0,0,.35); color:#9B1627; box-shadow:0 6px 22px rgba(0,0,0,.35)}
+.btn-primary:hover{box-shadow:0 8px 28px rgba(0,0,0,.45)}
+select.input, input.input{background:rgba(255,255,255,.08); color:#fff; border-color:rgba(255,255,255,.3)}
+select.input option{background:#4A0812; color:#fff}
+.stepper button{background:rgba(255,255,255,.07); color:#fff; border-color:rgba(255,255,255,.3)}
+.pill{background:rgba(255,255,255,.07); color:#fff}
+.pill.sel{background:#FFFDF8; color:#9B1627; border-color:#FFFDF8}
+.founder.sel,.choice.sel{border-color:#fff; background:rgba(255,255,255,.13); box-shadow:0 0 0 1px #fff, 0 0 24px rgba(255,255,255,.22)}
+.topbar{background:rgba(74,8,18,.78); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,.18); box-shadow:0 8px 28px rgba(0,0,0,.4)}
+.brand-logo{border:2px solid rgba(255,255,255,.75)}
+.stage-badge{background:#FFFDF8; color:#9B1627; box-shadow:0 4px 16px rgba(0,0,0,.35)}
+.top-stats b{color:#fff}
+.top-stats .val{text-shadow:0 2px 10px rgba(0,0,0,.35)}
+.energy-bar{background:rgba(255,255,255,.18)}
+.energy-fill{background:linear-gradient(90deg,#F0D9A8,#E9C46A)}
+.kpi b{color:#fff; text-shadow:0 2px 12px rgba(0,0,0,.35)}
 .kpi .lbl{color:var(--text-2)}
-.meter{height:7px; background:rgba(255,255,255,.08)}
-.meter i{background:linear-gradient(90deg,#F43F5E,#A855F7)}
+.meter{height:7px; background:rgba(255,255,255,.14)}
 .meter-row{font-size:12px}
-.tab-btn{background:rgba(255,255,255,.04); color:var(--text-2)}
-.tab-btn:hover{color:var(--text)}
-.tab-btn.active{background:linear-gradient(135deg,#E11D48,#9B1627); color:#fff; box-shadow:0 4px 18px rgba(225,29,72,.45)}
-.focus-dots i{background:rgba(255,255,255,.12)}
-.focus-dots i.on{background:var(--accent); box-shadow:0 0 10px rgba(244,63,94,.8)}
-.monitor-screen{background:#120A10}
-.monitor{background:#0F0B10; border-color:rgba(255,255,255,.12)}
-.modal-back{background:rgba(8,4,7,.72); backdrop-filter:blur(10px)}
-.teach{background:var(--accent-soft); border:1px solid rgba(244,63,94,.3); color:var(--text)}
-.note{background:rgba(255,255,255,.04)}
-.report-num{color:var(--text)}
-.toast{background:#F7F1F4; color:#17101A; box-shadow:0 10px 30px rgba(0,0,0,.5)}
-.log-entry:hover{border-color:rgba(244,63,94,.5); background:rgba(244,63,94,.06)}
+.tab-btn{background:rgba(255,255,255,.06); color:#F0DCC8}
+.tab-btn:hover{color:#fff}
+.tab-btn.active{background:#FFFDF8; color:#9B1627; box-shadow:0 4px 18px rgba(0,0,0,.35)}
+.focus-dots i{background:rgba(255,255,255,.18)}
+.focus-dots i.on{background:#fff; box-shadow:0 0 10px rgba(255,255,255,.7)}
+.monitor-screen{background:linear-gradient(165deg, #9E1626 0%, #7A1020 60%, #5E0C18 100%)}
+.monitor{background:#0F0B10; border-color:#000}
+.modal-back{background:rgba(74,8,18,.66); backdrop-filter:blur(10px)}
+.teach{background:rgba(233,196,106,.14); border:1px solid rgba(233,196,106,.4); color:#fff}
+.note{background:rgba(255,255,255,.06)}
+.report-num{color:#fff}
+.toast{background:#FFFDF8; color:#1C1917; box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.log-entry:hover{border-color:rgba(255,255,255,.6); background:rgba(255,255,255,.08)}
 .log-entry .rewind{color:var(--accent-ink)}
-.globe{border:3px solid rgba(255,255,255,.85); box-shadow:0 10px 30px rgba(0,0,0,.55), 0 0 24px rgba(244,63,94,.35)}
-.globe-tasks{background:linear-gradient(160deg,#2A1622,#17101A)}
-.globe-badge{border-color:#17101A}
-.globe-end{background:linear-gradient(135deg,#E11D48,#7A1020); box-shadow:0 12px 34px rgba(225,29,72,.55), 0 0 0 6px rgba(244,63,94,.18), 0 0 40px rgba(244,63,94,.35)}
-.pedia-btn{background:linear-gradient(135deg,#E11D48,#9B1627); box-shadow:0 4px 16px rgba(225,29,72,.5)}
-.pedia-search{background:rgba(255,255,255,.05); color:var(--text); border-color:var(--hairline-2)}
-.pedia-az button{background:rgba(255,255,255,.05); color:var(--text-2)}
-.pedia-az button:hover{color:#fff; border-color:var(--accent)}
-.pedia-term:hover{border-color:rgba(244,63,94,.5)}
-.ach-stat{background:rgba(255,255,255,.04)}
-.ach-top5 li{border-color:var(--hairline)}
-.share-btn{background:rgba(255,255,255,.05); color:var(--text)}
-.share-btn.liked{background:var(--accent); color:#fff}
-.stage-track{background:rgba(255,255,255,.08)}
-.stage-track i{background:linear-gradient(90deg,#F43F5E,#A855F7)}
-.fstat{background:rgba(255,255,255,.04)}
-.capbar{background:rgba(255,255,255,.08)}
-.flow-steps i{background:rgba(255,255,255,.12)}
-.data th{background:rgba(255,255,255,.05)}
-.queue-item{border-color:var(--hairline)}
-.queue-item:hover{border-color:rgba(244,63,94,.5); background:rgba(244,63,94,.06)}
+.globe{border:3px solid rgba(255,255,255,.9); box-shadow:0 10px 30px rgba(0,0,0,.5), 0 0 24px rgba(0,0,0,.25)}
+.globe-tasks{background:#1C1917}
+.globe-badge{background:#9B1627; color:#fff; border-color:#fff}
+.globe-end{background:#FFFDF8; color:#9B1627; border:3px solid #1C1917; box-shadow:0 12px 34px rgba(0,0,0,.5), 0 0 0 5px rgba(255,255,255,.22)}
+.pedia-btn{background:#FFFDF8; color:#9B1627; border:1px solid rgba(0,0,0,.3); box-shadow:0 4px 16px rgba(0,0,0,.4)}
+.pedia-search{background:rgba(255,255,255,.08); color:#fff; border-color:rgba(255,255,255,.3)}
+.pedia-az button{background:rgba(255,255,255,.07); color:#F0DCC8}
+.pedia-az button:hover{color:#fff; border-color:#fff}
+.pedia-term:hover{border-color:rgba(255,255,255,.6)}
+.ach-card{background:#FFFDF8; border:1px solid rgba(0,0,0,.2); border-radius:14px; box-shadow:0 12px 40px rgba(0,0,0,.35); overflow:hidden; text-align:left; color:#1C1917}
+.ach-head{background:var(--maroon-deep); color:#fff; padding:24px; text-align:center}
+.ach-head h1{color:#fff; margin-top:12px}
+.ach-stat{background:#F5EFE6}
+.ach-top5 li{border-color:#E7E5E4}
+.share-btn{background:#fff; color:#1C1917; border:1px solid #D6D3D1}
+.share-btn.liked{background:#9B1627; color:#fff; border-color:#9B1627}
+.stage-track{background:rgba(255,255,255,.18)}
+.stage-track i{background:linear-gradient(90deg,#fff,#E9C46A)}
+.fstat{background:rgba(255,255,255,.06)}
+.capbar{background:rgba(255,255,255,.14)}
+.flow-steps i{background:rgba(255,255,255,.18)}
+.flow-steps i.done{background:#fff}
+.flow-steps i.now{background:#E9C46A}
+.data th{background:rgba(255,255,255,.06)}
+.queue-item{border-color:rgba(255,255,255,.18)}
+.queue-item:hover{border-color:rgba(255,255,255,.6); background:rgba(255,255,255,.08)}
 .end-badge{color:var(--accent-ink)}
-.modal h2{color:var(--text)}
-.opt.sel{border-color:var(--accent); background:var(--accent-soft)}
-.opt:hover{border-color:var(--accent)}
+.modal h2{color:#fff}
+.opt.sel{border-color:#fff; background:rgba(255,255,255,.12)}
+.opt:hover{border-color:#fff}
+b.term{color:#FECDD3; border-bottom:1px dotted rgba(255,255,255,.45)}
+a,.linklike{color:#FECDD3}
 
 /* ---------- dashboard layout v3: chart left, week story right ---------- */
 .dash-grid{display:grid; grid-template-columns:minmax(0,1.12fr) minmax(0,1fr); gap:12px; margin-top:12px}
 @media(max-width:900px){.dash-grid{grid-template-columns:1fr}}
 .chart-card canvas{display:block}
 .widgets-card{display:flex; flex-direction:column; min-height:340px}
-#week-widgets{display:flex; flex-direction:column; gap:9px; margin-top:10px}
-.widgets-empty{color:var(--text-3); font-size:13px; border:1px dashed var(--hairline-2); border-radius:var(--radius-s); padding:14px; text-align:center}
-.week-widget{display:flex; gap:11px; align-items:flex-start; background:rgba(255,255,255,.035); border:1px solid var(--hairline); border-radius:var(--radius-s); padding:11px 12px; animation:wwIn .45s ease both}
-@keyframes wwIn{from{opacity:0; transform:translateY(10px) scale(.98)} to{opacity:1; transform:none}}
-.ww-ico{width:32px; height:32px; flex:none; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:16px; background:var(--accent-soft); border:1px solid rgba(244,63,94,.3)}
+#week-widgets{margin-top:10px}
+.widgets-empty{color:var(--text-2); font-size:13px; border:1px dashed rgba(255,255,255,.35); border-radius:var(--radius-s); padding:14px; text-align:center}
+.week-widget{display:flex; gap:11px; align-items:flex-start; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.16); border-radius:var(--radius-s); padding:11px 12px}
+.ww-ico{width:32px; height:32px; flex:none; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:16px; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.25)}
 .ww-body{flex:1; min-width:0}
-.week-widget b{display:block; font-size:13.5px; margin-bottom:2px}
+.week-widget b{display:block; font-size:13.5px; margin-bottom:2px; color:#fff}
 .week-widget span{display:block; font-size:12.5px; color:var(--text-2); line-height:1.45}
 .ww-tag{flex:none; font-size:10px; font-weight:700; letter-spacing:.06em; color:var(--text-3); text-transform:uppercase; padding-top:3px}
+
+/* ---------- flashcard stack (This week's story) ---------- */
+.stack{position:relative; height:208px; cursor:pointer; margin-top:4px}
+.stack-card{position:absolute; top:0; left:0; right:0; height:176px; background:#FFFDF8; color:#1C1917; border:1px solid rgba(0,0,0,.25); border-radius:14px; box-shadow:0 14px 34px rgba(0,0,0,.4); padding:14px 16px; display:flex; gap:11px; align-items:flex-start; overflow:hidden; transition:transform .25s ease, box-shadow .25s ease}
+.stack:hover .stack-card:first-child{transform:translateY(-3px) !important; box-shadow:0 18px 40px rgba(0,0,0,.5)}
+.stack-card .ww-ico{background:#FBEBEC; border-color:rgba(155,22,39,.3)}
+.stack-card b{display:block; font-size:15px; margin-bottom:4px; color:#1C1917}
+.stack-card span{display:block; font-size:13px; color:#57534E; line-height:1.5; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden}
+.stack-card .ww-tag{color:#A8A29E}
+.stack-meta{display:flex; align-items:center; justify-content:space-between; margin-top:12px; font-size:12.5px; color:var(--text-2)}
+.stack-meta .stack-count{font-weight:700; color:#fff}
+.stack-meta .stack-browse{color:#FECDD3; font-weight:600}
+
+/* ---------- stack viewer (expanded deck) ---------- */
+.stack-view{position:relative; max-width:640px; margin:0 auto; animation:stackExpand .35s cubic-bezier(.2,.9,.3,1.1) both}
+@keyframes stackExpand{from{opacity:0; transform:scale(.9) translateY(14px)} to{opacity:1; transform:none}}
+.stack-view.closing{animation:stackShrink .25s ease both}
+@keyframes stackShrink{to{opacity:0; transform:scale(.92) translateY(10px)}}
+.stack-close{position:absolute; top:-14px; right:-14px; z-index:5; width:38px; height:38px; border-radius:50%; background:#FFFDF8; color:#9B1627; border:2px solid #1C1917; font-size:19px; font-weight:800; line-height:1; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 18px rgba(0,0,0,.4)}
+.stack-stage{position:relative; overflow:hidden; padding:8px 0 4px; min-height:250px; display:flex; align-items:center; justify-content:center}
+.stack-view-card{width:min(480px, 86%); background:#FFFDF8; color:#1C1917; border:1px solid rgba(0,0,0,.25); border-radius:16px; box-shadow:0 20px 50px rgba(0,0,0,.5); padding:22px 24px; animation:stackCardIn .3s ease both}
+.stack-view-card.from-right{animation-name:stackCardInR}
+.stack-view-card.from-left{animation-name:stackCardInL}
+@keyframes stackCardIn{from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none}}
+@keyframes stackCardInR{from{opacity:0; transform:translateX(46px)} to{opacity:1; transform:none}}
+@keyframes stackCardInL{from{opacity:0; transform:translateX(-46px)} to{opacity:1; transform:none}}
+.stack-view-card .ww-ico{width:40px; height:40px; font-size:19px; background:#FBEBEC; border-color:rgba(155,22,39,.3)}
+.stack-view-card b{display:block; font-size:18px; margin-bottom:6px; color:#1C1917}
+.stack-view-card span{display:block; font-size:14.5px; color:#44403C; line-height:1.55}
+.stack-view-card b.term{color:#9B1627; border-bottom:1px dotted rgba(155,22,39,.5)}
+.stack-card b.term{color:#9B1627; border-bottom:1px dotted rgba(155,22,39,.5)}
+.stack-peek{position:absolute; top:50%; right:0; transform:translate(52%,-50%); width:200px; background:#F5EFE6; color:#1C1917; border:1px solid rgba(0,0,0,.25); border-radius:14px; box-shadow:0 12px 30px rgba(0,0,0,.4); padding:14px; cursor:pointer; opacity:.92}
+.stack-peek:hover{opacity:1}
+.stack-peek b{display:block; font-size:13.5px; margin-bottom:3px}
+.stack-peek span{display:block; font-size:12px; color:#78716C; line-height:1.4; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden}
+.stack-arrow{position:absolute; top:50%; transform:translateY(-50%); z-index:4; width:42px; height:42px; border-radius:50%; background:#FFFDF8; color:#9B1627; border:2px solid #1C1917; font-size:20px; font-weight:800; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 18px rgba(0,0,0,.4)}
+.stack-arrow.left{left:2px}
+.stack-arrow.right{right:2px}
+.stack-foot{display:flex; align-items:center; justify-content:space-between; margin-top:14px; color:#fff; font-size:13px}
+.stack-dots{display:flex; gap:6px}
+.stack-dots i{width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,.3)}
+.stack-dots i.on{background:#fff}
 
 /* ---------- week folders ---------- */
 .folders-card{margin-top:12px}
 #week-folders{display:flex; flex-direction:column; gap:8px; margin-top:10px; max-height:240px; overflow-y:auto; padding-right:2px}
-.week-pill{display:flex; align-items:center; gap:9px; width:100%; text-align:left; background:rgba(255,255,255,.04); border:1px solid var(--hairline); color:var(--text); border-radius:999px; padding:9px 13px; font-size:13px; font-weight:600}
-.week-pill:hover{border-color:rgba(244,63,94,.6); background:rgba(244,63,94,.08)}
+.week-pill{display:flex; align-items:center; gap:9px; width:100%; text-align:left; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.18); color:#fff; border-radius:999px; padding:9px 13px; font-size:13px; font-weight:600}
+.week-pill:hover{border-color:#fff; background:rgba(255,255,255,.12)}
 .week-pill.new{animation:pillPop .6s cubic-bezier(.2,.9,.3,1.4) both}
 @keyframes pillPop{0%{opacity:0; transform:scale(.85) translateY(8px)} 60%{transform:scale(1.04)} 100%{opacity:1; transform:none}}
 .week-pill .wp-ico{font-size:15px}
-.week-pill .wp-sub{margin-left:auto; font-size:11px; color:var(--text-3); font-weight:500}
+.week-pill .wp-sub{margin-left:auto; font-size:11px; color:var(--text-2); font-weight:500}
 
 /* ---------- start-here hint (weeks 1-2) ---------- */
-#start-hint{position:fixed; left:18px; bottom:96px; z-index:39; display:flex; align-items:center; gap:10px; background:rgba(23,16,26,.92); border:1px solid rgba(244,63,94,.55); border-radius:999px; padding:9px 16px 9px 12px; font-size:13px; color:var(--text); box-shadow:0 10px 30px rgba(0,0,0,.5), 0 0 24px rgba(244,63,94,.3); backdrop-filter:blur(8px)}
-#start-hint .sh-arrow{font-size:19px; color:var(--accent-ink); animation:shBounce 1.1s ease-in-out infinite}
+#start-hint{position:fixed; left:18px; bottom:96px; z-index:39; display:flex; align-items:center; gap:10px; background:#FFFDF8; border:2px solid #1C1917; border-radius:999px; padding:9px 16px 9px 12px; font-size:13px; color:#1C1917; box-shadow:0 10px 30px rgba(0,0,0,.45); backdrop-filter:blur(8px)}
+#start-hint .sh-arrow{font-size:19px; color:#9B1627; animation:shBounce 1.1s ease-in-out infinite}
 @keyframes shBounce{0%,100%{transform:translateY(0)} 50%{transform:translateY(4px)}}
-#start-hint b{color:#fff}
+#start-hint b{color:#9B1627}
 
 /* ---------- week folder modal ---------- */
 .week-modal-stats{display:grid; grid-template-columns:repeat(4,1fr); gap:9px; margin:12px 0}
-.week-modal-stats .wms{background:rgba(255,255,255,.04); border:1px solid var(--hairline); border-radius:var(--radius-s); padding:9px 11px}
+.week-modal-stats .wms{background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.16); border-radius:var(--radius-s); padding:9px 11px}
 .week-modal-stats .wms label{display:block; font-size:10px; font-weight:700; letter-spacing:.07em; color:var(--text-3); text-transform:uppercase}
-.week-modal-stats .wms b{font-size:17px}
+.week-modal-stats .wms b{font-size:17px; color:#fff}
 #week-modal-widgets{display:flex; flex-direction:column; gap:9px; margin-top:6px}
 </style>
 </head>
@@ -552,14 +600,15 @@ select.input option{background:#17101A; color:var(--text)}
       <div class="card chart-card">
         <h2><b class="term" onclick="openTerm('cash');return false;">Cash</b> &amp; <b class="term" onclick="openTerm('revenue');return false;">revenue</b></h2>
         <p class="sub">Your runway is the story of the company. Watch what happens after a raise, a hire, or a rival's launch.</p>
-        <div class="chart-legend"><span><i style="background:#F43F5E"></i>Cash</span><span><i style="background:#22D3EE"></i>Monthly revenue</span></div>
+        <div class="chart-legend"><span><i style="background:#FFFFFF"></i>Cash</span><span><i style="background:#E9C46A"></i>Monthly revenue</span></div>
         <canvas id="chart" width="640" height="140" style="width:100%; height:140px"></canvas>
         <div id="meters"></div>
       </div>
       <div class="card widgets-card">
         <h2>This week's story</h2>
-        <p class="sub">Every decision you make adds a card here — what happened, and what it changed, in plain words.</p>
-        <div id="week-widgets"></div>
+        <p class="sub">Every decision you make adds a flashcard to the deck — what happened, and what it changed, in plain words.</p>
+        <div id="week-widgets" onclick="openStack()"></div>
+        <div class="stack-meta" id="stack-meta"></div>
       </div>
     </div>
 
@@ -680,6 +729,18 @@ select.input option{background:#17101A; color:var(--text)}
   <div class="actions"><button class="btn btn-primary" onclick="closeWeekFolder()">Back to this week</button> <button class="btn" id="week-modal-rewind" onclick="rewindFromFolder()">↩ Rewind to this week</button></div>
 </div></div>
 
+<!-- flashcard stack viewer -->
+<div class="modal-back hidden" id="modal-stack"><div class="stack-view" id="stack-view">
+  <button class="stack-close" onclick="closeStack()" title="Stack the cards back">✕</button>
+  <div class="stack-stage" id="stack-stage">
+    <div id="stack-card-slot"></div>
+    <div class="stack-peek hidden" id="stack-peek" onclick="stackNav(1)"></div>
+    <button class="stack-arrow left hidden" id="stack-prev" onclick="stackNav(-1)" title="Previous card">←</button>
+    <button class="stack-arrow right hidden" id="stack-next" onclick="stackNav(1)" title="Next card">→</button>
+  </div>
+  <div class="stack-foot"><span id="stack-counter"></span><span class="stack-dots" id="stack-dots"></span><span id="stack-week-label"></span></div>
+</div></div>
+
 <!-- event modal -->
 <div class="modal-back hidden" id="modal-event"><div class="modal">
   <div class="tiny muted" id="ev-kicker">SOMEONE NEEDS YOU</div>
@@ -751,7 +812,7 @@ var FOUNDERS = [
    color:"#334155", initials:"AR",
    bio:"Knows every term-sheet trap. Thirty angels on speed dial. The last company took six years and a divorce.",
    traits:[["Fundraising","Red-flag clauses are highlighted for you"],["Hiring","Can recruit 2 ex-colleagues instantly"]],
-   trade:"Angels expect a $100M outcome — the “keep operating” exit is socially penalised. Cynical when growth stalls: morale hit. Overconfident in new markets.",
+   trade:"Angels expect a $100M outcome — the “stay independent” exit is socially penalised. Cynical when growth stalls: morale hit. Overconfident in new markets.",
    cash:45000, personalBurn:1500, energy:85, seesRedFlags:true, freeHires:2, stats:{net:95,build:65,hustle:60} },
  { id:"jonas", name:"Jonas Weber", age:26, role:"Solo hacker · ex-Stripe infra, builds in public",
    color:"#15803D", initials:"JW",
@@ -1123,7 +1184,7 @@ function freshState(fid, venture, sectorId, name){
     burnAdd:0, burnMult: f.burnMult||1, buildDelay:0, momentum:0, board:70,
     raise:null, stage:0, market:"steady",
     rivals:[{ name:"Northbeam", progress:20 },{ name:"Loopwork", progress:15 }],
-    flags:{}, queue:[], history:[], log:[], timeline:[], weekWidgets:[],
+    flags:{}, queue:[], history:[], log:[], timeline:[], weekWidgets:[], pendingExit:null,
     focus:{ validate:1, build:2, sell:1, hire:0, raise:0, rest:1 },
     teamFocus:"ship", marketing:0, channel:"word",
     actionsUsed:{}, candidates: shuffle(CANDIDATES).slice(0,3),
@@ -1642,7 +1703,7 @@ function endGame(type, price){
     sub="Week "+S.week+". "+moneyK(val)+" valuation at listing. Your "+S.cap.founder+"% is worth about "+money(take)+" on paper.";
     causes=["ARR "+money(mrr()*12)+" at a 10× multiple.","Needed a Delaware C-Corp, audited financials and a growth story — you built all three."];
   } else if(type==="operate"){
-    title="A real, profitable business"; badge="KEEP OPERATING"; lessonKey="validate"; score=clamp(score+10,0,100);
+    title="A real, profitable business"; badge="STAY INDEPENDENT"; lessonKey="validate"; score=clamp(score+10,0,100);
     sub="Week "+S.week+". "+money(mrr())+"/mo revenue against "+money(monthlyBurn())+" burn. You pay yourself, you keep control, and the company funds its own growth.";
     causes=["Profitable for "+(S.profitWeeks||0)+" straight weeks.","This is the win the startup world forgets: viability, sustainability, impact."];
   } else {
@@ -1795,10 +1856,36 @@ function fireMember(i){
   addWidget("fire-"+m.name, "👋", "Let go of "+m.name, "The team noticed — morale dipped. A smaller team burns less, but trust takes time to rebuild.");
   renderAll();
 }
+function exitEligible(type){
+  if(type==="acquisition") return S.users>=800;
+  if(type==="ipo") return S.entity==="ccorp" && mrr()>=40000 && S.users>=1500;
+  if(type==="operate") return mrr()>=monthlyBurn() && mrr()>0;
+  return false;
+}
+function requestExit(type){
+  if(!exitEligible(type)){
+    if(type==="acquisition") toast("No acquirer is calling yet — you need ~800 users first.");
+    else if(type==="ipo") toast("IPO needs a Delaware C-Corp, $40k MRR and 1,500 users.");
+    else toast("Staying independent needs real profit: revenue above burn.");
+    return;
+  }
+  S.pendingExit=type;
+  renderPanels();
+}
+function exitConfirmText(type){
+  if(type==="acquisition") return "Estimated sale: about "+money(finalValuation("acquisition"))+" — the price depends on your users and revenue.";
+  if(type==="ipo") return "Estimated valuation: about "+money(finalValuation("ipo"))+" at 10× your annual revenue.";
+  return "Your final score comes from your profit, runway and what you built — no acquirer, no IPO.";
+}
+function confirmExit(){
+  var t=S.pendingExit; S.pendingExit=null;
+  if(t) exitChoice(t);
+}
+function cancelExit(){ S.pendingExit=null; renderPanels(); }
 function exitChoice(type){
   if(type==="acquisition" && S.users<800){ toast("No acquirer is calling yet — you need ~800 users first."); return; }
   if(type==="ipo" && !(S.entity==="ccorp" && mrr()>=40000 && S.users>=1500)){ toast("IPO needs a Delaware C-Corp, $40k MRR and 1,500 users."); return; }
-  if(type==="operate" && !(mrr()>=monthlyBurn() && mrr()>0)){ toast("Keep-operating needs real profit: revenue above burn."); return; }
+  if(type==="operate" && !(mrr()>=monthlyBurn() && mrr()>0)){ toast("Staying independent needs real profit: revenue above burn."); return; }
   endGame(type);
 }
 function saveGame(){ store("spark-save-v2", { state:S }); toast("Run saved in this browser."); }
@@ -1839,7 +1926,7 @@ function stageGateText(){
   if(S.stage===2) return "MVP → Launch: ship your first feature ("+S.product.features+"/1).";
   if(S.stage===3) return "Launch → Scale: product-market fit — 150 users and churn ≤ 7% ("+S.users+" users, "+S.churn.toFixed(1)+"% churn).";
   if(S.stage===4) return "Scale → Exit: 800 users, $20k MRR, or a closed seed round.";
-  return "Exit: choose your ending in the Company tab — IPO, acquisition, or keep operating.";
+  return "Exit: choose your ending in the Company tab — IPO, acquisition, or stay independent.";
 }
 function renderValidate(){
   var gate = S.validation>=3 && S.interviews>=10;
@@ -1924,10 +2011,12 @@ function renderCompany(){
     (S.entity==="llc"?'<div class="row"><button class="btn btn-sm" onclick="convertEntity()">Convert to C-Corp · $8,000</button></div>':"")+'</div>'+
     '<div class="action"><h3>Save &amp; restart</h3><p class="small">Your run auto-saves each week in this browser.</p><div class="row"><button class="btn btn-sm" onclick="saveGame()">Save now</button><button class="btn btn-sm" onclick="resetGame()">Restart run</button></div></div></div>'+
     '<div><h3>Cap table</h3>'+capRows+
-    '<h3 style="margin-top:14px">Exits</h3>'+
-    '<div class="action"><h3>Acquisition '+(canAcq?"":"· needs 800 users")+'</h3><p>Sell the company. Check the liquidation preference first — it decides who gets paid.</p><div class="row"><button class="btn btn-sm" onclick="exitChoice(\'acquisition\')" '+(canAcq?"":"disabled")+'>Sell the company</button></div></div>'+
-    '<div class="action"><h3>IPO '+(canIpo?"":"· needs C-Corp, $40k MRR, 1,500 users")+'</h3><p>Go public. The biggest outcome — and the longest road.</p><div class="row"><button class="btn btn-sm" onclick="exitChoice(\'ipo\')" '+(canIpo?"":"disabled")+'>Go public</button></div></div>'+
-    '<div class="action"><h3>Keep operating '+(canOp?"":"· needs profit")+'</h3><p>Stay independent, pay yourself, grow on your own terms. An equal win.</p><div class="row"><button class="btn btn-sm" onclick="exitChoice(\'operate\')" '+(canOp?"":"disabled")+'>Keep operating</button></div></div></div></div>';
+    '<h3 style="margin-top:14px">Exits — how this run ends</h3>'+
+    '<p class="small muted" style="margin-bottom:10px">Picking an exit wraps up your run and shows your final scorecard — the week you are in ends there, and there is no going back to it. Build first, exit when you are ready.</p>'+
+    '<div class="action"><h3>Acquisition '+(canAcq?"":"· needs 800 users")+'</h3><p>Sell the company. The price depends on your users and revenue — and the liquidation preference decides who gets paid first.</p><div class="row"><button class="btn btn-sm" onclick="requestExit(\'acquisition\')" '+(canAcq?"":"disabled")+'>Sell the company</button></div></div>'+
+    '<div class="action"><h3>IPO '+(canIpo?"":"· needs C-Corp, $40k MRR, 1,500 users")+'</h3><p>Go public. The biggest outcome — and the longest road.</p><div class="row"><button class="btn btn-sm" onclick="requestExit(\'ipo\')" '+(canIpo?"":"disabled")+'>Go public</button></div></div>'+
+    '<div class="action"><h3>Stay independent '+(canOp?"":"· needs profit")+'</h3><p>Finish as a profitable company you own outright — no acquirer, no IPO, just the business paying you. An equal win, and the run wraps up here.</p><div class="row"><button class="btn btn-sm" onclick="requestExit(\'operate\')" '+(canOp?"":"disabled")+'>Stay independent</button></div></div>'+
+    (S.pendingExit?'<div class="note" style="margin-top:10px"><b>You are about to '+(S.pendingExit==="acquisition"?"sell the company":S.pendingExit==="ipo"?"go public":"stay independent")+'.</b> '+esc(exitConfirmText(S.pendingExit))+' This wraps up the run — your final scorecard shows next.<div class="row" style="margin-top:8px"><button class="btn btn-primary btn-sm" onclick="confirmExit()">Yes, do it</button><button class="btn btn-sm" onclick="cancelExit()">Not yet</button></div></div>':"")+'</div></div>';
 }
 function renderPanels(){
   if(!S) return;
@@ -1977,8 +2066,8 @@ function drawChart(){
       ctx.fillStyle=fill; ctx.fill();
     }
   }
-  line("cash","#F43F5E","rgba(244,63,94,0.12)");
-  line("mrr","#22D3EE",null);
+  line("cash","#FFFFFF","rgba(255,255,255,0.10)");
+  line("mrr","#E9C46A",null);
 }
 function renderMeters(){
   var m="";
@@ -2045,9 +2134,9 @@ function renderAll(){
   $("k-runway-d").textContent = rw<3?"Danger — under 3 months":rw<6?"Tight — plan a raise or cut burn":"Healthy";
   $("k-runway-d").className="delta num "+(rw<3?"down":rw<6?"":"up");
   var hist=S.history;
-  drawSpark("sp-cash", hist.map(function(h){ return h.cash; }), "#F43F5E");
-  drawSpark("sp-mrr", hist.map(function(h){ return h.mrr; }), "#22D3EE");
-  drawSpark("sp-users", hist.map(function(h){ return h.users; }), "#A855F7");
+  drawSpark("sp-cash", hist.map(function(h){ return h.cash; }), "#FFFFFF");
+  drawSpark("sp-mrr", hist.map(function(h){ return h.mrr; }), "#E9C46A");
+  drawSpark("sp-users", hist.map(function(h){ return h.users; }), "#FDA4AF");
   drawChart();
   renderMeters();
   renderQueue();
@@ -2366,14 +2455,62 @@ function addWidget(key, icon, title, text){
   if(S.weekWidgets.length>12) S.weekWidgets.shift();
   renderWidgets();
 }
+function stackCardHtml(x, week, depth){
+  var off=depth*8, sc=1-depth*0.045, rot=depth===0?0:(depth%2?0.8:-0.8);
+  return '<div class="stack-card" style="z-index:'+(10-depth)+'; transform:translateY('+off+'px) scale('+sc+') rotate('+rot+'deg); opacity:'+(1-depth*0.12)+'"><div class="ww-ico">'+x.icon+'</div><div class="ww-body"><b>'+linkifyText(x.title)+'</b><span>'+linkifyText(x.text)+'</span></div><span class="ww-tag">W'+week+'</span></div>';
+}
 function renderWidgets(){
   var w=$("week-widgets"); if(!w || !S) return;
   var list=S.weekWidgets||[];
   var sig=S.week+"|"+list.map(function(x){ return x.key; }).join(",");
   if(sig===widgetSig) return;
   widgetSig=sig;
-  if(!list.length){ w.innerHTML='<p class="widgets-empty">Nothing yet — make a decision and it lands here, in plain words.</p>'; return; }
-  w.innerHTML=list.map(function(x){ return widgetHtml(x, S.week); }).join("");
+  var meta=$("stack-meta");
+  if(!list.length){
+    w.innerHTML='<p class="widgets-empty">Nothing yet — make a decision and it lands here, in plain words.</p>';
+    if(meta) meta.innerHTML="";
+    return;
+  }
+  var shown=list.slice(-4).reverse(); // latest decision on top of the deck
+  w.innerHTML='<div class="stack">'+shown.map(function(x,i){ return stackCardHtml(x, S.week, i); }).join("")+'</div>';
+  if(meta) meta.innerHTML='<span class="stack-count">'+list.length+' card'+(list.length===1?"":"s")+' this week</span><span class="stack-browse">Tap the deck to browse →</span>';
+}
+var stackIdx=0, stackDir=1;
+function openStack(){
+  if(!S || !(S.weekWidgets||[]).length){ toast("Nothing in the deck yet — make a decision first."); return; }
+  stackIdx=0; stackDir=1;
+  renderStackView();
+  var v=$("stack-view"); if(v) v.classList.remove("closing");
+  $("modal-stack").classList.remove("hidden");
+}
+function closeStack(){
+  var v=$("stack-view");
+  if(v){ v.classList.add("closing"); setTimeout(function(){ $("modal-stack").classList.add("hidden"); v.classList.remove("closing"); }, 240); }
+  else $("modal-stack").classList.add("hidden");
+}
+function stackNav(dir){
+  var list=(S&&S.weekWidgets)||[];
+  var n=stackIdx+dir;
+  if(n<0 || n>=list.length) return;
+  stackIdx=n; stackDir=dir;
+  renderStackView();
+}
+function renderStackView(){
+  var list=(S&&S.weekWidgets)||[];
+  var x=list[stackIdx]; if(!x) return;
+  var slot=$("stack-card-slot");
+  slot.innerHTML='<div class="stack-view-card'+(stackDir>0?" from-right":" from-left")+'"><div style="display:flex; gap:11px; align-items:flex-start"><div class="ww-ico">'+x.icon+'</div><div class="ww-body"><b>'+linkifyText(x.title)+'</b><span>'+linkifyText(x.text)+'</span></div><span class="ww-tag">W'+S.week+'</span></div></div>';
+  var peek=$("stack-peek");
+  var next=list[stackIdx+1];
+  if(next){ peek.classList.remove("hidden"); peek.innerHTML='<b>'+linkifyText(next.title)+'</b><span>'+linkifyText(next.text)+'</span>'; }
+  else peek.classList.add("hidden");
+  $("stack-prev").classList.toggle("hidden", stackIdx===0);
+  $("stack-next").classList.toggle("hidden", stackIdx>=list.length-1);
+  $("stack-counter").textContent="Card "+(stackIdx+1)+" of "+list.length;
+  $("stack-week-label").textContent="Week "+S.week+" · "+list.length+" decisions";
+  var dots="";
+  for(var i=0;i<list.length;i++) dots+='<i class="'+(i===stackIdx?"on":"")+'"></i>';
+  $("stack-dots").innerHTML=dots;
 }
 function tabWidgetText(step){
   if(step==="validate") return "Validation "+S.validation.toFixed(1)+"/5 · "+S.interviews+" interviews — "+(S.validation>=3?"the problem is real; building is no longer guessing.":"keep talking to customers before you build.");
@@ -2627,7 +2764,7 @@ var GUIDE_HTML = `
 <li><b>Team &amp; skill assessment</b> — audit your gaps, bring in co-founders. <b>Funding fork:</b> Bootstrap (LLC, full control, customer revenue) or VC (Delaware C-Corp, angels + VCs + startup attorneys, equity for capital).</li>
 <li><b>Build MVP &amp; compliance</b> — core features only, plus trademarks, patents, licences, 83(b).</li>
 <li><b>Launch &amp; market testing</b> — retention, CAC, churn. No product-market fit? Pivot loop back to Stage 3.</li>
-<li><b>Scale &amp; growth</b> — board, C-suite, full-time team, Series A+. Founder grows into CEO or hires one. <b>Exit:</b> IPO, acquisition, or keep operating.</li></ol>
+<li><b>Scale &amp; growth</b> — board, C-suite, full-time team, Series A+. Founder grows into CEO or hires one. <b>Exit:</b> IPO, acquisition, or stay independent.</li></ol>
 <h3>Entrepreneurship ≠ startup concepts</h3>
 <table><tr><th></th><th>Entrepreneurship</th><th>Startup concepts</th></tr>
 <tr><td><b>Core question</b></td><td>How do I create value from an opportunity?</td><td>How do I find a scalable model before the money runs out?</td></tr>
